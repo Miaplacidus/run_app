@@ -1,0 +1,19 @@
+test:
+  adapter: sqlite3
+  database: RunningBuddy_test
+  pool: 5
+  timeout: 5000
+  host: localhost
+  encoding: unicode
+
+development:
+  adapter: postgresql
+  database: RunningBuddy_dev
+  host: localhost
+  encoding: unicode
+
+production:
+  adapter: postgresql
+  database: RunningBuddy_prod
+  encoding: unicode
+  host: localhost

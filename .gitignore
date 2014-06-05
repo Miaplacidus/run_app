@@ -1,0 +1,6 @@
+.bundle
+vendor/bundle
+.DS_Store
+*.db
+.vagrant
+rails

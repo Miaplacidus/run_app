@@ -11,56 +11,81 @@ shared_examples 'a database' do
 
     before :each do
       users = [
-        {username: "Fast Feet", gender: 1, email:"marathons@speed.com", bday:"2/8/1987", level: 0},
-        {username: "Runna Lot", gender: 2, email:"jogger@run.com", bday:"6/6/1966"},
-        {username: "Jon Jones", gender: 2, email:"runlikemad@sprinter.com", bday:"3/14/1988"},
-        {username: "Nee Upp", gender: 1, email:"sofast@runna.com", bday: "5/15/1994"}
+        {first_name: "FastFeet", gender: 1, email:"marathons@speed.com", bday:"02/08/1987", level: 0},
+        {first_name: "RunnaLot", gender: 2, email:"jogger@run.com", bday:"06/06/1966"},
+        {first_name: "JonJones", gender: 2, email:"runlikemad@sprinter.com", bday:"03/14/1988"},
+        {first_name: "NeeUpp", gender: 1, email:"sofast@runna.com", bday: "05/15/1994"}
       ]
 
       @user_objs = []
       users.each do |info|
           @user_objs << db.create_user(info)
       end
+
+      Omniauth.config.add_mock = {
+        :uid => '1234567',
+        :info => {
+          :first_name => "Sophie",
+          :image => 'http://graph.facebook.com/1234567/picture?type=square'
+        },
+        :credentials => {
+          :token => 'ABCDEF',
+          :expires_at => 12262551311
+        },
+        :extra => {
+          :raw_info => {
+            :gender => 'female',
+            :email => "sophie@internet.com",
+            :birthday => "03/14/1988"
+          }
+        }
+
+      }
     end
 
     it "creates a user" do
       user = @user_objs[0]
-      expect(user.username).to eq("Fast Feet")
+      expect(user.first_name).to eq("FastFeet")
       expect(user.gender).to eq(1)
       expect(user.level).to eq(0)
       expect(user.email).to eq("marathons@speed.com")
-      expect(user.bday).to eq("2/8/1987")
+      expect(user.bday).to eq("02/08/1987")
+    end
+
+    it "creates a user using facebook info" do
+      retrieved_user = db.from_omniauth(@auth)
+      expect(retrieved_user.first_name).to eq("Sophie")
     end
 
     it "gets a user" do
       user = @user_objs[1]
       retrieved_user = db.get_user(user.id)
-      expect(retrieved_user.username).to eq('Runna Lot')
-      expect(retrieved_user.bday).to eq('6/6/1966')
+      expect(retrieved_user.first_name).to eq('RunnaLot')
+      expect(retrieved_user.bday).to eq('06/06/1966')
     end
 
-    xit "gets a user by email" do
+    it "gets a user by email" do
       retrieved_user = db.get_user_by_email("jogger@run.com")
-      expect(retrieved_user.username).to eq("Runna Lot")
+      expect(retrieved_user.first_name).to eq("RunnaLot")
       retrieved_user = db.get_user_by_email("email@fake.com")
       expect(retrieved_user).to eq(nil)
     end
 
-    xit "gets all users" do
+    it "gets all users" do
       # %w{Alice Bob}.each {|name| db.create_user :username => name }
       expect(db.all_users.count).to eq(4)
-      expect(db.all_users.map &:username).to include('Fast Feet', 'Runna Lot', 'Jon Jones', 'Nee Upp')
+      expect(db.all_users.map &:first_name).to include('FastFeet', 'RunnaLot', 'JonJones', 'NeeUpp')
     end
 
-    xit "updates user information" do
+    it "updates user information" do
       user = @user_objs[2]
       user = db.update_user(user.id, {email:"awesome@running.net"})
       expect(user.email).to eq("awesome@running.net")
-      user = db.update_user(user.id, {username: "Wiz Khalifa"})
-      expect(user.username).to eq("Wiz Khalifa")
+      user = db.update_user(user.id, {first_name: "Wiz Khalifa"})
+      expect(user.first_name).to eq("Wiz Khalifa")
     end
 
-    xit "deletes a user" do
+    it "deletes a user" do
       user = @user_objs[1]
       db.delete_user(user.id)
       expect(db.get_user(user.id)).to eq nil

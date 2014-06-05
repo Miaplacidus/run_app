@@ -1,3 +1,4 @@
+require 'dotenv'
 require 'active_model'
 require 'active_record'
 require 'active_record_tasks'
@@ -5,7 +6,8 @@ require 'pry-debugger'
 require 'yaml'
 require 'time'
 require 'geocoder'
-require 'dotenv-rails'
+
+Dotenv.load
 
 module RunPal
   def self.db

@@ -7,7 +7,7 @@ module RunPal
 
     # Level has same metric as pace
     validates :email, presence: true, format: { with: /\A[\w+\.]+@[a-z\d\.]+\.[a-z]+\z/i }
-    validates_presence_of :username, :gender, :bday
+    validates_presence_of :first_name, :gender, :bday
   end
 end
 

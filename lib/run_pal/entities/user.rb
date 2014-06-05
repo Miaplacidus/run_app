@@ -5,7 +5,8 @@ module RunPal
     attr_accessor :fbid, :oauth_token, :oauth_expires_at, :img_url
 
     # Level has same metric as pace
-    validates_presence_of :username, :gender, :email, :bday
+    validates :email, presence: true, format: { with: /\A[\w+\.]+@[a-z\d\.]+\.[a-z]+\z/i }
+    validates_presence_of :username, :gender, :bday
   end
 end
 

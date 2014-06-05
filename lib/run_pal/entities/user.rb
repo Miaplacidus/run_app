@@ -1,7 +1,8 @@
 module RunPal
   class User < Entity
-    attr_accessor :id, :username, :gender, :email, :bday, :rating, :level
-    # Facebook related properties
+    attr_accessor :id, :rating, :level
+    # Facebook-extracted properties
+    attr_accessor :first_name, :gender, :email, :bday
     attr_accessor :fbid, :oauth_token, :oauth_expires_at, :img_url
 
     # Level has same metric as pace

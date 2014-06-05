@@ -3,7 +3,7 @@ module RunPal
     attr_reader :id, :session_key, :user_id
 
     def initialize(attrs)
-      @key = attrs[:key]
+      @session_key = attrs[:session_key]
       @user_id = attrs[:user_id]
       super
     end

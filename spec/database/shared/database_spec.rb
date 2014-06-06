@@ -22,7 +22,10 @@ shared_examples 'a database' do
           @user_objs << db.create_user(info)
       end
 
-      Omniauth.config.add_mock = {
+      OmniAuth.config.test_mode = true
+
+      OmniAuth.config.mock_auth[:facebook] = OmniAuth::AuthHash.new({
+        :provider => 'facebook',
         :uid => '1234567',
         :info => {
           :first_name => "Sophie",
@@ -39,8 +42,7 @@ shared_examples 'a database' do
             :birthday => "03/14/1988"
           }
         }
-
-      }
+      })
     end
 
     it "creates a user" do
@@ -53,8 +55,9 @@ shared_examples 'a database' do
     end
 
     it "creates a user using facebook info" do
-      retrieved_user = db.from_omniauth(@auth)
-      expect(retrieved_user.first_name).to eq("Sophie")
+      auth = OmniAuth.config.mock_auth[:facebook]
+      user = db.from_omniauth(auth)
+      expect(user.first_name).to eq("Sophie")
     end
 
     it "gets a user" do

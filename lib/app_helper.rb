@@ -6,6 +6,7 @@ require 'pry-debugger'
 require 'yaml'
 require 'time'
 require 'geocoder'
+require 'omniauth-facebook'
 
 Dotenv.load
 

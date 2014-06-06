@@ -269,7 +269,6 @@ shared_examples 'a database' do
           @user_objs << db.create_user(info)
       end
 
-      @circle = db.create_circle({name: "MakerSquare", admin_id: @user_objs[0].id, max_members: 30})
 
       @t_apr_first = Time.parse("Apr 1 2014")
       @t_may_first = Time.parse("May 1 2014")
@@ -280,7 +279,7 @@ shared_examples 'a database' do
         {creator_id: @user_objs[0].id, time: @t_apr_first, latitude: 40, longitude: 51, pace: 2, notes:"Sunny day run!", complete:false, min_amt:10.50, age_pref: 0, gender_pref: 0},
         {creator_id: @user_objs[1].id, time: @t_may_first, latitude: 44, longitude: 55, pace: 1, notes:"Let's go.", complete:false, min_amt:5.50, age_pref: 3, gender_pref: 1},
         {creator_id: @user_objs[2].id, time: @t_june_first, latitude: 66, longitude: 77, pace: 7, notes:"Will be a fairly relaxed jog.", complete:true, min_amt:12.00, age_pref: 3, gender_pref: 1},
-        {creator_id: @user_objs[3].id, time: @t_july_first, latitude: 88, longitude: 99, pace: 0, complete:false, min_amt:20.00, age_pref: 4, gender_pref: 0, circle_id: @circle.id},
+        {creator_id: @user_objs[3].id, time: @t_july_first, latitude: 88, longitude: 99, pace: 0, complete:false, min_amt:20.00, age_pref: 4, gender_pref: 0},
       ]
 
       @post_objs = []
@@ -313,8 +312,8 @@ shared_examples 'a database' do
   describe 'Commitments' do
     before :each do
       users = [
-          {username: "Fast Feet", gender: 1, email:"marathons@speed.com", password:"abc123", bday:"2/8/1987"},
-          {username: "Runna Lot", gender: 2, email:"jogger@run.com", password:"111222", bday:"6/6/1966"}
+          {first_name: "FastFeet", gender: 1, email:"marathons@speed.com", bday:"02/08/1987"},
+          {first_name: "RunnaLot", gender: 2, email:"jogger@run.com", bday:"06/06/1966"}
       ]
       @user_objs = []
       users.each do |info|
@@ -322,8 +321,8 @@ shared_examples 'a database' do
       end
 
       posts = [
-        {creator_id: @user_objs[0].id, time: Time.now, latitude: 22, longitude: 33, pace: 2, notes:"Sunny day run!", complete:false, min_amt:10.50, age_pref: 0, gender_pref: 0, circle_id: nil},
-        {creator_id: @user_objs[1].id, time: Time.now, latitude: 44, longitude: 55, pace: 1, notes:"Let's go.", complete:false, min_amt:5.50, age_pref: 3, gender_pref: 1, circle_id: nil}
+        {creator_id: @user_objs[0].id, time: Time.now, latitude: 22, longitude: 33, pace: 2, notes:"Sunny day run!", complete:false, min_amt:10.50, age_pref: 0, gender_pref: 0},
+        {creator_id: @user_objs[1].id, time: Time.now, latitude: 44, longitude: 55, pace: 1, notes:"Let's go.", complete:false, min_amt:5.50, age_pref: 3, gender_pref: 1}
       ]
 
       @post_objs = []
@@ -335,26 +334,25 @@ shared_examples 'a database' do
       @commit2 = db.create_commit({user_id: @user_objs[1].id, post_id: @post_objs[1].id, amount: 5, fulfilled: true})
     end
 
-    xit "creates a commitment with fulfilled set to false" do
-      expect(db.get_user(@commit1.user_id).username).to eq("Fast Feet")
+    it "creates a commitment with fulfilled set to false" do
+      expect(db.get_user(@commit1.user_id).first_name).to eq("FastFeet")
       expect(db.get_post(@commit1.post_id).pace).to eq(2)
       expect(@commit1.fulfilled).to eq(false)
-      # call .last on the end keyword
     end
 
-    xit "gets a commitment" do
+    it "gets a commitment" do
       commit = db.get_commit(@commit1.id)
       expect(commit.amount).to eq(3)
     end
 
-    xit "gets commitments by user_id" do
+    it "gets commitments by user_id" do
       commits_arr = db.get_commits_by_user(@user_objs[1].id)
       expect(commits_arr.count).to eq(1)
       expect(commits_arr[0].fulfilled).to eq(true)
       expect(commits_arr[0].amount).to eq(5)
     end
 
-    xit "updates a commitment" do
+    it "updates a commitment" do
       commit = db.update_commit(@commit1.id, {amount: 10})
       expect(commit.amount).to eq(10)
     end

@@ -18,7 +18,7 @@ module RunPal
         @commits = {} # Key: commit_id, Value: commit_obj_attrs hash
         @posts = {} # Key: post_id, Value: post_obj_attrs hash
         @users = {} # Key: user_id, Value: user_obj_attrs hash
-        @wallets = {} # Key: user_id, Value: wallet_obj_attrs hash
+        @wallets = {} # Key: wallet_id, Value: wallet_obj_attrs hash
       end
 
       def create_challenge(attrs)
@@ -317,9 +317,7 @@ module RunPal
 
       def get_user_by_email(email)
         user_attributes = @users.values.find {|user_attrs| user_attrs[:email] == email}
-        if !user_attributes
-          return nil
-        end
+        return nil if user_attributes.nil?
         RunPal::User.new(user_attributes)
       end
 
@@ -354,9 +352,9 @@ module RunPal
         user = retrieved_user[0]
 
         if user == nil
-          user = create_user({first_name: auth.info.first_name, email: auth.info.email, gender: gender, bday: auth.extra.raw_info.birthday, fbid: auth.uid, oauth_token: auth.credentials.token, oauth_expires_at: Time.at(auth.credentials.expires_at), img_url: auth.info.image})
+          user = create_user({first_name: auth.info.first_name, email: auth.info.email, gender: gender, bday: auth.extra.raw_info.birthday, fbid: auth.uid, oauth_token: auth.credentials.token, oauth_expiry: Time.at(auth.credentials.expires_at), img_url: auth.info.image})
         else
-          user = update_user(user_attrs[:id], {username: auth.info.first_name, email: auth.info.email, gender: gender, bday: auth.extra.raw_info.birthday, fbid: auth.uid, oauth_token: auth.credentials.token, oauth_expires_at: Time.at(auth.credentials.expires_at), img_url: auth.info.image})
+          user = update_user(user[:id], {first_name: auth.info.first_name, email: auth.info.email, gender: gender, bday: auth.extra.raw_info.birthday, fbid: auth.uid, oauth_token: auth.credentials.token, oauth_expiry: Time.at(auth.credentials.expires_at), img_url: auth.info.image})
         end
 
         user
@@ -370,25 +368,16 @@ module RunPal
       end
 
       def get_wallet_by_userid(user_id)
-        attrs = @users[user_id]
-        user = RunPal::User.new(attrs)
-        wallet_attrs = @wallets[user.id]
-        return nil if wallet_attrs.nil?
-        wallet = RunPal::Wallet.new(wallet_attrs)
-      end
-
-      def update_wallet(user_id, attrs)
-        user_attrs = @users[user_id]
-        user = RunPal::User.new(user_attrs)
-        wallet_attrs = @wallets[user.id]
-        wallet_attrs.merge!(attrs)
-        RunPal::Wallet.new(wallet_attrs)
+        wallet_attributes = @wallets.values.find {|wallet_attrs| wallet_attrs[:user_id] == user_id}
+        return nil if wallet_attributes.nil?
+        RunPal::Wallet.new(wallet_attributes)
       end
 
       def update_wallet_balance(user_id, transaction)
-        wallet_attrs = @wallets[user_id]
-        wallet_attrs[:balance] += transaction
-        RunPal::Wallet.new(wallet_attrs)
+        wallet_attributes = @wallets.values.find {|wallet_attrs| wallet_attrs[:user_id] == user_id}
+        return nil if wallet_attributes.nil?
+        wallet_attributes[:balance] += transaction
+        RunPal::Wallet.new(wallet_attributes)
       end
 
       def delete_wallet(user_id)

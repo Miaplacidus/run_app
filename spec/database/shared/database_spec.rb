@@ -58,6 +58,8 @@ shared_examples 'a database' do
       auth = OmniAuth.config.mock_auth[:facebook]
       user = db.from_omniauth(auth)
       expect(user.first_name).to eq("Sophie")
+      expect(user.oauth_token).to eq("ABCDEF")
+      expect(user.oauth_expiry).to be_a Time
     end
 
     it "gets a user" do
@@ -100,10 +102,10 @@ shared_examples 'a database' do
   describe 'Posts' do
     before :each do
       users = [
-          {username: "Fast Feet", gender: 1, email:"marathons@speed.com", password:"abc123", bday:"2/8/1987"},
-          {username: "Runna Lot", gender: 2, email:"jogger@run.com", password:"111222", bday:"6/6/1966"},
-          {username: "Jon Jones", gender: 2, email:"runlikemad@sprinter.com", password:"aabbcc", bday:"3/14/1988"},
-          {username: "Nee Upp", gender: 1, email:"sofast@runna.com", password: "123abc", bday: "5/15/1994"}
+          {username: "Fast Feet", gender: 1, email:"marathons@speed.com", bday:"02/08/1987"},
+          {username: "Runna Lot", gender: 2, email:"jogger@run.com", bday:"06/06/1966"},
+          {username: "Jon Jones", gender: 2, email:"runlikemad@sprinter.com", bday:"03/14/1988"},
+          {username: "Nee Upp", gender: 1, email:"sofast@runna.com", bday: "05/15/1994"}
       ]
       @user_objs = []
       users.each do |info|
@@ -371,26 +373,26 @@ shared_examples 'a database' do
   describe 'Wallets' do
 
     before :each do
-        @user = db.create_user({username: "Usain Bolt", gender: 2, email:"usain@sprinter.com", password:"ababab", bday:"2/21/1985"})
+        @user = db.create_user({first_name: "UsainBolt", gender: 2, email:"usain@sprinter.com", bday:"02/21/1985"})
         @wallet = db.create_wallet({user_id: @user.id, balance: 20.00})
     end
 
-    xit "creates a wallet" do
-        expect(db.get_user(@wallet.user_id).username).to eq("Usain Bolt")
+    it "creates a wallet" do
+        expect(db.get_user(@wallet.user_id).first_name).to eq("UsainBolt")
     end
 
-    xit "gets a wallet" do
+    it "gets a wallet by user id" do
         result = db.get_wallet_by_userid(@user.id)
         expect(result.balance).to eq(20.00)
     end
 
-    xit "updates a wallet" do
+    it "updates a wallet's balance" do
       updated = db.update_wallet_balance(@user.id, 30.00)
-      expect(db.get_user(updated.user_id).username).to eq("Usain Bolt")
+      expect(db.get_user(updated.user_id).first_name).to eq("UsainBolt")
       expect(updated.balance).to eq(50.00)
     end
 
-    xit "deletes a wallet" do
+    it "deletes a wallet" do
         db.delete_wallet(@user.id)
         result = db.get_wallet_by_userid(@user.id)
         result.should be_nil

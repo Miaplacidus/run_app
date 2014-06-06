@@ -205,31 +205,28 @@ module RunPal
       end
 
       def get_circle_posts(circle_id)
-        post_arr = []
-        @posts.each do |pid, attrs|
-          if attrs[:circle_id] == circle_id
-            post_arr << RunPal::Post.new(attrs)
-          end
-        end
-        post_arr
+        post_attributes = @posts.values.select {|post_attrs| post_attrs[:circle_id] == circle_id}
+        post_objs = post_attributes.map {|attrs| RunPal::Post.new(attrs)}
       end
 
       def all_posts
-        post_arr = []
-        @posts.each do |pid, attrs|
-          post_arr << RunPal::Post.new(attrs)
-        end
-        post_arr
+        post_arr = @posts.values.map {|attrs| RunPal::Post.new(attrs)}
       end
 
       def get_committed_users(post_id)
-        post_attrs = @posts[post_id]
-        post_attrs[:committer_ids]
+        post_commits = @commits.values.select {|attrs| attrs[:post_id] == post_id}
+        committed_user_ids = post_commits.map {|attrs| attrs[:user_id]}
+
+        # post_attrs = @posts[post_id]
+        # post_attrs[:committer_ids]
       end
 
       def get_attendees(post_id)
-        post_attrs = @posts[post_id]
-        post_attrs[:attend_ids]
+        post_commits = @commits.values.select {|attrs| attrs[:post_id] == post_id && attrs[:fulfilled] == true}
+        attendee_ids = post_commits.map {|attrs| attrs[:user_id]}
+
+        # post_attrs = @posts[post_id]
+        # post_attrs[:attend_ids]
       end
 
       def update_post(id, attrs)
@@ -243,63 +240,37 @@ module RunPal
       end
 
       def posts_filter_age(age)
-        post_arr = []
-        post_attributes = @posts.values
-        post_attributes.each do |attr_hash|
-          if attr_hash[:age_pref] == age
-            post_arr << RunPal::Post.new(attr_hash)
-          end
-        end
-        post_arr
+        filtered_posts = @posts.values.select {|attrs| attrs[:age_pref] == age}
+        filtered_posts_objs = filtered_posts.map {|attrs| RunPal::Post.new(attrs)}
       end
 
       def posts_filter_gender(gender)
-        post_arr = []
-        post_attributes = @posts.values
-        post_attributes.each do |attr_hash|
-          if attr_hash[:gender_pref] == gender
-            post_arr << RunPal::Post.new(attr_hash)
-          end
-        end
-        post_arr
+        filtered_posts = @posts.values.select {|attrs| attrs[:gender_pref] == gender}
+        filtered_posts_objs = filtered_posts.map {|attrs| RunPal::Post.new(attrs)}
       end
 
       def posts_filter_location(user_lat, user_long, radius)
         mi_to_km = 1.60934
         earth_radius = 6371
-        post_arr = []
-        radius = radius * mi_to_km
-        @posts.each do |pid, post_attrs|
-          post_lat = post_attrs[:latitude]
-          post_long = post_attrs[:longitude]
+
+        filtered_posts = @posts.values.select{|attrs|
+          post_lat = attrs[:latitude]
+          post_long = attrs[:longitude]
           distance = Math.acos(Math.sin(user_lat) * Math.sin(post_lat) + Math.cos(user_lat) * Math.cos(post_lat) * Math.cos(post_long - user_long)) * earth_radius
-          if distance <= radius
-            post_arr << RunPal::Post.new(post_attrs)
-          end
-        end
-        post_arr
+          distance <= radius
+        }
+
+        filtered_posts_objs = filtered_posts.map {|attrs| RunPal::Post.new(attrs)}
       end
 
       def posts_filter_pace(pace)
-        post_arr = []
-        post_attributes = @posts.values
-        post_attributes.each do |attr_hash|
-          if attr_hash[:pace] == pace
-            post_arr << RunPal::Post.new(attr_hash)
-          end
-        end
-        post_arr
+        filtered_posts = @posts.values.select {|attrs| attrs[:pace] == pace}
+        filtered_posts_objs = filtered_posts.map {|attrs| RunPal::Post.new(attrs)}
       end
 
       def posts_filter_time(start_time, end_time)
-        post_arr = []
-        post_attributes = @posts.values
-        post_attributes.each do |attr_hash|
-          if start_time < attr_hash[:time] && attr_hash[:time] < end_time
-            post_arr << RunPal::Post.new(attr_hash)
-          end
-        end
-        post_arr
+        filtered_posts = @posts.values.select {|attrs| attrs[:time] > start_time && attrs[:time] < end_time}
+        filtered_posts_objs = filtered_posts.map {|attrs| RunPal::Post.new(attrs)}
       end
 
       def create_user(attrs)

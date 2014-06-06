@@ -18,8 +18,8 @@ shared_examples 'a database' do
       ]
 
       @user_objs = []
-      users.each do |info|
-          @user_objs << db.create_user(info)
+      users.each do |attrs|
+          @user_objs << db.create_user(attrs)
       end
 
       OmniAuth.config.test_mode = true
@@ -102,10 +102,116 @@ shared_examples 'a database' do
   describe 'Posts' do
     before :each do
       users = [
-          {username: "Fast Feet", gender: 1, email:"marathons@speed.com", bday:"02/08/1987"},
-          {username: "Runna Lot", gender: 2, email:"jogger@run.com", bday:"06/06/1966"},
-          {username: "Jon Jones", gender: 2, email:"runlikemad@sprinter.com", bday:"03/14/1988"},
-          {username: "Nee Upp", gender: 1, email:"sofast@runna.com", bday: "05/15/1994"}
+          {first_name: "FastFeet", gender: 1, email:"marathons@speed.com", bday:"02/08/1987"},
+          {first_name: "RunnaLot", gender: 2, email:"jogger@run.com", bday:"06/06/1966"},
+          {first_name: "JonJones", gender: 2, email:"runlikemad@sprinter.com", bday:"03/14/1988"},
+          {first_name: "NeeUpp", gender: 1, email:"sofast@runna.com", bday: "05/15/1994"}
+      ]
+      @user_objs = []
+      users.each do |info|
+          @user_objs << db.create_user(info)
+      end
+
+      @t_apr_first = Time.parse("Apr 1 2014")
+      @t_may_first = Time.parse("May 1 2014")
+      @t_june_first = Time.parse("June 1 2014")
+      @t_july_first = Time.parse("July 1 2014")
+
+      posts = [
+        {creator_id: @user_objs[0].id, time: @t_apr_first, latitude: 40, longitude: 51, pace: 2, notes:"Sunny day run!", complete:false, min_amt:10.50, age_pref: 0, gender_pref: 0, min_distance: 4},
+        {creator_id: @user_objs[1].id, time: @t_may_first, latitude: 44, longitude: 55, pace: 1, notes:"Let's go.", complete:false, min_amt:5.50, age_pref: 3, gender_pref: 1, min_distance: 5},
+        {creator_id: @user_objs[2].id, time: @t_june_first, latitude: 66, longitude: 77, pace: 7, notes:"Will be a fairly relaxed jog.", complete:true, min_amt:12.00, age_pref: 3, gender_pref: 1, min_distance: 1},
+        {creator_id: @user_objs[3].id, time: @t_july_first, latitude: 88, longitude: 99, pace: 0, complete:false, min_amt:20.00, age_pref: 4, gender_pref: 0, min_distance: 7},
+      ]
+
+      @post_objs = []
+      posts.each do |attrs|
+        @post_objs << db.create_post(attrs)
+      end
+
+    end
+
+    it "creates a post" do
+      post = @post_objs[0]
+      expect((db.get_user(post.creator_id)).first_name).to eq("FastFeet")
+      # expect(post.time).to eq()
+      expect(post.pace).to eq(2)
+      expect(post.min_amt).to eq(10.50)
+      expect(post.complete).to eq(false)
+      expect(post.circle_id).to eq(nil)
+      expect(post.min_distance).to eq(4)
+    end
+
+    it "gets a post" do
+      post = @post_objs[2]
+      result = db.get_post(post.id)
+      expect(result.notes).to eq("Will be a fairly relaxed jog.")
+      expect(result.gender_pref).to eq(1)
+      expect(result.age_pref).to eq(3)
+      expect(result.min_amt).to eq(12.00)
+    end
+
+    it "gets all posts" do
+      result = db.all_posts
+      result.count.should eql(4)
+      expect(result.map &:gender_pref).to include(0, 1)
+    end
+
+    it "updates posts" do
+      post = @post_objs[1]
+      result = db.update_post(post.id, {age_pref: 4, pace: 3, time: Time.parse("June 5 2015")})
+      expect(result.age_pref).to eq(4)
+      expect(result.pace).to eq(3)
+      expect(result.time.strftime("%B%e, %Y")).to eq("June 5, 2015")
+    end
+
+    it "deletes posts" do
+      post = @post_objs[1]
+      db.delete_post(post.id)
+      expect(db.get_post(post.id)).to eq(nil)
+    end
+
+    it "filters posts by age preference" do
+      result = db.posts_filter_age(3)
+      result.count.should eql(2)
+      result[1].age_pref.should eql(3)
+    end
+
+    it "filters posts by gender preference" do
+      result = db.posts_filter_gender(0)
+      result.count.should eql(2)
+      result[1].gender_pref.should eql(0)
+    end
+
+    it "filters posts by location and search radius" do
+      result = db.posts_filter_location(44,55, 10)
+      result.count.should eql(1)
+      expect(result.map &:notes).to include("Let's go.")
+    end
+
+    it "filters posts by pace" do
+      result = db.posts_filter_pace(2)
+      result.count.should eql(1)
+      result[0].notes.should eql("Sunny day run!")
+    end
+
+    it "filters posts by time" do
+      result = db.posts_filter_time(@t_apr_first, @t_july_first)
+      result.count.should eql(2)
+      expect(result.map &:notes).to include("Let's go.", "Will be a fairly relaxed jog.")
+    end
+
+  end
+
+
+  # POSTS AND CIRCLES
+  describe "Post and Circle Interactions" do
+    before :each do
+      users = [
+          {first_name: "Fast Feet", gender: 1, email:"marathons@speed.com", bday:"02/08/1987"},
+          {first_name: "Runna Lot", gender: 2, email:"jogger@run.com", bday:"06/06/1966"},
+          {first_name: "Jon Jones", gender: 2, email:"runlikemad@sprinter.com", bday:"03/14/1988"},
+          {first_name: "Nee Upp", gender: 1, email:"sofast@runna.com", bday: "05/15/1994"}
       ]
       @user_objs = []
       users.each do |info|
@@ -120,116 +226,85 @@ shared_examples 'a database' do
       @t_july_first = Time.parse("July 1 2014")
 
       posts = [
-        {creator_id: @user_objs[0].id, time: @t_apr_first, latitude: 40, longitude: 51, pace: 2, notes:"Sunny day run!", complete:false, min_amt:10.50, age_pref: 0, gender_pref: 0, circle_id: nil},
-        {creator_id: @user_objs[1].id, time: @t_may_first, latitude: 44, longitude: 55, pace: 1, notes:"Let's go.", complete:false, min_amt:5.50, age_pref: 3, gender_pref: 1, circle_id: nil},
-        {creator_id: @user_objs[2].id, time: @t_june_first, latitude: 66, longitude: 77, pace: 7, notes:"Will be a fairly relaxed jog.", complete:true, min_amt:12.00, age_pref: 3, gender_pref: 1, circle_id: nil},
+        {creator_id: @user_objs[0].id, time: @t_apr_first, latitude: 40, longitude: 51, pace: 2, notes:"Sunny day run!", complete:false, min_amt:10.50, age_pref: 0, gender_pref: 0},
+        {creator_id: @user_objs[1].id, time: @t_may_first, latitude: 44, longitude: 55, pace: 1, notes:"Let's go.", complete:false, min_amt:5.50, age_pref: 3, gender_pref: 1},
+        {creator_id: @user_objs[2].id, time: @t_june_first, latitude: 66, longitude: 77, pace: 7, notes:"Will be a fairly relaxed jog.", complete:true, min_amt:12.00, age_pref: 3, gender_pref: 1},
         {creator_id: @user_objs[3].id, time: @t_july_first, latitude: 88, longitude: 99, pace: 0, complete:false, min_amt:20.00, age_pref: 4, gender_pref: 0, circle_id: @circle.id},
       ]
 
       @post_objs = []
-      posts.each do |info|
-        @post_objs << db.create_post(info)
+      posts.each do |attrs|
+        @post_objs << db.create_post(attrs)
       end
 
-      @commit1 = db.create_commit({user_id: @user_objs[0].id, post_id: @post_objs[0].id, amount: 20.30})
-      @commit2 = db.create_commit({user_id: @user_objs[1].id, post_id: @post_objs[0].id, amount: 15.00, fulfilled: true})
     end
 
-    xit "creates a post" do
-      post = @post_objs[0]
-      expect((db.get_user(post.creator_id)).username).to eq("Fast Feet")
-      # expect(post.time).to eq()
-      expect(post.pace).to eq(2)
-      expect(post.min_amt).to eq(10.50)
-      expect(post.complete).to eq(false)
-      expect(post.circle_id).to eq(nil)
-    end
-
-    xit "creates a post associated with a circle" do
+    it "creates a post associated with a circle" do
       post = @post_objs[3]
       circleID = post.circle_id
       expect((db.get_circle(circleID)).name).to eq("MakerSquare")
       expect((db.get_circle(circleID)).max_members).to eq(30)
     end
 
-    xit "gets all posts associated with a circle" do
+    it "gets all posts associated with a circle" do
       post_arr = db.get_circle_posts(@circle.id)
       expect(post_arr.count).to eq(1)
       expect(post_arr[0].age_pref).to eq(4)
     end
 
-    xit "gets a post" do
-      post = @post_objs[2]
-      result = db.get_post(post.id)
-      expect(result.notes).to eq("Will be a fairly relaxed jog.")
-      expect(result.gender_pref).to eq(1)
-      expect(result.age_pref).to eq(3)
-      expect(result.min_amt).to eq(12.00)
+  end
+
+
+  # POSTS AND COMMITMENTS
+  describe "Post and Commitment interactions" do
+    before :each do
+      users = [
+          {first_name: "FastFeet", gender: 1, email:"marathons@speed.com", bday:"02/08/1987"},
+          {first_name: "RunnaLot", gender: 2, email:"jogger@run.com", bday:"06/06/1966"},
+          {first_name: "JonJones", gender: 2, email:"runlikemad@sprinter.com", bday:"03/14/1988"},
+          {first_name: "NeeUpp", gender: 1, email:"sofast@runna.com", bday: "05/15/1994"}
+      ]
+      @user_objs = []
+      users.each do |info|
+          @user_objs << db.create_user(info)
+      end
+
+      @circle = db.create_circle({name: "MakerSquare", admin_id: @user_objs[0].id, max_members: 30})
+
+      @t_apr_first = Time.parse("Apr 1 2014")
+      @t_may_first = Time.parse("May 1 2014")
+      @t_june_first = Time.parse("June 1 2014")
+      @t_july_first = Time.parse("July 1 2014")
+
+      posts = [
+        {creator_id: @user_objs[0].id, time: @t_apr_first, latitude: 40, longitude: 51, pace: 2, notes:"Sunny day run!", complete:false, min_amt:10.50, age_pref: 0, gender_pref: 0},
+        {creator_id: @user_objs[1].id, time: @t_may_first, latitude: 44, longitude: 55, pace: 1, notes:"Let's go.", complete:false, min_amt:5.50, age_pref: 3, gender_pref: 1},
+        {creator_id: @user_objs[2].id, time: @t_june_first, latitude: 66, longitude: 77, pace: 7, notes:"Will be a fairly relaxed jog.", complete:true, min_amt:12.00, age_pref: 3, gender_pref: 1},
+        {creator_id: @user_objs[3].id, time: @t_july_first, latitude: 88, longitude: 99, pace: 0, complete:false, min_amt:20.00, age_pref: 4, gender_pref: 0, circle_id: @circle.id},
+      ]
+
+      @post_objs = []
+      posts.each do |attrs|
+        @post_objs << db.create_post(attrs)
+      end
+
+      @commit1 = db.create_commit({user_id: @user_objs[0].id, post_id: @post_objs[0].id, amount: 20.30})
+      @commit2 = db.create_commit({user_id: @user_objs[1].id, post_id: @post_objs[0].id, amount: 15.00, fulfilled: true})
     end
 
-    xit "gets all people committed to a run" do
+    it "gets all people committed to a run" do
       post = @post_objs[0]
       committers = db.get_committed_users(post.id)
       expect(committers.count).to eq(2)
       committer_arr = [db.get_user(committers[0]), db.get_user(committers[1])]
-      expect(committer_arr.map &:username).to include("Runna Lot", "Fast Feet")
+      expect(committer_arr.map &:first_name).to include("RunnaLot", "FastFeet")
     end
 
-    xit "gets all people who attended a run" do
+    it "gets all people who attended a run" do
       post = @post_objs[0]
       attendees = db.get_attendees(post.id)
       expect(attendees.count).to eq(1)
-      expect(db.get_user(attendees[0]).username).to eq("Runna Lot")
-    end
-
-    xit "gets all posts" do
-      result = db.all_posts
-      result.count.should eql(4)
-      expect(result.map &:gender_pref).to include(0, 1)
-    end
-
-    xit "updates posts" do
-      # UPDATE TIME AS WELL
-      post = @post_objs[1]
-      result = db.update_post(post.id, {age_pref: 4, pace: 3})
-      expect(result.age_pref).to eq(4)
-      expect(result.pace).to eq(3)
-    end
-
-    xit "deletes posts" do
-      post = @post_objs[1]
-      db.delete_post(post.id)
-      expect(db.get_post(post.id)).to eq(nil)
-    end
-
-    xit "filters posts by age preference" do
-      result = db.posts_filter_age(3)
-      result.count.should eql(2)
-      result[1].age_pref.should eql(3)
-    end
-
-    xit "filters posts by gender preference" do
-      result = db.posts_filter_gender(0)
-      result.count.should eql(2)
-      result[1].gender_pref.should eql(0)
-    end
-
-    xit "filters posts by location and search radius" do
-      result = db.posts_filter_location(44,55, 10)
-      result.count.should eql(1)
-      expect(result.map &:notes).to include("Let's go.")
-    end
-
-    xit "filters posts by pace" do
-      result = db.posts_filter_pace(2)
-      result.count.should eql(1)
-      result[0].notes.should eql("Sunny day run!")
-    end
-
-    xit "filters posts by time" do
-      result = db.posts_filter_time(@t_apr_first, @t_july_first)
-      result.count.should eql(2)
-      result[0].notes.should eql("Let's go.")
+      expect(db.get_user(attendees[0]).first_name).to eq("RunnaLot")
     end
 
   end
@@ -297,8 +372,8 @@ shared_examples 'a database' do
       ]
 
     @user_objs = []
-    users.each do |info|
-        @user_objs << db.create_user(info)
+    users.each do |attrs|
+        @user_objs << db.create_user(attrs)
     end
 
     @circle1 = db.create_circle({name: "Silvercar", admin_id: @user_objs[1].id, max_members: 14, latitude: 32, longitude: 44})
@@ -408,8 +483,8 @@ shared_examples 'a database' do
       ]
 
     @user_objs = []
-    users.each do |info|
-      @user_objs << db.create_user(info)
+    users.each do |attrs|
+      @user_objs << db.create_user(attrs)
     end
 
     @circle1 = db.create_circle({name: "MakerSquare", admin_id: @user_objs[0].id, max_members: 30})

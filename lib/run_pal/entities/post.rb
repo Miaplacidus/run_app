@@ -6,12 +6,11 @@ module RunPal
 
     # when instantiated, commitment of creator automatically generated
     validates_presence_of :creator_id, :time, :pace, :min_amt, :latitude, :longitude
-    validates_presence_of :age_pref, :gender_pref, :max_runners
+    validates_presence_of :age_pref, :gender_pref, :max_runners, :min_distance
 
     def initialize(attrs={})
       @notes = ""
       @circle_id = nil
-      @complete = false
       super
     end
   end

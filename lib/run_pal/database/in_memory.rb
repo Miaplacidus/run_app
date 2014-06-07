@@ -44,6 +44,7 @@ module RunPal
           setter = "#{name}"
           !RunPal::Challenge.method_defined?(setter)
         end
+        attrs[:accepted] = false
         @challenges[cid] = attrs
         challenge = RunPal::Challenge.new(attrs)
       end
@@ -145,6 +146,7 @@ module RunPal
       def create_commit(attrs)
         id = @commit_id_counter+=1
         attrs[:id] = id
+        attrs[:fulfilled] = false
         @commits[id] = attrs
         RunPal::Commitment.new(attrs)
       end
@@ -167,6 +169,7 @@ module RunPal
       def create_join_req(attrs)
         id = @join_req_counter+=1
         attrs[:id] = id
+        attrs[:accepted] = false
         @join_reqs = attrs
         RunPal::JoinRequest.new(attrs)
       end
@@ -191,6 +194,10 @@ module RunPal
       def create_post(attrs)
         id = @post_id_counter+=1
         attrs[:id] = id
+        attrs[:notes] = ""
+        if !attrs[:circle_id]
+          attrs[:circle_id] = nil
+        end
         @posts[id] = attrs
         RunPal::Post.new(attrs)
       end
@@ -337,6 +344,11 @@ module RunPal
       def create_wallet(attrs)
         id = @wallet_id_counter+=1
         attrs[:id] = id
+
+        if !attrs[:balance]
+          attrs[:balance] = 0
+        end
+
         @wallets[id] = attrs
         RunPal::Wallet.new(attrs)
       end

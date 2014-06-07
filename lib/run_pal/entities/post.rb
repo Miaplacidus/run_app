@@ -1,6 +1,6 @@
 module RunPal
   class Post < Entity
-    attr_accessor :id, :creator_id, :time, :pace, :notes, :complete, :min_amt, :min_distance
+    attr_accessor :id, :creator_id, :time, :pace, :notes, :min_amt, :min_distance
     attr_accessor :age_pref, :gender_pref, :circle_id, :max_runners
     attr_accessor :latitude, :longitude
 

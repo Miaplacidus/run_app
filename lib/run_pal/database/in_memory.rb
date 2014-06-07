@@ -51,23 +51,13 @@ module RunPal
       end
 
       def get_circle_rec_challenges(circle_id)
-       challenge_arr = []
-        @challenges.each do |cid, attrs|
-          if attrs[:recipient_id] == circle_id
-            challenge_arr << RunPal::Challenge.new(attrs)
-          end
-        end
-        challenge_arr
+        filtered_challenges = @challenges.values.select{|attrs| attrs[:recipient_id] == circle_id}
+        filtered_challenges_objs = filtered_challenges.map{|attrs| RunPal::Challenge.new(attrs)}
       end
 
       def get_circle_sent_challenges(circle_id)
-       challenge_arr = []
-        @challenges.each do |cid, attrs|
-          if attrs[:sender_id] == circle_id
-            challenge_arr << RunPal::Challenge.new(attrs)
-          end
-        end
-        challenge_arr
+        filtered_challenges = @challenges.values.select{|attrs| attrs[:sender_id] == circle_id}
+        filtered_challenges_objs = filtered_challenges.map{|attrs| RunPal::Challenge.new(attrs)}
       end
 
       def update_challenge(id, attrs)

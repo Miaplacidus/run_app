@@ -118,10 +118,10 @@ shared_examples 'a database' do
       @t_july_first = Time.parse("July 1 2014")
 
       posts = [
-        {creator_id: @user_objs[0].id, time: @t_apr_first, latitude: 40, longitude: 51, pace: 2, notes:"Sunny day run!", complete:false, min_amt:10.50, age_pref: 0, gender_pref: 0, min_distance: 4},
-        {creator_id: @user_objs[1].id, time: @t_may_first, latitude: 44, longitude: 55, pace: 1, notes:"Let's go.", complete:false, min_amt:5.50, age_pref: 3, gender_pref: 1, min_distance: 5},
-        {creator_id: @user_objs[2].id, time: @t_june_first, latitude: 66, longitude: 77, pace: 7, notes:"Will be a fairly relaxed jog.", complete:true, min_amt:12.00, age_pref: 3, gender_pref: 1, min_distance: 1},
-        {creator_id: @user_objs[3].id, time: @t_july_first, latitude: 88, longitude: 99, pace: 0, complete:false, min_amt:20.00, age_pref: 4, gender_pref: 0, min_distance: 7},
+        {creator_id: @user_objs[0].id, time: @t_apr_first, latitude: 40, longitude: 51, pace: 2, notes:"Sunny day run!", min_amt:10.50, age_pref: 0, gender_pref: 0, min_distance: 4},
+        {creator_id: @user_objs[1].id, time: @t_may_first, latitude: 44, longitude: 55, pace: 1, notes:"Let's go.", min_amt:5.50, age_pref: 3, gender_pref: 1, min_distance: 5},
+        {creator_id: @user_objs[2].id, time: @t_june_first, latitude: 66, longitude: 77, pace: 7, notes:"Will be a fairly relaxed jog.", min_amt:12.00, age_pref: 3, gender_pref: 1, min_distance: 1},
+        {creator_id: @user_objs[3].id, time: @t_july_first, latitude: 88, longitude: 99, pace: 0, min_amt:20.00, age_pref: 4, gender_pref: 0, min_distance: 7},
       ]
 
       @post_objs = []
@@ -137,7 +137,6 @@ shared_examples 'a database' do
       # expect(post.time).to eq()
       expect(post.pace).to eq(2)
       expect(post.min_amt).to eq(10.50)
-      expect(post.complete).to eq(false)
       expect(post.circle_id).to eq(nil)
       expect(post.min_distance).to eq(4)
     end
@@ -477,8 +476,8 @@ shared_examples 'a database' do
   describe 'Challenge' do
     before :each do
       users = [
-        {username: "Fast Feet", gender: 1, email:"marathons@speed.com", password:"abc123", bday:"2/8/1987"},
-        {username: "Runna Lot", gender: 2, email:"jogger@run.com", password:"111222", bday:"6/6/1966"}
+        {first_name: "Fast Feet", gender: 1, email:"marathons@speed.com", bday:"2/8/1987"},
+        {first_name: "Runna Lot", gender: 2, email:"jogger@run.com", bday:"6/6/1966"}
       ]
 
     @user_objs = []
@@ -488,32 +487,32 @@ shared_examples 'a database' do
 
     @circle1 = db.create_circle({name: "MakerSquare", admin_id: @user_objs[0].id, max_members: 30})
     @circle2 = db.create_circle({name: "Hack Reactor", admin_id: @user_objs[1].id, max_members: 25})
-    @challenge = db.create_challenge({name: "Monday Funday", sender_id: @circle1.id, recipient_id: @circle2.id, creator_id: @circle1.admin_id, time: Time.now, latitude:22, longitude: 33, pace: 1, notes:"Doom!", complete:false, min_amt:0, age_pref: 0, gender_pref: 0, circle_id: @circle1.id})
+    @challenge = db.create_challenge({name: "Monday Funday", sender_id: @circle1.id, recipient_id: @circle2.id, creator_id: @circle1.admin_id, time: Time.now, latitude:22, longitude: 33, pace: 1, notes:"Doom!", min_amt:0, age_pref: 0, gender_pref: 0, circle_id: @circle1.id})
     end
 
-    xit "creates a challenge with accepted set to default of false" do
+    it "creates a challenge with accepted set to default of false" do
     expect(@challenge.name).to eq("Monday Funday")
     expect(db.get_post(@challenge.post_id).notes).to eq("Doom!")
     end
 
-    xit "gets a challenge" do
+    it "gets a challenge" do
       challenge = db.get_challenge(@challenge.id)
       expect(challenge.name).to eq("Monday Funday")
     end
 
-    xit "updates a challenge" do
+    it "updates a challenge" do
     # add time tests
       updated = db.update_challenge(@challenge.id, {name:"Go HAM", latitude: 33, longitude: 44})
       expect(updated.name).to eq("Go HAM")
       expect(db.get_post(updated.post_id).latitude).to eq(33)
     end
 
-    xit "deletes a challenge" do
+    it "deletes a challenge" do
       db.delete_challenge(@challenge.id)
       expect(db.get_challenge(@challenge.id)).to eq(nil)
     end
 
-    xit "gets a challenge by sender or recipient ids" do
+    it "gets a challenge by sender or recipient ids" do
       result = db.get_circle_sent_challenges(@circle1.id)
       expect(result[0].name).to eq("Monday Funday")
       result = db.get_circle_rec_challenges(@circle2.id)

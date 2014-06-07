@@ -70,7 +70,6 @@ module RunPal
         challenge_arr
       end
 
-
       def update_challenge(id, attrs)
           if @challenges[id]
           # Remove challenge-specific attributes from attrs
@@ -101,9 +100,9 @@ module RunPal
       def create_circle(attrs)
         id = @circle_id_counter+=1
         attrs[:id] = id
-        circle = RunPal::Circle.new(attrs)
+        attrs[:member_ids] = [attrs[:admin_id]]
         @circles[id] = attrs
-        circle
+        RunPal::Circle.new(attrs)
       end
 
       def get_circle(id)
@@ -112,56 +111,42 @@ module RunPal
 
       def get_circle_names
         name_hash = {}
-        @circles.each do |cid, attrs|
-          name_hash[attrs[:name]] = true
-        end
+        @circles.values.map{ |attrs| name_hash[attrs[:name]] = true}
         name_hash
       end
 
       def all_circles
-        circle_arr = []
-        @circles.values.each do |attrs|
-          circle_arr << RunPal::Circle.new(attrs)
-        end
-        circle_arr
+        @circles.values.map {|attrs| RunPal::Circle.new(attrs)}
       end
 
       def circles_filter_location(user_lat, user_long, radius)
         mi_to_km = 1.60934
         earth_radius = 6371
-        circle_arr = []
-        radius = radius * mi_to_km
-        @circles.each do |cid, attrs|
+
+        filtered_circles = @circles.values.select{|attrs|
           circle_lat = attrs[:latitude]
           circle_long = attrs[:longitude]
           distance = Math.acos(Math.sin(user_lat) * Math.sin(circle_lat) + Math.cos(user_lat) * Math.cos(circle_lat) * Math.cos(circle_long - user_long)) * earth_radius
-          if distance <= radius
-            circle_arr << RunPal::Circle.new(attrs)
-          end
-        end
-        circle_arr
+          distance <= radius
+        }
+
+        filtered_circles_objs = filtered_circles.map {|attrs| RunPal::Circle.new(attrs)}
       end
 
       def circles_filter_full
-        circle_arr = []
-        circle_attributes = @circles.values
-        circle_attributes.each do |attr_hash|
-
-          if attr_hash[:member_ids].length < attr_hash[:max_members]
-            circle_arr << RunPal::Circle.new(attr_hash)
-          end
-
-        end
-        circle_arr
+        filtered_circles = @circles.values.select{|attrs| attrs[:member_ids].length < attrs[:max_members]}
+        filtered_circles_objs = filtered_circles.map{|attrs| RunPal::Circle.new(attrs)}
       end
 
       def update_circle(id, attrs)
         circle_attrs = @circles[id]
-        circle_members = circle_attrs[:member_ids]
         circle_attrs.merge!(attrs)
-        if attrs[:member_ids]
-          circle_attrs[:member_ids] += circle_members
-        end
+        RunPal::Circle.new(circle_attrs)
+      end
+
+      def add_users_to_circle(id, user_arr)
+        circle_attrs = @circles[id]
+        circle_attrs[:member_ids] += user_arr
         RunPal::Circle.new(circle_attrs)
       end
 
@@ -173,7 +158,7 @@ module RunPal
       end
 
       def get_commit(id)
-        commit = @commits[id] ? RunPal::Commitment.new(@commits[id]) : nil
+        @commits[id] ? RunPal::Commitment.new(@commits[id]) : nil
       end
 
       def get_commits_by_user(user_id)
@@ -204,7 +189,7 @@ module RunPal
       end
 
       def all_posts
-        post_arr = @posts.values.map {|attrs| RunPal::Post.new(attrs)}
+        @posts.values.map {|attrs| RunPal::Post.new(attrs)}
       end
 
       def get_committed_users(post_id)
@@ -269,7 +254,7 @@ module RunPal
       end
 
       def get_user(id)
-        user = @users[id] ? RunPal::User.new(@users[id]) : nil
+        @users[id] ? RunPal::User.new(@users[id]) : nil
       end
 
       def get_user_by_email(email)
@@ -279,11 +264,7 @@ module RunPal
       end
 
       def all_users
-        users_arr = []
-        @users.each do |uid, attrs|
-          users_arr << RunPal::User.new(attrs)
-        end
-        users_arr
+        @users.values.map {|attrs| RunPal::User.new(attrs)}
       end
 
       def update_user(user_id, attrs)

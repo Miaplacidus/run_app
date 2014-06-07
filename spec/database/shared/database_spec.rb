@@ -363,10 +363,10 @@ shared_examples 'a database' do
 
     before :each do
       users = [
-        {username: "Fast Feet", gender: 1, email:"marathons@speed.com", password:"abc123", bday:"2/8/1987"},
-        {username: "Runna Lot", gender: 2, email:"jogger@run.com", password:"111222", bday:"6/6/1966"},
-        {username: "Jon Jones", gender: 2, email:"runlikemad@sprinter.com", password:"aabbcc", bday:"3/14/1988"},
-        {username: "Nee Upp", gender: 1, email:"sofast@runna.com", password: "123abc", bday: "5/15/1994"}
+        {first_name: "FastFeet", gender: 1, email:"marathons@speed.com", bday:"2/8/1987"},
+        {first_name: "RunnaLot", gender: 2, email:"jogger@run.com", bday:"6/6/1966"},
+        {first_name: "JonJones", gender: 2, email:"runlikemad@sprinter.com", bday:"3/14/1988"},
+        {first_name: "NeeUpp", gender: 1, email:"sofast@runna.com", bday: "5/15/1994"}
       ]
 
     @user_objs = []
@@ -391,52 +391,53 @@ shared_examples 'a database' do
 
   end
 
-    xit "creates a circle" do
+    it "creates a circle" do
       expect(@circle1.name).to eq("Silvercar")
       expect(@circle1.max_members).to eq(14)
-      expect(db.get_user(@circle1.admin_id).username).to eq("Runna Lot")
+      expect(db.get_user(@circle1.admin_id).first_name).to eq("RunnaLot")
     end
 
-    xit "gets a circle" do
+    it "gets a circle" do
       circle = db.get_circle(@circle2.id)
       expect(circle.name).to eq("Crazy Apps")
     end
 
-    xit "gets the names of all circles" do
+    it "gets the names of all circles" do
       name_hash = db.get_circle_names
       expect(name_hash.length).to eq(2)
       expect(name_hash["Silvercar"]).to eq(true)
       expect(name_hash["Crazy Apps"]).to eq(true)
     end
 
-    xit "gets all circles" do
+    it "gets all circles" do
       circles = db.all_circles
       expect(circles.count).to eq(2)
       expect(circles.map &:max_members).to include(14, 19)
     end
 
-    xit "filters circles by location and search radius" do
+    it "filters circles by location and search radius" do
       result = db.circles_filter_location(32, 44, 10)
       result.count.should eql(1)
       expect(result.map &:name).to include("Silvercar")
     end
 
-    xit "updates a circle" do
+    it "updates a circle" do
       updated = db.update_circle(@circle1.id, {name:"Runner's World", max_members: 35})
       expect(updated.name).to eq("Runner's World")
       expect(updated.max_members).to eq(35)
     end
 
-    xit "adds a user to a circle" do
-      new_user = db.add_user_to_circle(@circle1.id, @user_objs[0].id)
-      expect(new_user.username).to eq("Fast Feet")
+    it "adds a user to a circle" do
+      result = db.add_users_to_circle(@circle1.id, [@user_objs[0].id])
+      expect(result.member_ids.count).to eq(2)
+      members = result.member_ids
+      member_arr = [db.get_user(members[0]), db.get_user(members[1])]
+      expect(member_arr.map &:first_name).to include("RunnaLot", "FastFeet")
     end
 
-    xit "filters out full circles" do
+    it "filters out full circles" do
       full_circle = db.create_circle({name: "ATX Runners", admin_id: @user_objs[1].id, max_members: 3, latitude: 32, longitude: 44})
-      db.add_user_to_circle(full_circle.id, @user_objs[0].id)
-      db.add_user_to_circle(full_circle.id, @user_objs[1].id)
-      db.add_user_to_circle(full_circle.id, @user_objs[2].id)
+      db.add_users_to_circle(full_circle.id, [@user_objs[0].id, @user_objs[2].id])
       result = db.circles_filter_full
       expect(result.count).to eq(2)
     end

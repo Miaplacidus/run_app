@@ -1,6 +1,12 @@
 
 shared_examples 'a database' do
-  let(:db) { described_class.new}
+
+  if described_class == RunPal::Database::InMemory
+    let(:db) { described_class.new}
+  else
+    config = YAML.load_file "db/config.yml"
+    let(:db) { described_class.new(config[ENV['DB_ENV']])}
+  end
 
   before :each do
     db.clear_everything
@@ -120,8 +126,8 @@ shared_examples 'a database' do
       posts = [
         {creator_id: @user_objs[0].id, time: @t_apr_first, latitude: 40, longitude: 51, pace: 2, notes:"Sunny day run!", min_amt:10.50, age_pref: 0, gender_pref: 0, min_distance: 4},
         {creator_id: @user_objs[1].id, time: @t_may_first, latitude: 44, longitude: 55, pace: 1, notes:"Let's go.", min_amt:5.50, age_pref: 3, gender_pref: 1, min_distance: 5},
-        {creator_id: @user_objs[2].id, time: @t_june_first, latitude: 66, longitude: 77, pace: 7, notes:"Will be a fairly relaxed jog.", min_amt:12.00, age_pref: 3, gender_pref: 1, min_distance: 1},
-        {creator_id: @user_objs[3].id, time: @t_july_first, latitude: 88, longitude: 99, pace: 0, min_amt:20.00, age_pref: 4, gender_pref: 0, min_distance: 7},
+        {creator_id: @user_objs[2].id, time: @t_june_first, latitude: 44.0002, longitude: 55.0002, pace: 7, notes:"Will be a fairly relaxed jog.", min_amt:12.00, age_pref: 3, gender_pref: 1, min_distance: 1},
+        {creator_id: @user_objs[3].id, time: @t_july_first, latitude: 40.0002, longitude: 51.0002, pace: 0, min_amt:20.00, age_pref: 4, gender_pref: 0, min_distance: 7},
       ]
 
       @post_objs = []
@@ -134,7 +140,6 @@ shared_examples 'a database' do
     it "creates a post" do
       post = @post_objs[0]
       expect((db.get_user(post.creator_id)).first_name).to eq("FastFeet")
-      # expect(post.time).to eq()
       expect(post.pace).to eq(2)
       expect(post.min_amt).to eq(10.50)
       expect(post.circle_id).to eq(nil)
@@ -171,31 +176,31 @@ shared_examples 'a database' do
     end
 
     it "filters posts by age preference" do
-      result = db.posts_filter_age(3)
-      result.count.should eql(2)
-      result[1].age_pref.should eql(3)
+      result = db.posts_filter_age(3, {user_lat: 44, user_long: 55, radius: 1})
+      result.count.should eql(1)
+      result[0].age_pref.should eql(3)
     end
 
     it "filters posts by gender preference" do
-      result = db.posts_filter_gender(0)
+      result = db.posts_filter_gender(0, {user_lat: 40.0001, user_long: 51.0001, radius: 20})
       result.count.should eql(2)
       result[1].gender_pref.should eql(0)
     end
 
     it "filters posts by location and search radius" do
-      result = db.posts_filter_location(44,55, 10)
+      result = db.posts_filter_location(44,55, 1)
       result.count.should eql(1)
       expect(result.map &:notes).to include("Let's go.")
     end
 
     it "filters posts by pace" do
-      result = db.posts_filter_pace(2)
+      result = db.posts_filter_pace(2, {user_lat: 40.0003, user_long: 51.0003, radius: 20})
       result.count.should eql(1)
       result[0].notes.should eql("Sunny day run!")
     end
 
     it "filters posts by time" do
-      result = db.posts_filter_time(@t_apr_first, @t_july_first)
+      result = db.posts_filter_time(@t_apr_first, @t_july_first, {user_lat: 44.0001, user_long: 55.0001, radius: 20})
       result.count.should eql(2)
       expect(result.map &:notes).to include("Let's go.", "Will be a fairly relaxed jog.")
     end

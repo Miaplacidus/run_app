@@ -10,12 +10,14 @@ module RunPal
         @challenge_id_counter = 0
         @circle_id_counter = 0
         @commit_id_counter = 0
+        @join_req_counter = 0
         @post_id_counter = 0
         @user_id_counter = 0
         @wallet_id_counter = 0
         @challenges = {} #Key: challenge_id, Value: challenge_obj_attrs hash
         @circles = {} # Key: circle_id, Value: circle_obj_attrs hash
         @commits = {} # Key: commit_id, Value: commit_obj_attrs hash
+        @join_reqs = {} # Key: join_req_id, Value: join_req_obj_attrs hash
         @posts = {} # Key: post_id, Value: post_obj_attrs hash
         @users = {} # Key: user_id, Value: user_obj_attrs hash
         @wallets = {} # Key: wallet_id, Value: wallet_obj_attrs hash
@@ -162,6 +164,30 @@ module RunPal
         RunPal::Commitment.new(commit_attrs)
       end
 
+      def create_join_req(attrs)
+        id = @join_req_counter+=1
+        attrs[:id] = id
+        @join_reqs = attrs
+        RunPal::JoinRequest.new(attrs)
+      end
+
+      def get_join_req(id)
+        join_req = @join_reqs[id] ? RunPal::JoinRequest.new(@join_reqs[id]) : nil
+      end
+
+      def all_join_reqs
+        @join_reqs.values.map {|attrs| RunPal::JoinRequest.new(attrs)}
+      end
+
+      def approve_req(id)
+        join_req_attrs = @join_reqs[id]
+        join_req_attrs[:accepted] = false
+      end
+
+      def delete_join_req(id)
+        @join_reqs.delete(id)
+      end
+
       def create_post(attrs)
         id = @post_id_counter+=1
         attrs[:id] = id
@@ -202,13 +228,17 @@ module RunPal
         @posts.delete(id)
       end
 
-      def posts_filter_age(age)
-        filtered_posts = @posts.values.select {|attrs| attrs[:age_pref] == age}
+      def posts_filter_age(age, loc_hash)
+        loc_filter_posts = posts_limit_location(loc_hash[:user_lat], loc_hash[:user_long], loc_hash[:radius])
+
+        filtered_posts = loc_filter_posts.select {|attrs| attrs[:age_pref] == age}
         filtered_posts_objs = filtered_posts.map {|attrs| RunPal::Post.new(attrs)}
       end
 
-      def posts_filter_gender(gender)
-        filtered_posts = @posts.values.select {|attrs| attrs[:gender_pref] == gender}
+      def posts_filter_gender(gender, loc_hash)
+        loc_filter_posts = posts_limit_location(loc_hash[:user_lat], loc_hash[:user_long], loc_hash[:radius])
+
+        filtered_posts = loc_filter_posts.select {|attrs| attrs[:gender_pref] == gender}
         filtered_posts_objs = filtered_posts.map {|attrs| RunPal::Post.new(attrs)}
       end
 
@@ -226,13 +256,29 @@ module RunPal
         filtered_posts_objs = filtered_posts.map {|attrs| RunPal::Post.new(attrs)}
       end
 
-      def posts_filter_pace(pace)
-        filtered_posts = @posts.values.select {|attrs| attrs[:pace] == pace}
+      def posts_limit_location(user_lat, user_long, radius)
+        mi_to_km = 1.60934
+        earth_radius = 6371
+
+        filtered_posts = @posts.values.select{|attrs|
+          post_lat = attrs[:latitude]
+          post_long = attrs[:longitude]
+          distance = Math.acos(Math.sin(user_lat) * Math.sin(post_lat) + Math.cos(user_lat) * Math.cos(post_lat) * Math.cos(post_long - user_long)) * earth_radius
+          distance <= radius
+        }
+      end
+
+      def posts_filter_pace(pace, loc_hash)
+        loc_filter_posts = posts_limit_location(loc_hash[:user_lat], loc_hash[:user_long], loc_hash[:radius])
+
+        filtered_posts = loc_filter_posts.select {|attrs| attrs[:pace] == pace}
         filtered_posts_objs = filtered_posts.map {|attrs| RunPal::Post.new(attrs)}
       end
 
-      def posts_filter_time(start_time, end_time)
-        filtered_posts = @posts.values.select {|attrs| attrs[:time] > start_time && attrs[:time] < end_time}
+      def posts_filter_time(start_time, end_time, loc_hash)
+        loc_filter_posts = posts_limit_location(loc_hash[:user_lat], loc_hash[:user_long], loc_hash[:radius])
+
+        filtered_posts = loc_filter_posts.select {|attrs| attrs[:time] > start_time && attrs[:time] < end_time}
         filtered_posts_objs = filtered_posts.map {|attrs| RunPal::Post.new(attrs)}
       end
 

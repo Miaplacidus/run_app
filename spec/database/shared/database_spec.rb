@@ -546,19 +546,26 @@ shared_examples 'a database' do
     end
 
     it "creates a request to join a circle" do
-      expect(db.get_user(@join_req.user_id).first_name).to eq("FastFeet")
+      uid = @join_req.user_id
+      user = db.get_user(uid)
+      expect(user.first_name).to eq("RunnaLot")
     end
 
     it "retrieves a join request" do
-
+      join_req = db.get_join_req(@join_req.id)
+      circle = db.get_circle(join_req.circle_id)
+      expect(circle.name).to eq("MakerSquare")
     end
 
     it "can approve a join request" do
-
+      result = db.approve_req(@join_req.id)
+      expect(result.accepted).to eq(true)
     end
 
     it "deletes a join request" do
-
+      db.delete_join_req(@join_req.id)
+      result = db.get_join_req(@join_req.id)
+      expect(result).to be_nil
     end
 
   end

@@ -170,7 +170,7 @@ module RunPal
         id = @join_req_counter+=1
         attrs[:id] = id
         attrs[:accepted] = false
-        @join_reqs = attrs
+        @join_reqs[id] = attrs
         RunPal::JoinRequest.new(attrs)
       end
 
@@ -185,6 +185,7 @@ module RunPal
       def approve_req(id)
         join_req_attrs = @join_reqs[id]
         join_req_attrs[:accepted] = true
+        RunPal::JoinRequest.new(join_req_attrs)
       end
 
       def delete_join_req(id)

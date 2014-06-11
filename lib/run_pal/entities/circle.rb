@@ -5,6 +5,7 @@ module RunPal
     validates_presence_of :name, :admin_id, :max_members, :latitude, :longitude, :description, :level
 
     def initialize(attrs={})
+      @member_ids = [attrs[:admin_id]]
       super
     end
   end

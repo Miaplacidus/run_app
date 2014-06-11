@@ -44,7 +44,7 @@ module RunPal
           setter = "#{name}"
           !RunPal::Challenge.method_defined?(setter)
         end
-        attrs[:accepted] = false
+        attrs[:state] = 'pending'
         @challenges[cid] = attrs
         challenge = RunPal::Challenge.new(attrs)
       end
@@ -184,7 +184,7 @@ module RunPal
 
       def approve_req(id)
         join_req_attrs = @join_reqs[id]
-        join_req_attrs[:accepted] = false
+        join_req_attrs[:accepted] = true
       end
 
       def delete_join_req(id)
@@ -194,10 +194,9 @@ module RunPal
       def create_post(attrs)
         id = @post_id_counter+=1
         attrs[:id] = id
-        attrs[:notes] = ""
-        if !attrs[:circle_id]
-          attrs[:circle_id] = nil
-        end
+        attrs[:notes] ||= ""
+        attrs[:circle_id] ||= nil
+
         @posts[id] = attrs
         RunPal::Post.new(attrs)
       end

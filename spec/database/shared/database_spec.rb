@@ -188,7 +188,7 @@ shared_examples 'a database' do
     end
 
     it "filters posts by location and search radius" do
-      result = db.posts_filter_location(44,55, 1)
+      result = db.posts_filter_location(44,55,1)
       result.count.should eql(1)
       expect(result.map &:notes).to include("Let's go.")
     end
@@ -292,7 +292,7 @@ shared_examples 'a database' do
       end
 
       @commit1 = db.create_commit({user_id: @user_objs[0].id, post_id: @post_objs[0].id, amount: 20.30})
-      @commit2 = db.create_commit({user_id: @user_objs[1].id, post_id: @post_objs[0].id, amount: 15.00, fulfilled: true})
+      @commit2 = db.create_commit({user_id: @user_objs[1].id, post_id: @post_objs[0].id, amount: 15.00})
     end
 
     it "gets all people committed to a run" do
@@ -305,6 +305,7 @@ shared_examples 'a database' do
 
     it "gets all people who attended a run" do
       post = @post_objs[0]
+      db.update_commit(@commit2.id, {fulfilled: true})
       attendees = db.get_attendees(post.id)
       expect(attendees.count).to eq(1)
       expect(db.get_user(attendees[0]).first_name).to eq("RunnaLot")
@@ -335,7 +336,7 @@ shared_examples 'a database' do
       end
 
       @commit1 = db.create_commit({user_id: @user_objs[0].id, post_id: @post_objs[0].id, amount: 3})
-      @commit2 = db.create_commit({user_id: @user_objs[1].id, post_id: @post_objs[1].id, amount: 5, fulfilled: true})
+      @commit2 = db.create_commit({user_id: @user_objs[1].id, post_id: @post_objs[1].id, amount: 5})
     end
 
     it "creates a commitment with fulfilled set to false" do
@@ -352,13 +353,14 @@ shared_examples 'a database' do
     it "gets commitments by user_id" do
       commits_arr = db.get_commits_by_user(@user_objs[1].id)
       expect(commits_arr.count).to eq(1)
-      expect(commits_arr[0].fulfilled).to eq(true)
+      expect(commits_arr[0].fulfilled).to eq(false)
       expect(commits_arr[0].amount).to eq(5)
     end
 
     it "updates a commitment" do
-      commit = db.update_commit(@commit1.id, {amount: 10})
+      commit = db.update_commit(@commit1.id, {amount: 10, fulfilled: true})
       expect(commit.amount).to eq(10)
+      expect(commit.fulfilled).to eq(true)
     end
   end
 
@@ -523,6 +525,42 @@ shared_examples 'a database' do
       result = db.get_circle_rec_challenges(@circle2.id)
       expect(result[0].name).to eq("Monday Funday")
     end
+  end
+
+  describe 'Join Request' do
+    before :each do
+      users = [
+        {first_name: "FastFeet", gender: 1, email:"marathons@speed.com", bday:"2/8/1987"},
+        {first_name: "RunnaLot", gender: 2, email:"jogger@run.com", bday:"6/6/1966"},
+        {first_name: "JonJones", gender: 2, email:"runlikemad@sprinter.com", bday:"3/14/1988"},
+      ]
+
+      @user_objs = []
+      users.each do |attrs|
+          @user_objs << db.create_user(attrs)
+      end
+
+      @circle1 = db.create_circle({name: "MakerSquare", admin_id: @user_objs[0].id, max_members: 30})
+
+      @join_req = db.create_join_req({user_id: @user_objs[1].id, circle_id: @circle1.id})
+    end
+
+    it "creates a request to join a circle" do
+      expect(db.get_user(@join_req.user_id).first_name).to eq("FastFeet")
+    end
+
+    it "retrieves a join request" do
+
+    end
+
+    it "can approve a join request" do
+
+    end
+
+    it "deletes a join request" do
+
+    end
+
   end
 
 end

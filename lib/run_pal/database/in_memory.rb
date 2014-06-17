@@ -12,6 +12,7 @@ module RunPal
         @commit_id_counter = 0
         @join_req_counter = 0
         @post_id_counter = 0
+        @session_id_counter = 0
         @user_id_counter = 0
         @wallet_id_counter = 0
         @challenges = {} #Key: challenge_id, Value: challenge_obj_attrs hash
@@ -19,6 +20,7 @@ module RunPal
         @commits = {} # Key: commit_id, Value: commit_obj_attrs hash
         @join_reqs = {} # Key: join_req_id, Value: join_req_obj_attrs hash
         @posts = {} # Key: post_id, Value: post_obj_attrs hash
+        @sessions = {} # Key: session_key, Value: user_id
         @users = {} # Key: user_id, Value: user_obj_attrs hash
         @wallets = {} # Key: wallet_id, Value: wallet_obj_attrs hash
       end
@@ -287,6 +289,18 @@ module RunPal
 
         filtered_posts = loc_filter_posts.select {|attrs| attrs[:time] > start_time && attrs[:time] < end_time}
         filtered_posts_objs = filtered_posts.map {|attrs| RunPal::Post.new(attrs)}
+      end
+
+      # SESSIONS
+      def create_session(auth)
+        user = User.from_omniauth(auth)
+        id = @session_id_counter+=1
+        @sessions[id] = {id: id, user_id: user.id, oauth_expiry: user.oauth_expiry}
+      end
+
+      def delete_session(user_id)
+        session = @sessions.values.select{|session_attrs| session_attrs[:user_id]}
+        @sessions.delete(session.id)
       end
 
       def create_user(attrs)

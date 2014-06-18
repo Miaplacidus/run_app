@@ -11,11 +11,11 @@ module RunPal
       inputs[:creator_id] = inputs[:creator_id].to_i
       inputs[:pace] = inputs[:pace].to_i
 
-      sender_id = RunPal.db.get_circle(inputs[:sender_id])
-      return failure (:circle_does_not_exist) if sender_id.nil?
+      sender = RunPal.db.get_circle(inputs[:sender_id])
+      return failure (:circle_does_not_exist) if sender.nil?
 
-      recipient_id = RunPal.db.get_circle(inputs[:recipient_id])
-      return failure (:circle_does_not_exist) if recipient_id.nil?
+      recipient = RunPal.db.get_circle(inputs[:recipient_id])
+      return failure (:circle_does_not_exist) if recipient.nil?
 
       challenge = create_new_challenge(inputs)
       return failure(:invalid_inputs) if !challenge.valid?

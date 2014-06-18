@@ -291,18 +291,6 @@ module RunPal
         filtered_posts_objs = filtered_posts.map {|attrs| RunPal::Post.new(attrs)}
       end
 
-      # SESSIONS
-      def create_session(auth)
-        user = User.from_omniauth(auth)
-        id = @session_id_counter+=1
-        @sessions[id] = {id: id, user_id: user.id, oauth_expiry: user.oauth_expiry}
-      end
-
-      def delete_session(user_id)
-        session = @sessions.values.select{|session_attrs| session_attrs[:user_id]}
-        @sessions.delete(session.id)
-      end
-
       def create_user(attrs)
         id = @user_id_counter+=1
         attrs[:id] = id

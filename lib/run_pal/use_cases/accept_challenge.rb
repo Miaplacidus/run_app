@@ -14,7 +14,7 @@ module RunPal
       challenge = RunPal.db.get_challenge(inputs[:challenge_id])
       return failure(:challenge_does_not_exist) if challenge.nil?
 
-      return failure (:user_not_authorized) if inputs[:user_id] != inputs[:admin_id]
+      return failure (:user_not_authorized) if inputs[:user_id] != recipient.admin_id
 
       challenge = accept_challenge(inputs)
       return failure(:invalid_inputs) if !challenge.valid?

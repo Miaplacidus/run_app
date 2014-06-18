@@ -14,6 +14,9 @@ module RunPal
 
       delete_challenge(inputs)
 
+      deleted = RunPal.db.get_challenge(inputs[:challenge_id])
+      return failure(:failed_to_delete_challenge) if !deleted.nil?
+
       success :challenge => challenge
     end
 

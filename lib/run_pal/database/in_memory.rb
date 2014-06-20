@@ -237,18 +237,18 @@ module RunPal
         @posts.delete(id)
       end
 
-      def posts_filter_age(age, loc_hash)
-        loc_filter_posts = posts_limit_location(loc_hash[:user_lat], loc_hash[:user_long], loc_hash[:radius])
+      def posts_filter_age(age, filters)
+        # filters = {user_lat, user_long, radius, gender_pref, user_gender}
+        loc_filter_posts = posts_limit_loc_gender(filters)
 
         filtered_posts = loc_filter_posts.select {|attrs| attrs[:age_pref] == age}
         filtered_posts_objs = filtered_posts.map {|attrs| RunPal::Post.new(attrs)}
       end
 
-      def posts_filter_gender(gender, loc_hash)
-        loc_filter_posts = posts_limit_location(loc_hash[:user_lat], loc_hash[:user_long], loc_hash[:radius])
-
-        filtered_posts = loc_filter_posts.select {|attrs| attrs[:gender_pref] == gender}
-        filtered_posts_objs = filtered_posts.map {|attrs| RunPal::Post.new(attrs)}
+      def posts_filter_gender(filters)
+         # filters = {user_lat, user_long, radius, gender_pref, user_gender}
+        loc_filter_posts = posts_limit_loc_gender(filters)
+        filtered_posts = loc_filter_posts.map {|attrs| RunPal::Post.new(attrs)}
       end
 
       def posts_filter_location(user_lat, user_long, radius)
@@ -265,27 +265,41 @@ module RunPal
         filtered_posts_objs = filtered_posts.map {|attrs| RunPal::Post.new(attrs)}
       end
 
-      def posts_limit_location(user_lat, user_long, radius)
+      def posts_limit_loc_gender(filters)
+        # filters = {user_lat, user_long, radius, gender_pref, user_gender}
         mi_to_km = 1.60934
         earth_radius = 6371
+        filtered_posts = []
 
-        filtered_posts = @posts.values.select{|attrs|
+        loc_filtered_posts = @posts.values.select{|attrs|
           post_lat = attrs[:latitude]
           post_long = attrs[:longitude]
-          distance = Math.acos(Math.sin(user_lat) * Math.sin(post_lat) + Math.cos(user_lat) * Math.cos(post_lat) * Math.cos(post_long - user_long)) * earth_radius
-          distance <= radius
+          distance = Math.acos(Math.sin(filters[:user_lat]) * Math.sin(post_lat) + Math.cos(filters[:user_lat]) * Math.cos(post_lat) * Math.cos(post_long - filters[:user_long])) * earth_radius
+          distance <= filters[:radius]
         }
+
+        if filters[:gender_pref] == 3
+          filtered_posts = loc_filtered_posts.select{|attrs|
+            attrs[:gender_pref] == 0 || attrs[:gender_pref] == filters[:user_gender]
+          }
+        else
+          filtered_posts = loc_filtered_posts.select{|attrs| attrs[:gender_pref] == filters[:gender_pref]}
+        end
+
+        filtered_posts
       end
 
-      def posts_filter_pace(pace, loc_hash)
-        loc_filter_posts = posts_limit_location(loc_hash[:user_lat], loc_hash[:user_long], loc_hash[:radius])
+      def posts_filter_pace(pace, filters)
+        # filters = {user_lat, user_long, radius, gender_pref, user_gender}
+        loc_filter_posts = posts_limit_loc_gender(filters)
 
         filtered_posts = loc_filter_posts.select {|attrs| attrs[:pace] == pace}
         filtered_posts_objs = filtered_posts.map {|attrs| RunPal::Post.new(attrs)}
       end
 
-      def posts_filter_time(start_time, end_time, loc_hash)
-        loc_filter_posts = posts_limit_location(loc_hash[:user_lat], loc_hash[:user_long], loc_hash[:radius])
+      def posts_filter_time(start_time, end_time, filters)
+        # filters = {user_lat, user_long, radius, gender_pref, user_gender}
+        loc_filter_posts = posts_limit_loc_gender(filters)
 
         filtered_posts = loc_filter_posts.select {|attrs| attrs[:time] > start_time && attrs[:time] < end_time}
         filtered_posts_objs = filtered_posts.map {|attrs| RunPal::Post.new(attrs)}

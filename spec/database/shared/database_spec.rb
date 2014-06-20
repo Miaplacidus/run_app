@@ -176,13 +176,13 @@ shared_examples 'a database' do
     end
 
     it "filters posts by age preference" do
-      result = db.posts_filter_age(3, {user_lat: 44, user_long: 55, radius: 1})
+      result = db.posts_filter_age(3, {user_lat: 44, user_long: 55, radius: 1, gender_pref: 1, user_gender: 1})
       result.count.should eql(1)
       result[0].age_pref.should eql(3)
     end
 
     it "filters posts by gender preference" do
-      result = db.posts_filter_gender(0, {user_lat: 40.0001, user_long: 51.0001, radius: 20})
+      result = db.posts_filter_gender({user_lat: 40.0001, user_long: 51.0001, radius: 20, gender_pref: 0 , user_gender: 1})
       result.count.should eql(2)
       result[1].gender_pref.should eql(0)
     end
@@ -194,13 +194,13 @@ shared_examples 'a database' do
     end
 
     it "filters posts by pace" do
-      result = db.posts_filter_pace(2, {user_lat: 40.0003, user_long: 51.0003, radius: 20})
+      result = db.posts_filter_pace(2, {user_lat: 40.0003, user_long: 51.0003, radius: 20, gender_pref: 0, user_gender: 2})
       result.count.should eql(1)
       result[0].notes.should eql("Sunny day run!")
     end
 
     it "filters posts by time" do
-      result = db.posts_filter_time(@t_apr_first, @t_july_first, {user_lat: 44.0001, user_long: 55.0001, radius: 20})
+      result = db.posts_filter_time(@t_apr_first, @t_july_first, {user_lat: 44.0001, user_long: 55.0001, radius: 20, gender_pref: 1, user_gender: 1})
       result.count.should eql(2)
       expect(result.map &:notes).to include("Let's go.", "Will be a fairly relaxed jog.")
     end

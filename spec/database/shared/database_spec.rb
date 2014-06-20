@@ -251,7 +251,7 @@ shared_examples 'a database' do
     end
 
     it "gets all posts associated with a circle" do
-      post_arr = db.get_circle_posts(@circle.id)
+      post_arr = db.get_circle_posts(@circle.id, 1)
       expect(post_arr.count).to eq(1)
       expect(post_arr[0].age_pref).to eq(4)
     end

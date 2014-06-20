@@ -215,9 +215,11 @@ module RunPal
         post = @posts[id] ? RunPal::Post.new(@posts[id]) : nil
       end
 
-      def get_circle_posts(circle_id)
+      def get_circle_posts(circle_id, user_gender)
         post_attributes = @posts.values.select {|post_attrs| post_attrs[:circle_id] == circle_id}
-        post_objs = post_attributes.map {|attrs| RunPal::Post.new(attrs)}
+        gender_filtered = post_attributes.select{|post_attrs| post_attrs[:gender_pref] == user_gender || post_attrs[:gender_pref] == 0 }
+
+        post_objs = gender_filtered.map {|attrs| RunPal::Post.new(attrs)}
       end
 
       def all_posts

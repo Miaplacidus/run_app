@@ -128,8 +128,20 @@ module RunPal
         filtered_circles_objs = filtered_circles.map {|attrs| RunPal::Circle.new(attrs)}
       end
 
-      def circles_filter_full
-        filtered_circles = @circles.values.select{|attrs| attrs[:member_ids].length < attrs[:max_members]}
+      def circles_filter_full(filters)
+        # {user_lat, user_long, radius}
+        mi_to_km = 1.60934
+        earth_radius = 6371
+        filtered_posts = []
+
+        loc_filtered_circles = @circles.values.select{|attrs|
+          circle_lat = attrs[:latitude]
+          circle_long = attrs[:longitude]
+          distance = Math.acos(Math.sin(filters[:user_lat]) * Math.sin(circle_lat) + Math.cos(filters[:user_lat]) * Math.cos(circle_lat) * Math.cos(circle_long - filters[:user_long])) * earth_radius
+          distance <= filters[:radius]
+        }
+
+        filtered_circles = loc_filtered_circles.select{|attrs| attrs[:member_ids].length < attrs[:max_members]}
         filtered_circles_objs = filtered_circles.map{|attrs| RunPal::Circle.new(attrs)}
       end
 

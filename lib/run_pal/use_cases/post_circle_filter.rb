@@ -2,6 +2,10 @@ module RunPal
   class FilterPostsByCircle < UseCase
 
     def run(inputs)
+      # CIRCLE_ID, USER_GENDER
+
+      inputs[:circle_id] = inputs[:circle_id].to_i
+      inputs[:user_gender] = inputs[:user_gender].to_i
 
       circle = RunPal.db.get_circle(inputs[:circle_id])
       return failure(:circle_does_not_exist) if circle.nil?

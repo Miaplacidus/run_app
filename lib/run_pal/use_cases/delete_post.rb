@@ -3,6 +3,8 @@ module RunPal
 
     def run(inputs)
 
+      inputs[:id] = inputs[:id].to_i
+
       post = RunPal.db.get_post(inputs[:id])
       return failure(:post_does_not_exist) if post.nil?
 

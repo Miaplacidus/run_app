@@ -441,6 +441,12 @@ shared_examples 'a database' do
       expect(member_arr.map &:first_name).to include("RunnaLot", "FastFeet")
     end
 
+    it "tells if user is member of circle" do
+      db.add_users_to_circle(@circle1.id, [@user_objs[0].id])
+      membership = db.is_member?(@user_objs[0].id, @circle1.id)
+      expect(membership).to eq(true)
+    end
+
     it "filters out full circles" do
       full_circle = db.create_circle({name: "ATX Runners", admin_id: @user_objs[1].id, max_members: 3, latitude: 32, longitude: 44})
       db.add_users_to_circle(full_circle.id, [@user_objs[0].id, @user_objs[2].id])

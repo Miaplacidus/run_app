@@ -145,6 +145,13 @@ module RunPal
         RunPal::Circle.new(circle_attrs)
       end
 
+      def is_member?(user_id, circle_id)
+        return nil if !@circles[circle_id]
+        circle = @circles[circle_id]
+        membership = circle[:member_ids].detect {|i| i == user_id}
+        membership != nil
+      end
+
       def create_commit(attrs)
         id = @commit_id_counter+=1
         attrs[:id] = id

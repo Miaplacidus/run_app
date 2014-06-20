@@ -14,8 +14,7 @@ module RunPal
       return failure(:invalid_input) if !circle.valid?
 
       success :circle => circle
-      # Latitude/Longitude correspond to user's current location and
-      # cannot be later updated
+
     end
 
     def create_new_circle(attrs)

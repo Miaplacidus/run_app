@@ -326,6 +326,10 @@ module RunPal
         filtered_posts_objs = filtered_posts.map {|attrs| RunPal::Post.new(attrs)}
       end
 
+      def has_committed?(post_id, user_id)
+        @commits.detect{|attrs| attrs[:user_id] == user_id && attrs[:post_id] == post_id}
+      end
+
       def create_user(attrs)
         id = @user_id_counter+=1
         attrs[:id] = id

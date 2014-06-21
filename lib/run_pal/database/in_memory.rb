@@ -330,6 +330,18 @@ module RunPal
         @commits.detect{|attrs| attrs[:user_id] == user_id && attrs[:post_id] == post_id}
       end
 
+      def user_nearby?(attrs)
+        mi_to_km = 1.60934
+        earth_radius = 6371
+
+        distance = Math.acos(Math.sin(attrs[:user_lat]) * Math.sin(attrs[:post_lat]) + Math.cos(attrs[:user_lat]) * Math.cos(attrs[:post_lat]) * Math.cos(attrs[:post_long] - attrs[:user_long])) * earth_radius
+        if distance <= 1
+          return true
+        else
+          return false
+        end
+      end
+
       def create_user(attrs)
         id = @user_id_counter+=1
         attrs[:id] = id

@@ -199,6 +199,10 @@ module RunPal
         join_req = @join_reqs[id] ? RunPal::JoinRequest.new(@join_reqs[id]) : nil
       end
 
+      def get_user_join_req(user_id)
+        @join_reqs.values.select{|attrs| attrs[:user_id] == user_id}
+      end
+
       def all_join_reqs
         @join_reqs.values.map {|attrs| RunPal::JoinRequest.new(attrs)}
       end

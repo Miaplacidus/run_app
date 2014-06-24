@@ -26,29 +26,11 @@ module RunPal
       end
 
       def create_challenge(attrs)
-        cid = @challenge_id_counter+=1
-        pid = @post_id_counter+=1
-        post_attrs = attrs.clone
-        post_attrs[:id] = pid
-
-        # Remove challenge-specific data from post_attrs
-        post_attrs.delete_if do |name, value|
-          setter = "#{name}="
-          !RunPal::Post.method_defined?(setter)
-        end
-        @posts[pid] = post_attrs
-        RunPal::Post.new(post_attrs)
-
-        # Remove post-specific data from attrs
-        attrs[:id] = cid
-        attrs[:post_id] = pid
-        attrs.delete_if do |name, value|
-          setter = "#{name}"
-          !RunPal::Challenge.method_defined?(setter)
-        end
+        id = @challenge_id_counter+=1
+        attrs[:id] = id
         attrs[:state] = 'pending'
-        @challenges[cid] = attrs
-        challenge = RunPal::Challenge.new(attrs)
+        @challenges[id] = attrs
+        RunPal::Challenge.new(attrs)
       end
 
       def get_challenge(id)
@@ -66,25 +48,8 @@ module RunPal
       end
 
       def update_challenge(id, attrs)
-          if @challenges[id]
-          # Remove challenge-specific attributes from attrs
-          post_changes = attrs.clone
-          post_changes.delete_if do |name, value|
-            setter = "#{name}="
-            !RunPal::Post.method_defined?(setter)
-          end
-          pid = @challenges[id][:post_id]
-          post_attrs = @posts[pid]
-          post_attrs.merge!(post_changes)
-
-          attrs.delete_if do |name, value|
-            setter = "#{name}="
-            !RunPal::Challenge.method_defined?(setter)
-          end
-        end
         challenge_attrs = @challenges[id]
         challenge_attrs.merge!(attrs)
-
         RunPal::Challenge.new(challenge_attrs)
       end
 

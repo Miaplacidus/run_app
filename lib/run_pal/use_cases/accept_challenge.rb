@@ -3,21 +3,21 @@ module RunPal
 
     def run(inputs)
 
-      inputs[:user_id] = inputs[:admin_id].to_i
-      inputs[:admin_id] = inputs[:admin_id].to_i
-      inputs[:recipient_id] = inputs[:recipient_id].to_i
+      inputs[:user_id] = inputs[:user_id].to_i
       inputs[:challenge_id] = inputs[:challenge_id].to_i
-
-      recipient = RunPal.db.get_circle(inputs[:recipient_id])
-      return failure (:circle_does_not_exist) if recipient.nil?
 
       challenge = RunPal.db.get_challenge(inputs[:challenge_id])
       return failure(:challenge_does_not_exist) if challenge.nil?
 
-      return failure (:user_not_authorized) if inputs[:user_id] != recipient.admin_id
+      recipient_id = challenge.recipient_id
+      circle = RunPal.db.get_circle(recipient_id)
+      return failure (:circle_does_not_exist) if recipient.nil?
+
+      return failure (:user_not_authorized) if inputs[:user_id] != circle.admin_id
+      return failure(:user_not_recipient) if challenge.recipient_id != circle.id
 
       challenge = accept_challenge(inputs)
-      return failure(:invalid_inputs) if !challenge.valid?
+      return failure(:failed_to_accept) if challenge.state != 'accepted'
 
       success :challenge => challenge
     end

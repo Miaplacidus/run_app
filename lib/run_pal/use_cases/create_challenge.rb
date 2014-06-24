@@ -6,13 +6,13 @@ module RunPal
       # Challenge-specific properties
       inputs[:sender_id] = inputs[:sender_id].to_i
       inputs[:recipient_id] = inputs[:recipient_id].to_i
+      inputs[:user_id] = inputs[:user_id].to_i
 
-      # Post-specific properties
-      inputs[:creator_id] = inputs[:creator_id].to_i
-      inputs[:pace] = inputs[:pace].to_i
 
       sender = RunPal.db.get_circle(inputs[:sender_id])
       return failure (:circle_does_not_exist) if sender.nil?
+
+      return failure(:user_not_authorized) if sender.admin_id != inputs[:user_id]
 
       recipient = RunPal.db.get_circle(inputs[:recipient_id])
       return failure (:circle_does_not_exist) if recipient.nil?

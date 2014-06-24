@@ -13,7 +13,8 @@ module RunPal
       circle = RunPal.db.get_circle(recipient_id)
       return failure(:circle_does_not_exist) if circle.nil?
 
-      return failure (:user_not_authorized) if inputs[:user_id] != circle.admin_id
+      return failure(:user_not_authorized) if inputs[:user_id] != circle.admin_id
+      return failure(:user_not_recipient) if challenge.recipient_id != circle.id
 
       chellenge = reject_challenge(inputs)
       return failure(:failed_to_reject) if challenge.state != 'rejected'

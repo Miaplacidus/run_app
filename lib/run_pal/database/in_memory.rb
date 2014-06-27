@@ -309,11 +309,8 @@ module RunPal
       end
 
       def user_nearby?(attrs)
-        mi_to_km = 1.60934
-        earth_radius = 6371
-
-        distance = Math.acos(Math.sin(attrs[:user_lat]) * Math.sin(attrs[:post_lat]) + Math.cos(attrs[:user_lat]) * Math.cos(attrs[:post_lat]) * Math.cos(attrs[:post_long] - attrs[:user_long])) * earth_radius
-        if distance <= mi_to_km
+        distance = Haversine.distance(attrs[:user_lat], attrs[:user_long], attrs[:post_lat], attrs[:post_long])
+        if distance.to_mi <= 1
           return true
         else
           return false

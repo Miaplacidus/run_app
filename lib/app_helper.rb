@@ -7,6 +7,7 @@ require 'yaml'
 require 'time'
 require 'geocoder'
 require 'omniauth-facebook'
+require 'haversine'
 
 Dotenv.load
 

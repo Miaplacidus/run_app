@@ -12,6 +12,7 @@ gem 'omniauth'
 gem 'omniauth-facebook', '1.4.0'
 gem 'dotenv-rails'
 gem 'dotenv-deployment'
+gem 'haversine'
 
 # Testing
 gem 'rspec', '~> 2.14.1'

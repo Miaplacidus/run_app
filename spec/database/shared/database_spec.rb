@@ -518,7 +518,7 @@ shared_examples 'a database' do
 
     @circle1 = db.create_circle({name: "MakerSquare", admin_id: @user_objs[0].id, max_members: 30})
     @circle2 = db.create_circle({name: "Hack Reactor", admin_id: @user_objs[1].id, max_members: 25})
-    @challenge = db.create_challenge({name: "Monday Funday", sender_id: @circle1.id, recipient_id: @circle2.id, creator_id: @circle1.admin_id, time: Time.now, latitude:22, longitude: 33, pace: 1, notes:"Doom!", min_amt:0, age_pref: 0, gender_pref: 0, circle_id: @circle1.id})
+    @challenge = db.create_challenge({name: "Monday Funday", sender_id: @circle1.id, recipient_id: @circle2.id})
     end
 
     xit "creates a challenge with accepted set to default of false" do
@@ -531,11 +531,13 @@ shared_examples 'a database' do
       expect(challenge.name).to eq("Monday Funday")
     end
 
-    xit "updates a challenge" do
+    it "updates a challenge" do
     # add time tests
-      updated = db.update_challenge(@challenge.id, {name:"Go HAM", latitude: 33, longitude: 44})
+      updated = db.update_challenge(@challenge.id, {name:"Go HAM"})
+      puts updated
       expect(updated.name).to eq("Go HAM")
-      expect(db.get_post(updated.post_id).latitude).to eq(33)
+      sending_circle = db.get_circle(updated.sender_id)
+      expect(sending_circle.name).to eq("MakerSquare")
     end
 
     it "deletes a challenge" do

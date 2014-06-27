@@ -51,6 +51,7 @@ module RunPal
       def update_challenge(id, attrs)
         challenge_attrs = @challenges[id]
         challenge_attrs.merge!(attrs)
+        puts challenge_attrs
         RunPal::Challenge.new(challenge_attrs)
       end
 

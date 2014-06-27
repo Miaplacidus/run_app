@@ -83,6 +83,7 @@ module RunPal
       def circles_filter_location(user_lat, user_long, radius)
         mi_to_km = 1.60934
         earth_radius = 6371
+        radius *= mi_to_km
 
         filtered_circles = @circles.values.select{|attrs|
           circle_lat = attrs[:latitude]
@@ -98,6 +99,7 @@ module RunPal
         # {user_lat, user_long, radius}
         mi_to_km = 1.60934
         earth_radius = 6371
+        filters[:radius] *= mi_to_km
         filtered_posts = []
 
         loc_filtered_circles = @circles.values.select{|attrs|
@@ -249,6 +251,7 @@ module RunPal
       def posts_filter_location(user_lat, user_long, radius)
         mi_to_km = 1.60934
         earth_radius = 6371
+        radius *= mi_to_km
 
         filtered_posts = @posts.values.select{|attrs|
           post_lat = attrs[:latitude]
@@ -265,6 +268,7 @@ module RunPal
         mi_to_km = 1.60934
         earth_radius = 6371
         filtered_posts = []
+        filters[:radius] *= mi_to_km
 
         loc_filtered_posts = @posts.values.select{|attrs|
           post_lat = attrs[:latitude]
@@ -309,7 +313,7 @@ module RunPal
         earth_radius = 6371
 
         distance = Math.acos(Math.sin(attrs[:user_lat]) * Math.sin(attrs[:post_lat]) + Math.cos(attrs[:user_lat]) * Math.cos(attrs[:post_lat]) * Math.cos(attrs[:post_long] - attrs[:user_long])) * earth_radius
-        if distance <= 1
+        if distance <= mi_to_km
           return true
         else
           return false

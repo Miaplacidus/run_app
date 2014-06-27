@@ -29,6 +29,7 @@ module RunPal
         id = @challenge_id_counter+=1
         attrs[:id] = id
         attrs[:state] = 'pending'
+        attrs[:notes] ||= ''
         @challenges[id] = attrs
         RunPal::Challenge.new(attrs)
       end

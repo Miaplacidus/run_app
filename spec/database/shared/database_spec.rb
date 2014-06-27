@@ -521,9 +521,10 @@ shared_examples 'a database' do
     @challenge = db.create_challenge({name: "Monday Funday", sender_id: @circle1.id, recipient_id: @circle2.id})
     end
 
-    xit "creates a challenge with accepted set to default of false" do
+    it "creates a challenge with state set to default of pending" do
     expect(@challenge.name).to eq("Monday Funday")
-    expect(db.get_post(@challenge.post_id).notes).to eq("Doom!")
+    expect(@challenge.notes).to eq("")
+    expect(@challenge.state).to eq("pending")
     end
 
     it "gets a challenge" do

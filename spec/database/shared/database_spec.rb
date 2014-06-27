@@ -177,8 +177,9 @@ shared_examples 'a database' do
 
     it "filters posts by age preference" do
       result = db.posts_filter_age(3, {user_lat: 44, user_long: 55, radius: 1, gender_pref: 1, user_gender: 1})
-      result.count.should eql(1)
+      result.count.should eql(2)
       result[0].age_pref.should eql(3)
+      expect(result.map &:notes).to include("Let's go.", "Will be a fairly relaxed jog.")
     end
 
     it "filters posts by gender preference" do
@@ -189,8 +190,8 @@ shared_examples 'a database' do
 
     it "filters posts by location and search radius" do
       result = db.posts_filter_location(44,55,1)
-      result.count.should eql(1)
-      expect(result.map &:notes).to include("Let's go.")
+      result.count.should eql(2)
+      expect(result.map &:notes).to include("Let's go.", "Will be a fairly relaxed jog.")
     end
 
     it "filters posts by pace" do
@@ -309,6 +310,14 @@ shared_examples 'a database' do
       attendees = db.get_attendees(post.id)
       expect(attendees.count).to eq(1)
       expect(db.get_user(attendees[0]).first_name).to eq("RunnaLot")
+    end
+
+    it "checks if a user has committed to a specific post" do
+      post = @post_objs[0]
+      user = @user_objs[0]
+      result = db.has_committed(post.id, user.id)
+      expect(result.user_id).to eq(user.id)
+      expect(result.amount).to eq(20.30)
     end
 
   end
@@ -450,8 +459,8 @@ shared_examples 'a database' do
     it "filters out full circles" do
       full_circle = db.create_circle({name: "ATX Runners", admin_id: @user_objs[1].id, max_members: 3, latitude: 32, longitude: 44})
       db.add_users_to_circle(full_circle.id, [@user_objs[0].id, @user_objs[2].id])
-      result = db.circles_filter_full
-      expect(result.count).to eq(2)
+      result = db.circles_filter_full({user_lat: 32 , user_long: 44, radius: 1})
+      expect(result.count).to eq(1)
     end
   end
 
@@ -503,7 +512,7 @@ shared_examples 'a database' do
     @challenge = db.create_challenge({name: "Monday Funday", sender_id: @circle1.id, recipient_id: @circle2.id, creator_id: @circle1.admin_id, time: Time.now, latitude:22, longitude: 33, pace: 1, notes:"Doom!", min_amt:0, age_pref: 0, gender_pref: 0, circle_id: @circle1.id})
     end
 
-    it "creates a challenge with accepted set to default of false" do
+    xit "creates a challenge with accepted set to default of false" do
     expect(@challenge.name).to eq("Monday Funday")
     expect(db.get_post(@challenge.post_id).notes).to eq("Doom!")
     end
@@ -513,7 +522,7 @@ shared_examples 'a database' do
       expect(challenge.name).to eq("Monday Funday")
     end
 
-    it "updates a challenge" do
+    xit "updates a challenge" do
     # add time tests
       updated = db.update_challenge(@challenge.id, {name:"Go HAM", latitude: 33, longitude: 44})
       expect(updated.name).to eq("Go HAM")

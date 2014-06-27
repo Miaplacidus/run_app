@@ -280,8 +280,9 @@ module RunPal
         filtered_posts_objs = filtered_posts.map {|attrs| RunPal::Post.new(attrs)}
       end
 
-      def has_committed?(post_id, user_id)
-        @commits.detect{|attrs| attrs[:user_id] == user_id && attrs[:post_id] == post_id}
+      def has_committed(post_id, user_id)
+        commit_attrs = @commits.detect{|key, attrs| attrs[:user_id] == user_id && attrs[:post_id] == post_id}
+        commit_attrs ? RunPal::Commitment.new(commit_attrs[1]) : nil
       end
 
       def user_nearby?(attrs)

@@ -206,6 +206,11 @@ shared_examples 'a database' do
       expect(result.map &:notes).to include("Let's go.", "Will be a fairly relaxed jog.")
     end
 
+    it "checks if a user is nearby" do
+      result = db.user_nearby?({user_lat: 40, user_long: 51, post_lat: @post_objs[0].latitude, post_long: @post_objs[0].longitude})
+      expect(result).to eq(true)
+    end
+
   end
 
 
@@ -319,7 +324,6 @@ shared_examples 'a database' do
       expect(result.user_id).to eq(user.id)
       expect(result.amount).to eq(20.30)
     end
-
   end
 
 # COMMITMENT TESTS

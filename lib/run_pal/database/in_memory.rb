@@ -81,15 +81,9 @@ module RunPal
       end
 
       def circles_filter_location(user_lat, user_long, radius)
-        mi_to_km = 1.60934
-        earth_radius = 6371
-        radius *= mi_to_km
-
         filtered_circles = @circles.values.select{|attrs|
-          circle_lat = attrs[:latitude]
-          circle_long = attrs[:longitude]
-          distance = Math.acos(Math.sin(user_lat) * Math.sin(circle_lat) + Math.cos(user_lat) * Math.cos(circle_lat) * Math.cos(circle_long - user_long)) * earth_radius
-          distance <= radius
+          distance = Haversine.distance(user_lat, user_long, attrs[:latitude], attrs[:longitude])
+          distance.to_mi <= radius
         }
 
         filtered_circles_objs = filtered_circles.map {|attrs| RunPal::Circle.new(attrs)}
@@ -97,16 +91,9 @@ module RunPal
 
       def circles_filter_full(filters)
         # {user_lat, user_long, radius}
-        mi_to_km = 1.60934
-        earth_radius = 6371
-        filters[:radius] *= mi_to_km
-        filtered_posts = []
-
         loc_filtered_circles = @circles.values.select{|attrs|
-          circle_lat = attrs[:latitude]
-          circle_long = attrs[:longitude]
-          distance = Math.acos(Math.sin(filters[:user_lat]) * Math.sin(circle_lat) + Math.cos(filters[:user_lat]) * Math.cos(circle_lat) * Math.cos(circle_long - filters[:user_long])) * earth_radius
-          distance <= filters[:radius]
+          distance = Haversine.distance(filters[:user_lat], filters[:user_long], attrs[:latitude], attrs[:longitude])
+          distance.to_mi <= filters[:radius]
         }
 
         filtered_circles = loc_filtered_circles.select{|attrs| attrs[:member_ids].length < attrs[:max_members]}
@@ -249,15 +236,9 @@ module RunPal
       end
 
       def posts_filter_location(user_lat, user_long, radius)
-        mi_to_km = 1.60934
-        earth_radius = 6371
-        radius *= mi_to_km
-
         filtered_posts = @posts.values.select{|attrs|
-          post_lat = attrs[:latitude]
-          post_long = attrs[:longitude]
-          distance = Math.acos(Math.sin(user_lat) * Math.sin(post_lat) + Math.cos(user_lat) * Math.cos(post_lat) * Math.cos(post_long - user_long)) * earth_radius
-          distance <= radius
+          distance = Haversine.distance(user_lat, user_long, attrs[:latitude], attrs[:longitude])
+          distance.to_mi <= radius
         }
 
         filtered_posts_objs = filtered_posts.map {|attrs| RunPal::Post.new(attrs)}
@@ -265,16 +246,11 @@ module RunPal
 
       def posts_limit_loc_gender(filters)
         # filters = {user_lat, user_long, radius, gender_pref, user_gender}
-        mi_to_km = 1.60934
-        earth_radius = 6371
         filtered_posts = []
-        filters[:radius] *= mi_to_km
 
         loc_filtered_posts = @posts.values.select{|attrs|
-          post_lat = attrs[:latitude]
-          post_long = attrs[:longitude]
-          distance = Math.acos(Math.sin(filters[:user_lat]) * Math.sin(post_lat) + Math.cos(filters[:user_lat]) * Math.cos(post_lat) * Math.cos(post_long - filters[:user_long])) * earth_radius
-          distance <= filters[:radius]
+          distance = Haversine.distance(filters[:user_lat], filters[:user_long], attrs[:latitude], attrs[:longitude])
+          distance.to_mi <= filters[:radius]
         }
 
         if filters[:gender_pref] == 3

@@ -466,6 +466,11 @@ shared_examples 'a database' do
       result = db.circles_filter_full({user_lat: 32 , user_long: 44, radius: 1})
       expect(result.count).to eq(1)
     end
+
+    it "determines if a user is a member of a circle" do
+      result = db.is_member?(@user_objs[1].id, @circle1.id)
+      expect(result).to eq(true)
+    end
   end
 
 # WALLET TESTS

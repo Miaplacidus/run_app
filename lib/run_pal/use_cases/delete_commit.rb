@@ -3,20 +3,23 @@ module RunPal
 
     def run(inputs)
 
-      inputs[:commit_id] = inputs[:commit_id].to_i
+      inputs[:commit_id] = inputs[:commit_id] ? inputs[:commit_id].to_i : nil
+      inputs[:user_id] = inputs[:user_id] ? inputs[:user_id].to_i : nil
 
-      post = RunPal.db.get_post(inputs[:post_id])
-      return failure(:post_does_not_exist) if post.nil?
+      commit = RunPal.db.get_commit(inputs[:commit_id])
+      return failure(:commit_does_not_exist) if commit.nil?
+      return failure(:user_not_authorized) if commit.user_id != inputs[:user_id]
 
-      delete_post(inputs[:post_id])
-      deleted = RunPal.db.get_post(inputs[:post_id])
+      delete_commit(inputs)
+
+      deleted = RunPal.db.get_commit(commit.id)
       return failure(:failed_to_delete) if !deleted.nil?
 
-      success :post => post
+      success :commit => commit
     end
 
-    def delete_post(attrs)
-      RunPal.db.delete_post(attrs)
+    def delete_commit(attrs)
+      RunPal.db.delete_commit(attrs[:commit_id])
     end
 
   end

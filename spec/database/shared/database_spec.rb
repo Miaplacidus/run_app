@@ -535,7 +535,6 @@ shared_examples 'a database' do
     it "updates a challenge" do
     # add time tests
       updated = db.update_challenge(@challenge.id, {name:"Go HAM"})
-      puts updated
       expect(updated.name).to eq("Go HAM")
       sending_circle = db.get_circle(updated.sender_id)
       expect(sending_circle.name).to eq("MakerSquare")

@@ -3,19 +3,18 @@ module RunPal
 
     def run(inputs)
 
-      inputs[:id] = inputs[:id].to_i
-      inputs[:user_gender] = inputs[:user_gender].to_i
-      inputs[:post_id] = inputs[:post_id].to_i
-      inputs[:user_id] = inputs[:user_id].to_i
-      inputs[:amount] = inputs[:amount].to_f
+      inputs[:post_id] = inputs[:post_id] ? inputs[:post_id].to_i : nil
+      inputs[:user_id] = inputs[:user_id] ? inputs[:user_id].to_i : nil
+      inputs[:amount] = inputs[:amount] ? inputs[:amount].to_f : nil
 
       user = RunPal.db.get_user(inputs[:user_id])
       return failure (:user_does_not_exist) if user.nil?
 
-      post = RunPal.db.get_post(inputs[:id])
+      post = RunPal.db.get_post(inputs[:post_id])
       return failure (:post_does_not_exist) if !post
-      return failure (:gender_incorrect) if gender < 1 || gender > 2
-      return failure (:user_gender_disallowed) if inputs[:user_gender] != post.gender_pref && post.gender_pref != 0
+      return failure (:user_gender_disallowed) if user.gender != post.gender_pref && post.gender_pref != 0
+
+      return failure(:commit_amt_too_low) if inputs[:amount] < post.min_amt
 
       circle = post.circle_id
       if circle

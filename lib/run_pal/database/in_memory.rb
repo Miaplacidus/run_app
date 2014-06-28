@@ -142,6 +142,10 @@ module RunPal
         RunPal::Commitment.new(commit_attrs)
       end
 
+      def delete_commit(id)
+        @commits.delete(id)
+      end
+
       def create_join_req(attrs)
         id = @join_req_counter+=1
         attrs[:id] = id

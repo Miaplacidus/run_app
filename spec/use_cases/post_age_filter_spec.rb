@@ -12,12 +12,11 @@ describe RunPal::FilterPostsByAge do
     post2 = RunPal.db.create_post({creator_id: user.id, time: Time.now, latitude: 30.251, longitude:-97.751, pace: 1, notes:"Let's go.", complete:false, min_amt:5.50, age_pref: 1, gender_pref: 1})
     post3 = RunPal.db.create_post({creator_id: user.id, time: Time.now, latitude: 66, longitude: 77, pace: 3, notes:"Will be a fairly relaxed jog.", complete:true, min_amt:12.00, age_pref: 2, gender_pref: 2})
 
-    result = subject.run({radius: 4, user_lat: 66.0001, user_long: 77.0001, user_id: user.id, gender_pref: 3})
+    result = subject.run({radius: 3, user_lat: 66.0001, user_long: 77.0001, user_id: user.id, gender_pref: 3})
     expect(result.success?).to eq(true)
 
     expect(result.post_arr.length).to eq(1)
     expect(result.post_arr[0].notes).to eq("Will be a fairly relaxed jog.")
-
   end
 
 end

@@ -102,6 +102,12 @@ shared_examples 'a database' do
       expect(db.get_user(user.id)).to eq nil
     end
 
+    it "returns the user's age" do
+      user = @user_objs[2]
+      result = db.get_user_age(user.id)
+      expect(result).to eq(2)
+    end
+
   end
 
 # POST TESTS

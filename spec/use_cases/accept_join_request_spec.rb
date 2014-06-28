@@ -15,7 +15,6 @@ describe RunPal::AcceptJoinRequest do
     result = subject.run({user_id: user1.id, join_req_id: join_req.id})
     expect(result.success?).to eq(true)
     expect(result.circle.name).to eq("MakerSquare")
-    puts result.user
     expect(result.user.first_name).to eq("Asimov")
   end
 

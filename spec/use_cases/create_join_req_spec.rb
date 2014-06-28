@@ -7,8 +7,8 @@ describe RunPal::CreateJoinReq do
   end
 
   it 'creates a new join request for a circle' do
-    user1 = RunPal.db.create_user({username:"Isaac", gender: 2, email: "isaac@smarty.com"})
-    user2 = RunPal.db.create_user({username:"Newton", gender: 2, email: "karl@smarty.com"})
+    user1 = RunPal.db.create_user({first_name:"Isaac", gender: 2, email: "isaac@smarty.com"})
+    user2 = RunPal.db.create_user({first_name:"Newton", gender: 2, email: "karl@smarty.com"})
     circle1 = RunPal.db.create_circle({name: "MakerSquare", admin_id: user1.id, max_members: 30, latitude: 33.99, longitude: -9.34, description: "We teach code.", level: -1})
 
     result = subject.run({ user_id: user2.id, circle_id: circle1.id})

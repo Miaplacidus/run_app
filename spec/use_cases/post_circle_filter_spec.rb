@@ -7,8 +7,8 @@ describe RunPal::FilterPostsByCircle do
   end
 
   it 'filters posts by circle' do
-    user1 = RunPal.db.create_user({username:"Isaac Asimov", gender: 2, email: "write@smarty.com", bday: "02/08/1987"})
-    user2 = RunPal.db.create_user({username:"Sophie Wise", gender: 1, email: "wise@mountain.com", bday: "03/14/1989"})
+    user1 = RunPal.db.create_user({first_name:"Isaac Asimov", gender: 2, email: "write@smarty.com", bday: "02/08/1987"})
+    user2 = RunPal.db.create_user({first_name:"Sophie Wise", gender: 1, email: "wise@mountain.com", bday: "03/14/1989"})
     circle1 = RunPal.db.create_circle({name: "MakerSquare", admin_id: user1.id, max_members: 30, latitude: 33.99, longitude: -9.34, description: "We teach code.", level: -1})
 
     post1 = RunPal.db.create_post({latitude: 30.25, longitude: -97.75, creator_id: user1.id, max_runners: 10, time: Time.now, pace: 3, notes: "Fun!", min_amt: 12.50, age_pref: 2, gender_pref: 0})

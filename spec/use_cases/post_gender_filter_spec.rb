@@ -7,8 +7,8 @@ describe RunPal::FilterPostsByGender do
   end
 
   it 'filters posts by gender' do
-    user1 = RunPal.db.create_user({username:"Isaac Asimov", gender: 2, email: "write@smarty.com", bday: "02/08/1987"})
-    user2 = RunPal.db.create_user({username:"Sophie Wise", gender: 1, email: "wise@mountain.com", bday: "03/14/1989"})
+    user1 = RunPal.db.create_user({first_name:"Isaac Asimov", gender: 2, email: "write@smarty.com", bday: "02/08/1987"})
+    user2 = RunPal.db.create_user({first_name:"Sophie Wise", gender: 1, email: "wise@mountain.com", bday: "03/14/1989"})
 
     post1 = RunPal.db.create_post({latitude: 30.25, longitude: -97.75, creator_id: user1.id, max_runners: 10, time: Time.now, pace: 3, notes: "Fun!", min_amt: 12.50, age_pref: 2, gender_pref: 0})
     post2 = RunPal.db.create_post({creator_id: user1.id, time: Time.now, latitude: 30.251, longitude:-97.751, pace: 1, notes:"Let's go.", complete:false, min_amt:5.50, age_pref: 1, gender_pref: 1})

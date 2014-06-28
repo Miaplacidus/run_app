@@ -350,6 +350,35 @@ module RunPal
         user
       end
 
+      def get_user_age(id)
+        user = @users[id]
+        bday = user[:bday]
+        bday = bday.split('/')
+        bday = DateTime.new(bday[2].to_i, bday[0].to_i, bday[1].to_i)
+        age = (DateTime.now - bday) / 365.25
+
+        case age
+          when 18..23
+            return 1
+          when 23..30
+            return 2
+          when 30..40
+            return 3
+          when 40..50
+            return 4
+          when 50..60
+            return 5
+          when 60..70
+            return 6
+          when 70..80
+            return 7
+          when 80..110
+            return 8
+          else
+            return nil
+        end
+      end
+
       def create_wallet(attrs)
         id = @wallet_id_counter+=1
         attrs[:id] = id

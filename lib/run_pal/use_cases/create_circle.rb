@@ -2,7 +2,7 @@ module RunPal
   class CreateCircle < UseCase
 
     def run(inputs)
-      inputs[:admin_id] = inputs[:admin_id].to_i
+      inputs[:admin_id] = inputs[:user_id] ? inputs[:user_id].to_i : nil
 
       user = RunPal.db.get_user(inputs[:admin_id])
       return failure (:user_does_not_exist) if user.nil?

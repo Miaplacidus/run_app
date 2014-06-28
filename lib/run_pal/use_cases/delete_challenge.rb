@@ -2,13 +2,14 @@ module RunPal
   class DeleteChallenge < UseCase
 
     def run(inputs)
-      inputs[:challenge_id] = inputs[:challenge_id].to_i
+      inputs[:challenge_id] = inputs[:challenge_id] ? inputs[:challenge_id].to_i : nil
+      inputs[:user_id] = inputs[:user_id] ? inputs[:user_id].to_i : nil
 
-      challenge = RunPal.db.get_challenge(inputs[:id])
+      challenge = RunPal.db.get_challenge(inputs[:challenge_id])
       return failure(:challenge_does_not_exist) if challenge.nil?
 
-      circle = RunPal.db.get_circle(inputs[:circle_id])
-      return failure(:circle_does_not_exist) if !to_delete.nil?
+      circle = RunPal.db.get_circle(challenge.sender_id)
+      return failure(:circle_does_not_exist) if circle.nil?
 
       return failure (:user_not_authorized) if inputs[:user_id] != circle.admin_id
 
@@ -21,7 +22,7 @@ module RunPal
     end
 
     def delete_challenge(attrs)
-      RunPal.db.delete_challenge(attrs[:id])
+      RunPal.db.delete_challenge(attrs[:challenge_id])
     end
 
   end

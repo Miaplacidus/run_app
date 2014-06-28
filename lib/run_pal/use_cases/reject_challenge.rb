@@ -16,7 +16,7 @@ module RunPal
       return failure(:user_not_authorized) if inputs[:user_id] != circle.admin_id
       return failure(:user_not_recipient) if challenge.recipient_id != circle.id
 
-      chellenge = reject_challenge(inputs)
+      challenge = reject_challenge(inputs)
       return failure(:failed_to_reject) if challenge.state != 'rejected'
 
       success :challenge => challenge

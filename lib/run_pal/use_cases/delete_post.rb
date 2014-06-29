@@ -10,7 +10,7 @@ module RunPal
       return failure(:post_does_not_exist) if post.nil?
       return failure(:user_not_authorized) if inputs[:user_id] != post.creator_id
 
-      delete_post(inputs[:post_id])
+      delete_post(inputs)
       deleted = RunPal.db.get_post(inputs[:post_id])
       return failure(:failed_to_delete) if !deleted.nil?
 
@@ -18,7 +18,7 @@ module RunPal
     end
 
     def delete_post(attrs)
-      RunPal.db.delete_post(attrs)
+      RunPal.db.delete_post(attrs[:post_id])
     end
 
   end

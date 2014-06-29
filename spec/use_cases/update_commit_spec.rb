@@ -14,7 +14,7 @@ describe RunPal::UpdateCommit do
     result = subject.run({commit_id: commit.id, user_id: user.id, amount: 17.31})
     expect(result.success?).to eq(true)
     expect(result.commit.post_id).to eq(post.id)
-    expect(result.amount).to eq(17.31)
+    expect(result.commit.amount).to eq(17.31)
   end
 
 end

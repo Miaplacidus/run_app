@@ -25,11 +25,12 @@ module RunPal
     end
 
     def create_new_post(attrs)
-      # attrs.delete_if do |name, value|
-          # setter = "#{name}"
-          # !RunPal::Post.method_defined?(setter)
-        # end
-      RunPal.db.create_post(attrs)
+      format_attrs = attrs.clone
+      format_attrs.delete_if do |name, value|
+          setter = "#{name}"
+          !RunPal::Post.method_defined?(setter)
+      end
+      RunPal.db.create_post(format_attrs)
     end
 
   end

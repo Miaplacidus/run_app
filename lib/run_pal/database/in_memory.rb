@@ -397,6 +397,14 @@ module RunPal
         end
       end
 
+      def calculate_user_level(user_id)
+
+      end
+
+      def calculate_user_rating(user_id)
+
+      end
+
       def create_wallet(attrs)
         id = @wallet_id_counter+=1
         attrs[:id] = id

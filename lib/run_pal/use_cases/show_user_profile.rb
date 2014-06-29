@@ -12,7 +12,7 @@ module RunPal
     end
 
     def get_user_profile(attrs)
-      RunPal.db.get_user(attrs[:id])
+      RunPal.db.get_user(attrs[:user_id])
     end
 
   end

@@ -23,6 +23,13 @@ module RunPal
     end
 
     def create_new_challenge(attrs)
+      format_attrs = attrs.clone
+
+      format_attrs.delete_if do |name, value|
+          setter = "#{name}"
+          !RunPal::Challenge.method_defined?(setter)
+      end
+
       RunPal.db.create_challenge(attrs)
     end
 

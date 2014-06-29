@@ -192,6 +192,17 @@ module RunPal
         attrs[:id] = id
         attrs[:notes] ||= ""
         attrs[:circle_id] ||= nil
+        commit_attrs = attrs.clone
+
+        commit_attrs.delete_if do |name, value|
+          setter = "#{name}"
+          !RunPal::Commitment.method_defined?(setter)
+        end
+
+        commit_attrs[:post_id] = id
+        commit_attrs[:user_id] = attrs[:creator_id]
+        commit_attrs[:amount] = 0
+        create_commit(commit_attrs)
 
         @posts[id] = attrs
         RunPal::Post.new(attrs)

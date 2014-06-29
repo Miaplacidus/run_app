@@ -303,16 +303,16 @@ shared_examples 'a database' do
         @post_objs << db.create_post(attrs)
       end
 
-      @commit1 = db.create_commit({user_id: @user_objs[0].id, post_id: @post_objs[0].id, amount: 20.30})
-      @commit2 = db.create_commit({user_id: @user_objs[1].id, post_id: @post_objs[0].id, amount: 15.00})
+      @commit1 = db.create_commit({user_id: @user_objs[1].id, post_id: @post_objs[0].id, amount: 20.30})
+      @commit2 = db.create_commit({user_id: @user_objs[2].id, post_id: @post_objs[0].id, amount: 15.00})
     end
 
     it "gets all people committed to a run" do
       post = @post_objs[0]
       committers = db.get_committed_users(post.id)
-      expect(committers.count).to eq(2)
-      committer_arr = [db.get_user(committers[0]), db.get_user(committers[1])]
-      expect(committer_arr.map &:first_name).to include("RunnaLot", "FastFeet")
+      expect(committers.count).to eq(3)
+      committer_arr = [db.get_user(committers[0]), db.get_user(committers[1]), db.get_user(committers[2])]
+      expect(committer_arr.map &:first_name).to include("RunnaLot", "FastFeet", "JonJones")
     end
 
     it "gets all people who attended a run" do
@@ -320,12 +320,12 @@ shared_examples 'a database' do
       db.update_commit(@commit2.id, {fulfilled: true})
       attendees = db.get_attendees(post.id)
       expect(attendees.count).to eq(1)
-      expect(db.get_user(attendees[0]).first_name).to eq("RunnaLot")
+      expect(db.get_user(attendees[0]).first_name).to eq("JonJones")
     end
 
     it "checks if a user has committed to a specific post" do
       post = @post_objs[0]
-      user = @user_objs[0]
+      user = @user_objs[1]
       result = db.has_committed(post.id, user.id)
       expect(result.user_id).to eq(user.id)
       expect(result.amount).to eq(20.30)
@@ -354,32 +354,33 @@ shared_examples 'a database' do
         @post_objs << db.create_post(info)
       end
 
-      @commit1 = db.create_commit({user_id: @user_objs[0].id, post_id: @post_objs[0].id, amount: 3})
-      @commit2 = db.create_commit({user_id: @user_objs[1].id, post_id: @post_objs[1].id, amount: 5})
     end
 
     it "creates a commitment with fulfilled set to false" do
-      expect(db.get_user(@commit1.user_id).first_name).to eq("FastFeet")
-      expect(db.get_post(@commit1.post_id).pace).to eq(2)
-      expect(@commit1.fulfilled).to eq(false)
+      commit = db.create_commit({user_id: @user_objs[0].id, post_id: @post_objs[1].id, amount: 3})
+      expect(db.get_user(commit.user_id).first_name).to eq("FastFeet")
+      expect(db.get_post(commit.post_id).pace).to eq(1)
+      expect(commit.fulfilled).to eq(false)
     end
 
     it "gets a commitment" do
-      commit = db.get_commit(@commit1.id)
+      commit = db.create_commit({user_id: @user_objs[0].id, post_id: @post_objs[1].id, amount: 3})
+      retrieved_commit = db.get_commit(commit.id)
       expect(commit.amount).to eq(3)
     end
 
     it "gets commitments by user_id" do
-      commits_arr = db.get_commits_by_user(@user_objs[1].id)
-      expect(commits_arr.count).to eq(1)
-      expect(commits_arr[0].fulfilled).to eq(false)
-      expect(commits_arr[0].amount).to eq(5)
+      commit = db.create_commit({user_id: @user_objs[0].id, post_id: @post_objs[1].id, amount: 3})
+      commits_arr = db.get_commits_by_user(@user_objs[0].id)
+      expect(commits_arr.count).to eq(2)
+      expect(commits_arr.map &:amount).to include(0, 3)
     end
 
     it "updates a commitment" do
-      commit = db.update_commit(@commit1.id, {amount: 10, fulfilled: true})
-      expect(commit.amount).to eq(10)
-      expect(commit.fulfilled).to eq(true)
+      commit = db.create_commit({user_id: @user_objs[0].id, post_id: @post_objs[1].id, amount: 3})
+      updated = db.update_commit(commit.id, {amount: 10, fulfilled: true})
+      expect(updated.amount).to eq(10)
+      expect(updated.fulfilled).to eq(true)
     end
   end
 

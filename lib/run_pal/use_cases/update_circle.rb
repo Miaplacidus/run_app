@@ -2,12 +2,12 @@ module RunPal
   class UpdateCircle < UseCase
 
     def run(inputs)
-      inputs[:circle_id] = inputs[:circle_id].to_i
-      inputs[:user_id] = inputs[:user_id].to_i
-      inputs[:latitude] = inputs[:latitude].to_f
-      inputs[:longitude] = inputs[:longitude].to_f
-      inputs[:max_members] = inputs[:max_members].to_i
-      inputs[:level] = inputs[:level].to_i
+      inputs[:circle_id] = inputs[:circle_id] ? inputs[:circle_id].to_i : nil
+      inputs[:user_id] = inputs[:user_id] ? inputs[:user_id].to_i : nil
+      inputs[:latitude] = inputs[:latitude] ? inputs[:latitude].to_f : nil
+      inputs[:longitude] = inputs[:longitude] ? inputs[:longitude].to_f : nil
+      inputs[:max_members] = inputs[:max_members] ? inputs[:max_members].to_i : nil
+      inputs[:level] = inputs[:level] ? inputs[:level].to_i : nil
 
       circle = RunPal.db.get_circle(inputs[:circle_id])
       return failure (:circle_does_not_exist) if circle.nil?
@@ -19,9 +19,13 @@ module RunPal
 
     def update_circle(attrs)
       format_attrs = attrs.clone
-      format_attrs.delete(:circle_id)
-      format_attrs.delete(:user_id)
-      RunPal.db.update_circle(attrs[:circle_id], attrs_sans_circleid)
+
+      format_attrs.delete_if do |name, value|
+          setter = "#{name}"
+          !RunPal::Circle.method_defined?(setter)
+      end
+
+      RunPal.db.update_circle(attrs[:circle_id], format_attrs)
     end
 
   end

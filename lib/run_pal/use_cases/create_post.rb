@@ -13,9 +13,6 @@ module RunPal
       inputs[:max_runners] = inputs[:max_runners] ? inputs[:max_runners].to_i : nil
       inputs[:min_amt] = inputs[:min_amt] ? inputs[:min_amt].to_f : nil
 
-      # Commit-related attrs
-      inputs
-
       user = RunPal.db.get_user(inputs[:creator_id])
       return failure (:user_does_not_exist) if user.nil?
       return failure (:gender_incorrect) if user.gender < 1 || user.gender > 2

@@ -16,7 +16,14 @@ module RunPal
     end
 
     def update_challenge(attrs)
-      RunPal.db.update_challenge(attrs[:challenge_id], attrs)
+      format_attrs = attrs.clone
+
+      format_attrs.delete_if do |name, value|
+          setter = "#{name}"
+          !RunPal::Circle.method_defined?(setter)
+      end
+
+      RunPal.db.update_challenge(attrs[:challenge_id], format_attrs)
     end
 
   end

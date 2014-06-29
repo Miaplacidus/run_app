@@ -3,9 +3,9 @@ module RunPal
 
     def run(inputs)
 
-      inputs[:user_id] = inputs[:user_id].to_i
-      inputs[:amount] = inputs[:amount].to_f
-      inputs[:commit_id] = inputs[:commit_id].to_i
+      inputs[:user_id] = inputs[:user_id] ? inputs[:user_id].to_i : nil
+      inputs[:amount] = inputs[:amount] ? inputs[:amount].to_f : nil
+      inputs[:commit_id] = inputs[:commit_id] ? inputs[:commit_id].to_i : nil
 
       commit = RunPal.db.get_commit(inputs[:commit_id])
       return failure (:commitment_does_not_exist) if commit.nil?
@@ -17,7 +17,7 @@ module RunPal
       end
 
       updated_commit = update_commitment(inputs)
-      success :commit => updated_commitment
+      success :commit => updated_commit
     end
 
     def update_commitment(attrs)

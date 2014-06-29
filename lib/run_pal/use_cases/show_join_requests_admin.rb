@@ -3,8 +3,8 @@ module RunPal
 
     def run(inputs)
 
-      inputs[:user_id] = inputs[:user_id].to_i
-      inputs[:circle_id] = inputs[:circle_id].to_i
+      inputs[:user_id] = inputs[:user_id] ? inputs[:user_id].to_i : nil
+      inputs[:circle_id] = inputs[:circle_id] ? inputs[:circle_id].to_i : nil
 
       user = RunPal.db.get_user(inputs[:user_id])
       return failure(:user_does_not_exist) if user.nil?
@@ -22,7 +22,7 @@ module RunPal
     end
 
     def get_join_requests_admin(attrs)
-      RunPal.db.get_user_join_req(attrs[:circle_id])
+      RunPal.db.get_circle_join_req(attrs[:circle_id])
     end
 
   end

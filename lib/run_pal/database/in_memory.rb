@@ -76,6 +76,11 @@ module RunPal
         name_hash
       end
 
+      def get_admin_user_circles(user_id)
+        admin_circles = @circles.values.select{|attrs| attrs[:admin_id] == user_id}
+        admin_circle_objs = admin_circles.map{|attrs| RunPal::Circle.new(attrs)}
+      end
+
       def all_circles
         @circles.values.map {|attrs| RunPal::Circle.new(attrs)}
       end
@@ -164,7 +169,8 @@ module RunPal
       end
 
       def get_circle_join_req(circle_id)
-        @join_reqs.values.select{|attrs| attrs[:circle_id] == circle_id}
+        req_attrs = @join_reqs.values.select{|attrs| attrs[:circle_id] == circle_id }
+        req_objs = req_attrs.map{|attrs| RunPal::JoinRequest.new(attrs)}
       end
 
       def all_join_reqs

@@ -12,7 +12,7 @@ module RunPal
       return failure(:cannot_view_opposite_gender_posts) if user.gender != post.gender_pref && post.gender_pref != 0
 
       user_objs = []
-      runner = RunPal.db.has_committed?(post.id, user.id)
+      runner = RunPal.db.has_committed(post.id, user.id)
 
       if runner
         committed_user_ids = RunPal.db.get_committed_users(post.id)

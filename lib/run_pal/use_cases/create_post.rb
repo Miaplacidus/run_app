@@ -3,7 +3,8 @@ module RunPal
 
     def run(inputs)
 
-      inputs[:creator_id] = inputs[:creator_id] ? inputs[:creator_id].to_i : nil
+      # Post-related attrs
+      inputs[:creator_id] = inputs[:user_id] ? inputs[:user_id].to_i : nil
       inputs[:pace] = inputs[:pace] ? inputs[:pace].to_i : nil
       # inputs[:time] = inputs[:time].to a datetime object
       inputs[:min_distance] = inputs[:min_distance] ? inputs[:min_distance].to_i : nil
@@ -11,6 +12,9 @@ module RunPal
       inputs[:gender_pref] = inputs[:gender_pref] ? inputs[:gender_pref].to_i : nil
       inputs[:max_runners] = inputs[:max_runners] ? inputs[:max_runners].to_i : nil
       inputs[:min_amt] = inputs[:min_amt] ? inputs[:min_amt].to_f : nil
+
+      # Commit-related attrs
+      inputs
 
       user = RunPal.db.get_user(inputs[:creator_id])
       return failure (:user_does_not_exist) if user.nil?

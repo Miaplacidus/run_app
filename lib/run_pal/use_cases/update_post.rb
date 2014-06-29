@@ -5,13 +5,15 @@ module RunPal
 
       inputs[:user_id] = inputs[:user_id].to_i
       inputs[:pace] = inputs[:pace].to_i
-      inputs[:post] = inputs[:post_id].to_i
+      inputs[:post_id] = inputs[:post_id].to_i
       # inputs[:time] = inputs[:time].to a datetime object
       inputs[:min_distance] = inputs[:min_distance].to_i
       inputs[:age_pref] = inputs[:age_pref].to_i
       inputs[:gender_pref] = inputs[:gender_pref].to_i
       inputs[:max_runners] = inputs[:max_runners].to_i
       inputs[:min_amt] = inputs[:min_amt].to_f
+      inputs[:latitude] = inputs[:latitude] ? inputs[:latitude].to_f : nil
+      inputs[:longitude] = inputs[:longitude] ? inputs[:longitude].to_f : nil
 
       user = RunPal.db.get_user(inputs[:creator_id])
       post = RunPal.db.get_post(inputs[:post_id])

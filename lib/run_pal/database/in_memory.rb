@@ -159,7 +159,8 @@ module RunPal
       end
 
       def get_user_join_req(user_id)
-        @join_reqs.values.select{|attrs| attrs[:user_id] == user_id}
+        req_attrs = @join_reqs.values.select{|attrs| attrs[:user_id] == user_id}
+        req_objs = req_attrs.map{|attrs| RunPal::JoinRequest.new(attrs)}
       end
 
       def get_circle_join_req(circle_id)

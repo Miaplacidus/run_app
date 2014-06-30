@@ -9,7 +9,7 @@ module RunPal
     end
 
     def log_in(auth)
-      RunPal.db.create_from_omniauth(auth)
+      RunPal.db.from_omniauth(auth)
     end
 
 

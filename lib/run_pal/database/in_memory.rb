@@ -398,7 +398,13 @@ module RunPal
       end
 
       def calculate_user_level(user_id)
-
+        attended = @commits.values.select {|attrs| attrs[:user_id] == user_id && attrs[:fulfilled] == true}
+        return nil if attended.empty?
+        att_posts = attended.map {|attrs| @posts[attrs[:post_id]]}
+        pace_arr = att_posts.map{|attrs| attrs[:pace]}
+        sum = pace_arr.inject{|memo, n| memo + n }
+        average = sum/attended.length
+        average.round
       end
 
       def calculate_user_rating(user_id)

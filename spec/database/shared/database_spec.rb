@@ -330,6 +330,17 @@ shared_examples 'a database' do
       expect(result.user_id).to eq(user.id)
       expect(result.amount).to eq(20.30)
     end
+
+    it "calcutes a user's level" do
+      commit3 = db.create_commit({user_id: @user_objs[1].id, post_id: @post_objs[2].id, amount: 20.30})
+      commit4 = db.create_commit({user_id: @user_objs[1].id, post_id: @post_objs[3].id, amount: 20.30})
+      db.update_commit(@commit1.id, {fulfilled: true})
+      db.update_commit(@commit2.id, {fulfilled: true})
+      db.update_commit(commit3.id, {fulfilled: true})
+      db.update_commit(commit4.id, {fulfilled: true})
+      result = db.calculate_user_level(@user_objs[1].id)
+      expect(result).to eq(3)
+    end
   end
 
 # COMMITMENT TESTS

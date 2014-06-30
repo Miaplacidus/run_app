@@ -15,6 +15,8 @@ module RunPal
   def self.db
     @db_class ||= Database::InMemory
     @__db_instance ||= @db_class.new(@env || 'test')
+    # config = YAML.load_file File.join(File.dirname(__FILE__), "../db/config.yml")
+    # @__db__ ||= RunPal::Database::ORM.new(config[ENV['DB_ENV']])
   end
 
   def self.db_class=(db_class)

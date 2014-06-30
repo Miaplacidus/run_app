@@ -408,7 +408,18 @@ module RunPal
       end
 
       def calculate_user_rating(user_id)
+        attended = @commits.values.select{|attrs| attrs[:user_id] == user_id && attrs[:fulfilled] == true}
+        return nil if attended.empty?
+        num_past_posts = 0
+        @commits.values.each do |attrs|
+          post = @posts[attrs[:post_id]]
+          if attrs[:user_id] == user_id && post[:time] < Time.now
+            num_past_posts += 1
+          end
+        end
 
+        rating = attended/num_past_posts*100
+        rating = rating.round
       end
 
       def create_wallet(attrs)

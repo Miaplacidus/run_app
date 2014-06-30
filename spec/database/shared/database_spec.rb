@@ -341,6 +341,10 @@ shared_examples 'a database' do
       result = db.calculate_user_level(@user_objs[1].id)
       expect(result).to eq(3)
     end
+
+    it "calcutes a user's rating" do
+
+    end
   end
 
 # COMMITMENT TESTS

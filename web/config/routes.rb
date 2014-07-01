@@ -1,4 +1,32 @@
 Rails.application.routes.draw do
+  get 'wallets/index'
+
+  get 'wallets/show'
+
+  get 'wallets/new'
+
+  get 'wallets/create'
+
+  get 'wallets/edit'
+
+  get 'wallets/delete'
+
+  get 'wallets/destroy'
+
+  get 'users/index'
+
+  get 'users/show'
+
+  get 'users/new'
+
+  get 'users/create'
+
+  get 'users/edit'
+
+  get 'users/delete'
+
+  get 'users/destroy'
+
   get 'posts/index'
 
   get 'posts/show'

@@ -1,4 +1,60 @@
 Rails.application.routes.draw do
+  get 'posts/index'
+
+  get 'posts/show'
+
+  get 'posts/new'
+
+  get 'posts/create'
+
+  get 'posts/edit'
+
+  get 'posts/delete'
+
+  get 'posts/destroy'
+
+  get 'join_requests/index'
+
+  get 'join_requests/show'
+
+  get 'join_requests/new'
+
+  get 'join_requests/create'
+
+  get 'join_requests/edit'
+
+  get 'join_requests/delete'
+
+  get 'join_requests/destroy'
+
+  get 'commitments/index'
+
+  get 'commitments/show'
+
+  get 'commitments/new'
+
+  get 'commitments/create'
+
+  get 'commitments/edit'
+
+  get 'commitments/delete'
+
+  get 'commitments/destroy'
+
+  get 'challenges/index'
+
+  get 'challenges/show'
+
+  get 'challenges/new'
+
+  get 'challenges/create'
+
+  get 'challenges/edit'
+
+  get 'challenges/delete'
+
+  get 'challenges/destroy'
+
   get 'circles/index'
 
   get 'circles/show'

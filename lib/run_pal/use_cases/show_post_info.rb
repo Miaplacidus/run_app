@@ -1,8 +1,8 @@
 module RunPal
   class ShowPost < UseCase
     def run(inputs)
-      inputs[:user_id] = inputs[:user_id].to_i
-      inputs[:post_id] = inputs[:post_id].to_i
+      inputs[:user_id] = inputs[:user_id] ? inputs[:user_id].to_i : nil
+      inputs[:post_id] = inputs[:user_id] ? inputs[:post_id].to_i : nil
 
       user = RunPal.db.get_user(inputs[:user_id])
       return failure(:user_does_not_exist) if user.nil?

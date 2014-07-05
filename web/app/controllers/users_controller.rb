@@ -7,6 +7,7 @@ class UsersController < ApplicationController
   end
 
   def dashboard
+
     # access to user picture, wallet, next runs, previous runs,
     # weather, calendar, runs compiled in graph form, helpful
     # running videos, their circles, social media sharing, tweets

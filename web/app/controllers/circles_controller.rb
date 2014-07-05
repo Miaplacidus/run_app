@@ -1,5 +1,6 @@
 class CirclesController < ApplicationController
   def index
+    @subjects = "wheeeeeee"
   end
 
   def show

@@ -1,101 +1,17 @@
 Rails.application.routes.draw do
-  get 'wallets/index'
 
-  get 'wallets/show'
+  root :to => 'users#index'
+  match 'auth/:provider/callback', to: 'sessions#dashboard', via: [:get, :post]
+  match 'auth/failure', to: redirect('/'), via: [:get, :post]
 
-  get 'wallets/new'
+  resources :challenges
+  resources :circles
+  resources :commitments
+  resources :join_requests
+  resources :posts
+  resources :users
+  resources :wallets
 
-  get 'wallets/create'
-
-  get 'wallets/edit'
-
-  get 'wallets/delete'
-
-  get 'wallets/destroy'
-
-  get 'users/index'
-
-  get 'users/show'
-
-  get 'users/new'
-
-  get 'users/create'
-
-  get 'users/edit'
-
-  get 'users/delete'
-
-  get 'users/destroy'
-
-  get 'posts/index'
-
-  get 'posts/show'
-
-  get 'posts/new'
-
-  get 'posts/create'
-
-  get 'posts/edit'
-
-  get 'posts/delete'
-
-  get 'posts/destroy'
-
-  get 'join_requests/index'
-
-  get 'join_requests/show'
-
-  get 'join_requests/new'
-
-  get 'join_requests/create'
-
-  get 'join_requests/edit'
-
-  get 'join_requests/delete'
-
-  get 'join_requests/destroy'
-
-  get 'commitments/index'
-
-  get 'commitments/show'
-
-  get 'commitments/new'
-
-  get 'commitments/create'
-
-  get 'commitments/edit'
-
-  get 'commitments/delete'
-
-  get 'commitments/destroy'
-
-  get 'challenges/index'
-
-  get 'challenges/show'
-
-  get 'challenges/new'
-
-  get 'challenges/create'
-
-  get 'challenges/edit'
-
-  get 'challenges/delete'
-
-  get 'challenges/destroy'
-
-  get 'circles/index'
-
-  get 'circles/show'
-
-  get 'circles/new'
-
-  get 'circles/create'
-
-  get 'circles/edit'
-
-  get 'circles/delete'
-
-  get 'circles/destroy'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
-  root :to => 'users#index'
+  root :to => 'users#dashboard'
+
   match 'auth/:provider/callback', to: 'sessions#attempt_login', via: [:get, :post]
   match 'auth/failure', to: redirect('/'), via: [:get, :post]
 

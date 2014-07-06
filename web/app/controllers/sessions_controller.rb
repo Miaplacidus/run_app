@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
 
   def login
-
+    # Display login form
   end
 
   def attempt_login
@@ -9,12 +9,19 @@ class SessionsController < ApplicationController
     puts env["omniauth.auth"]
     if result.success?
       session[:user_id] = result.user.id
-      session[:user_name] = result.user.first_name
+      session[:username] = result.user.first_name
       flash[:notice] = "Logged in!"
       redirect_to(:controller => 'users', :action => 'dashboard')
     else
       flash[:notice] = result.error
       redirect_to root_path
     end
+  end
+
+  def logout
+    session[:user_id] = nil
+    session[:username] = nil
+    flash[:notice] = "Logged out"
+    redirect_to root_path
   end
 end

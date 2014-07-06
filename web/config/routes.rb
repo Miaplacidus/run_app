@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   match 'auth/failure', to: redirect('/'), via: [:get, :post]
 
   match 'users/dashboard', to: 'users#dashboard', :via => :get
+  match 'sessions/logout', to: 'sessions#logout', :via => :get
 
   resources :challenges
   resources :circles

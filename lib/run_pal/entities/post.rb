@@ -2,10 +2,10 @@ module RunPal
   class Post < Entity
     attr_accessor :id, :creator_id, :time, :pace, :notes, :min_amt, :min_distance
     attr_accessor :age_pref, :gender_pref, :circle_id, :max_runners
-    attr_accessor :latitude, :longitude
+    attr_accessor :address, :latitude, :longitude
 
     # when instantiated, commitment of creator automatically generated
-    validates_presence_of :creator_id, :time, :pace, :min_amt, :latitude, :longitude
+    validates_presence_of :creator_id, :time, :pace, :min_amt, :address, :latitude, :longitude
     validates_presence_of :age_pref, :gender_pref, :max_runners, :min_distance
 
     def initialize(attrs={})

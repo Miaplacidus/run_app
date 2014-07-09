@@ -8,31 +8,21 @@ class UsersController < ApplicationController
   end
 
   def dashboard
-    # require_logged_in
     result = RunPal::GetUser.run({user_id: session[:user_id]})
     @user = result.user
     # access to user picture, wallet, next runs, previous runs,
     # weather, calendar, runs compiled in graph form, helpful
     # running videos, their circles, social media sharing, tweets
     # with the hashtag runningbuddy
+
     # render session
   end
 
-  def show
-  end
-
-  # def new
-  # end
-
-  # def create
-  # end
-
-  # def edit
-  # end
-
   def delete
+    # TODO: Display delete account form
   end
 
   def destroy
+    # TODO: Add method and use case for destroying user accounts
   end
 end

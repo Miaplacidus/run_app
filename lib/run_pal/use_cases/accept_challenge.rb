@@ -3,8 +3,8 @@ module RunPal
 
     def run(inputs)
 
-      inputs[:user_id] = inputs[:user_id].to_i
-      inputs[:challenge_id] = inputs[:challenge_id].to_i
+      inputs[:user_id] = inputs[:user_id] ? inputs[:user_id].to_i : nil
+      inputs[:challenge_id] = inputs[:challenge_id] ? inputs[:challenge_id].to_i : nil
 
       challenge = RunPal.db.get_challenge(inputs[:challenge_id])
       return failure(:challenge_does_not_exist) if challenge.nil?

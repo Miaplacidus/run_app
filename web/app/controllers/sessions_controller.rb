@@ -1,9 +1,5 @@
 class SessionsController < ApplicationController
 
-  def login
-    # Display login form
-  end
-
   def attempt_login
     result = RunPal::LogIn.run({auth: env["omniauth.auth"]})
     puts env["omniauth.auth"]

@@ -1,4 +1,6 @@
 class JoinRequestsController < ApplicationController
+  :require_logged_in
+
   def index
   end
 

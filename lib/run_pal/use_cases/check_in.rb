@@ -5,10 +5,10 @@ module RunPal
 
     def run(inputs)
 
-      inputs[:user_id] = inputs[:user_id].to_i
-      inputs[:user_lat] = inputs[:user_lat].to_f
-      inputs[:user_long] = inputs[:user_long].to_f
-      inputs[:commit_id] = inputs[:commit_id].to_i
+      inputs[:user_id] = inputs[:user_id] ? inputs[:user_id].to_i : nil
+      inputs[:user_lat] = inputs[:user_lat] ? inputs[:user_lat].to_f : nil
+      inputs[:user_long] = inputs[:user_long] ? inputs[:user_long].to_f : nil
+      inputs[:commit_id] = inputs[:commit_id] ? inputs[:commit_id].to_i : nil
 
       user = RunPal.db.get_user(inputs[:user_id])
       return failure(:user_does_not_exist) if user.nil?

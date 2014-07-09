@@ -5,8 +5,12 @@ Rails.application.routes.draw do
   match 'auth/:provider/callback', to: 'sessions#attempt_login', via: [:get, :post]
   match 'auth/failure', to: redirect('/'), via: [:get, :post]
 
-  match 'users/dashboard', to: 'users#dashboard', :via => :get
+
   match 'sessions/logout', to: 'sessions#logout', :via => :get
+
+  match 'users/dashboard', to: 'users#dashboard', :via => :get
+
+  match 'posts/display', to: 'posts/display', :via => :get
 
   resources :challenges
   resources :circles

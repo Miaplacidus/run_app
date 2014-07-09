@@ -14,6 +14,7 @@ gem 'dotenv-rails'
 gem 'dotenv-deployment'
 gem 'haversine'
 gem 'bootstrap-glyphicons'
+gem "font-awesome-rails"
 
 # Testing
 gem 'rspec', '~> 2.14.1'

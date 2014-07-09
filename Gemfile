@@ -13,6 +13,7 @@ gem 'omniauth-facebook', '1.4.0'
 gem 'dotenv-rails'
 gem 'dotenv-deployment'
 gem 'haversine'
+gem 'bootstrap-glyphicons'
 
 # Testing
 gem 'rspec', '~> 2.14.1'

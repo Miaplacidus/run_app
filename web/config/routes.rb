@@ -10,7 +10,7 @@ Rails.application.routes.draw do
 
   match 'users/dashboard', to: 'users#dashboard', :via => :get
 
-  match 'posts/display', to: 'posts/display', :via => :get
+  match 'posts/display', to: 'posts#display', :via => :get
 
   resources :challenges
   resources :circles

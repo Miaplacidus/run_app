@@ -12,6 +12,9 @@ Rails.application.routes.draw do
 
   match 'posts/display', to: 'posts#display', :via => :get
 
+  match 'users/delete', to: 'users#delete', :via => :get
+  match 'users/destroy', to: 'users#destroy', :via => :delete
+
   resources :challenges
   resources :circles
   resources :commitments

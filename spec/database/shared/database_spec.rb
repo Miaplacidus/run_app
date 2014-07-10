@@ -285,7 +285,6 @@ shared_examples 'a database' do
           @user_objs << db.create_user(info)
       end
 
-
       @t_apr_first = Time.parse("Apr 1 2014")
       @t_may_first = Time.parse("May 1 2014")
       @t_june_first = Time.parse("June 1 2014")

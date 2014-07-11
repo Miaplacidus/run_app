@@ -17,6 +17,8 @@ gem "twitter-bootstrap-rails"
 gem 'font-awesome-rails'
 gem 'bootstrap-glyphicons'
 gem 'masonry-rails'
+gem 'browser-timezone-rails'
+
 
 # Testing
 gem 'rspec', '~> 2.14.1'

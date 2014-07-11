@@ -2,17 +2,17 @@ class PostsController < ApplicationController
   before_action :require_logged_in
 
   def index
-    location = Geocoder.address(request.remote_ip)
-
+    # location = Geocoder.address(request.remote_ip)
+    puts "Look here!!! #{Time.zone}"
   end
 
   def display
     # By default, gender_pref and location must be provided
     location = Geocoder.coordinates(request.remote_ip)
-    post_attributes = post_params.merge({user_lat: location[0], :user_long: location[1], :user_id: sessions[:user_id]})
-    case params[:filter][]
+    post_attributes = post_params.merge({user_lat: location[0], user_long: location[1], user_id: sessions[:user_id]})
+    # case params[:filter][]
 
-    end
+    # end
     @posts = RunPal::FilterPostsByAge.run(post_attributes)
     flash[:notice] = @posts.failure if !@posts.success?
   end

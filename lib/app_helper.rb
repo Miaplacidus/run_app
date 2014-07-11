@@ -36,7 +36,7 @@ module RunPal
         {first_name: "LizCarmouche", gender: 1, email:"marine@military.com", bday: "05/15/1998"},
         {first_name: "JuliannaPena", gender: 1, email:"punch@fast.com", bday: "02/22/1944"},
         {first_name: "LailaAli", gender: 2, email:"sofast@runner.com", bday: "05/25/1994"},
-        {first_name: "DanielCormier", gender: 2, email:"wrestle@elite.com", bday: "09/03/1979"}
+        {first_name: "DanielCormier", gender: 2, email:"wrestle@elite.com", bday: "09/03/1979"},
         {first_name: "JonJones", gender: 2, email:"marathons@speed.com", bday:"02/08/1987", level: 0},
         {first_name: "CubSwanson", gender: 2, email:"runlikemad@sprinter.com", bday:"03/14/1988"},
         {first_name: "CainVelasquez", gender: 2, email:"sprint@runna.com", bday: "05/25/1994"}

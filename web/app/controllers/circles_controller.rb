@@ -2,7 +2,10 @@ class CirclesController < ApplicationController
   before_action :require_logged_in
 
   def index
-    result = RunPal::ShowOpenCircles.run({params})
+    # ip_address = request.remote_ip
+    pretend_ip = "24.14.95.244"
+    puts "LOOK HERE FOR IP #{ip_address}"
+    # result = RunPal::FilterCirclesByLocation.run({})
   end
 
   def show

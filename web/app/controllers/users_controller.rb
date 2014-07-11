@@ -5,6 +5,7 @@ class UsersController < ApplicationController
   def index
     # Root of app, welcome page w/ app description and login form
     # (see sessions controller) that directs to user dashboard
+    puts "BEHOLD, TIME! #{Time.now}"
   end
 
   def dashboard

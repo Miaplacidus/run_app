@@ -16,3 +16,5 @@
 //= require turbolinks
 //= require_tree .
 //= require masonry/jquery.masonry
+//= require browser_timezone_rails/application.js
+

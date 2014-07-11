@@ -8,3 +8,9 @@
 </button>
 
 <i class="fa fa-film"></i> fa-film
+
+<p> Current time <%= DateTime.now.in_time_zone %> </p>
+<p> Current time <%= Time.zone.now %> </p>
+
+<p> Server Time Zone <%= Time.now.zone %> </p>
+<p> Application Time Zone <%= Time.zone %> </p>

@@ -2,14 +2,17 @@ class PostsController < ApplicationController
   before_action :require_logged_in
 
   def index
-    # location = Geocoder.address(request.remote_ip)
-    puts "Look here!!! #{Time.zone}"
+    # location = Geocoder.coordinates(request.remote_ip)
+    test_location = Geocoder.coordinates("24.14.95.244")
+    puts "Check location here! #{test_location}"
+    # puts "Look here!!! #{Time.zone.class}"
+    @posts = RunPal::FilterPostsByGender.run({user_id: session[:user_id], radius: 10, gender_pref: 3, user_lat: test_location[0], user_long: test_location[1]})
   end
 
   def display
     # By default, gender_pref and location must be provided
     location = Geocoder.coordinates(request.remote_ip)
-    post_attributes = post_params.merge({user_lat: location[0], user_long: location[1], user_id: sessions[:user_id]})
+    post_attributes = post_params.merge({user_lat: location[0], user_long: location[1], user_id: session[:user_id]})
     # case params[:filter][]
 
     # end
@@ -35,7 +38,7 @@ class PostsController < ApplicationController
   def create
     position = Geocoder.coordinates(params[:post][:address])
     address = Geocoder.address(position)
-    post_attributes = post_params.merge({user_id: sessions[:user_id], latitude: position[0], longitude: position[1], address: address})
+    post_attributes = post_params.merge({user_id: session[:user_id], latitude: position[0], longitude: position[1], address: address})
     @post = RunPal::CreatePost.run(post_attributes)
     if @post.success?
       flash[:notice] = "Successfully created post!"
@@ -60,6 +63,6 @@ class PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:time, :pace, :notes, :min_amt, :min_distance, :age_pref, :gender_pref, :circle_id, :max_runners, :address)
+    params.require(:post).permit(:time, :pace, :notes, :min_amt, :min_distance, :age_pref, :gender_pref, :circle_id, :max_runners, :address, :radius)
   end
 end

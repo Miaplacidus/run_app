@@ -1,30 +1,38 @@
 class PostsController < ApplicationController
-  before_action :require_logged_in
+  # before_action :require_logged_in
 
   def index
+    result = RunPal::GetUser.run({user_id: session[:user_id]})
+    @user = result.user
     # location = Geocoder.coordinates(request.remote_ip)
     test_location = Geocoder.coordinates("24.14.95.244")
     puts "Check location here! #{test_location}"
     # puts "Look here!!! #{Time.zone.class}"
-    @posts = RunPal::FilterPostsByGender.run({user_id: session[:user_id], radius: 10, gender_pref: 3, user_lat: test_location[0], user_long: test_location[1]})
+    result = RunPal::FilterPostsByGender.run({user_id: session[:user_id], radius: 10, gender_pref: 3, user_lat: test_location[0], user_long: test_location[1]})
+    @posts = result.post_arr
   end
 
   def display
     # By default, gender_pref and location must be provided
-    location = Geocoder.coordinates(request.remote_ip)
-    post_attributes = post_params.merge({user_lat: location[0], user_long: location[1], user_id: session[:user_id]})
-    # case params[:filter][]
+    # location = Geocoder.coordinates(request.remote_ip)
+    # test_location = Geocoder.coordinates("24.14.95.244")
+    # post_attributes = post_params.merge({user_lat: location[0], user_long: location[1], user_id: session[:user_id]})
 
-    # end
+    case params[:post][:filter]
+      when "age"
+        result = RunPal::FilterPostsByAge.run({user_id: session[:user_id], radius: params[:post][:radius], gender_pref: params[:post][:gender_pref], user_lat: test_location[0], user_long: test_location[1]})
+        @posts = result.post_arr
+      when "pace"
+        result = RunPal::FilterPostsByPace.run({user_id: session[:user_id], radius: params[:post][:radius], gender_pref: params[:post][:gender_pref], user_lat: test_location[0], user_long: test_location[1]})
+      when "time"
+        result = RunPal::FilterPostsByTime.run({user_id: session[:user_id], radius: 10, gender_pref: 3, user_lat: test_location[0], user_long: test_location[1]})
+      else
+        result = RunPal::FilterPostsByGender.run({user_id: session[:user_id], radius: params[:post][:radius], gender_pref: params[:post][:gender_pref], user_lat: test_location[0], user_long: test_location[1]})
+    end
     @posts = RunPal::FilterPostsByAge.run(post_attributes)
     flash[:notice] = @posts.failure if !@posts.success?
   end
 
-  def circle_filter
-
-  end
-
-  def
 
   def show
     # TODO: Post data including users attending the run and along with their

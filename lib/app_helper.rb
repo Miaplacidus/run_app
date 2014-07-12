@@ -128,18 +128,18 @@ module RunPal
     t_july_first = DateTime.parse("July 1 2014 5:45pm")
 
     posts_attrs = [
-        {creator_id: users[0].id, time: t_apr_first, latitude: 40, longitude: 51, pace: -1, notes:"Sunny day run!", min_amt:10.50, age_pref: 0, gender_pref: 0, min_distance: 4, address: "123 Main Street, Everytown, IL, USA"},
-        {creator_id: users[1].id, time: t_may_first, latitude: 41.88331, longitude: -87.8001, pace: 0, notes:"Let's go.", min_amt:5.50, age_pref: 1, gender_pref: 1, min_distance: 5, address: "333 Washington Avenue, San Diego, CA, USA"},
-        {creator_id: users[2].id, time: t_june_first, latitude: 44.0002, longitude: -55.0002, pace: 1, notes:"Will be a fairly relaxed jog.", min_amt:12.00, age_pref: 2, gender_pref: 1, min_distance: 1, address: "123 San Utopos, Everytown, WA, USA"},
-        {creator_id: users[3].id, time: t_july_first, latitude: 41.8833, longitude: -87.80, pace: 2, min_amt:20.00, age_pref: 3, gender_pref: 0, min_distance: 7, address: "444 Main Street, Everytown, CO, USA"},
-        {creator_id: users[4].id, time: t_apr_first, latitude: 64.0002, longitude: 90.0002, pace: 3, notes:"So much freakin' fun.", min_amt:12.00, age_pref: 4, gender_pref: 0, min_distance: 1, address: "13 Klay Street, Everytown, OH, USA"},
-        {creator_id: users[5].id, time: t_may_first, latitude: 41.8833, longitude: -87.7802, pace: 4, notes:"We shall run until our eyes bleed.", min_amt:12.00, age_pref: 5, gender_pref: 2, min_distance: 1, address: "113 Main Street, Everytown, IA, USA"},
-        {creator_id: users[6].id, time: t_june_first, latitude: 84.0002, longitude: 48.0002, pace: 5, notes:"Warm day!", min_amt:29.00, age_pref: 6, gender_pref: 0, min_distance: 2, address: "123 Major Road, Everytown, CO, USA"},
-        {creator_id: users[7].id, time: t_july_first, latitude: -21.0002, longitude: -43.0002, pace: 6, notes:"Running is super cool", min_amt:12.00, age_pref: 7, gender_pref: 2, min_distance: 3, address: "93 Main Lane, Everytown, GA, USA"},
-        {creator_id: users[0].id, time: t_apr_first, latitude: 88.0002, longitude: 93.0002, pace: 7, notes:"Let's run.", min_amt:30.00, age_pref: 8, gender_pref: 1, min_distance: 1, address: "3 Main Street, Townsville, TX, USA"},
-        {creator_id: users[0].id, time: t_may_first, latitude: -40.0002, longitude: -21.0002, pace: 0, notes:"Aw, yisssssss.", min_amt:3.00, age_pref: 0, gender_pref: 0, min_distance: 10, address: "2 Madison Boulevard, Placeburg, CT, USA"},
-        {creator_id: users[2].id, time: t_june_first, latitude: 10.0002, longitude: 12.0002, pace: 0, notes:"Then we shall beer o'clock.", min_amt:55.00, age_pref: 1, gender_pref: 1, min_distance: 5, address: "707 Main Street, Whereton, MA, USA"},
-        {creator_id: users[5].id, time: t_july_first, latitude: -55.0002, longitude: 39.0002, pace: 1, notes:"LOL, wut?.", min_amt:12.00, age_pref: 2, gender_pref: 2, min_distance: 4, address: "631 Imaginary Road, Silicon Grove, CA, USA"}
+        {creator_id: users[0].id, time: t_apr_first, max_runners: 4, latitude: 40, longitude: 51, pace: -1, notes:"Sunny day run!", min_amt:10.50, age_pref: 0, gender_pref: 0, min_distance: 4, address: "123 Main Street, Everytown, IL, USA"},
+        {creator_id: users[1].id, time: t_may_first, max_runners: 6, latitude: 41.88331, longitude: -87.8001, pace: 0, notes:"Let's go.", min_amt:5.50, age_pref: 1, gender_pref: 1, min_distance: 5, address: "333 Washington Avenue, San Diego, CA, USA"},
+        {creator_id: users[2].id, time: t_june_first, max_runners: 8, latitude: 44.0002, longitude: -55.0002, pace: 1, notes:"Will be a fairly relaxed jog.", min_amt:12.00, age_pref: 2, gender_pref: 1, min_distance: 1, address: "123 San Utopos, Everytown, WA, USA"},
+        {creator_id: users[3].id, time: t_july_first, max_runners: 10, latitude: 41.8833, longitude: -87.80, pace: 2, min_amt:20.00, age_pref: 3, gender_pref: 0, min_distance: 7, address: "444 Main Street, Everytown, CO, USA"},
+        {creator_id: users[4].id, time: t_apr_first, max_runners: 12, latitude: 64.0002, longitude: 90.0002, pace: 3, notes:"So much freakin' fun.", min_amt:12.00, age_pref: 4, gender_pref: 0, min_distance: 1, address: "13 Klay Street, Everytown, OH, USA"},
+        {creator_id: users[5].id, time: t_may_first, max_runners: 5, latitude: 41.8833, longitude: -87.7802, pace: 4, notes:"We shall run until our eyes bleed.", min_amt:12.00, age_pref: 5, gender_pref: 2, min_distance: 1, address: "113 Main Street, Everytown, IA, USA"},
+        {creator_id: users[6].id, time: t_june_first, max_runners: 7, latitude: 84.0002, longitude: 48.0002, pace: 5, notes:"Warm day!", min_amt:29.00, age_pref: 6, gender_pref: 0, min_distance: 2, address: "123 Major Road, Everytown, CO, USA"},
+        {creator_id: users[7].id, time: t_july_first, max_runners: 9, latitude: -21.0002, longitude: -43.0002, pace: 6, notes:"Running is super cool", min_amt:12.00, age_pref: 7, gender_pref: 2, min_distance: 3, address: "93 Main Lane, Everytown, GA, USA"},
+        {creator_id: users[0].id, time: t_apr_first, max_runners: 11, latitude: 88.0002, longitude: 93.0002, pace: 7, notes:"Let's run.", min_amt:30.00, age_pref: 8, gender_pref: 1, min_distance: 1, address: "3 Main Street, Townsville, TX, USA"},
+        {creator_id: users[0].id, time: t_may_first, max_runners: 4, latitude: -40.0002, longitude: -21.0002, pace: 0, notes:"Aw, yisssssss.", min_amt:3.00, age_pref: 0, gender_pref: 0, min_distance: 10, address: "2 Madison Boulevard, Placeburg, CT, USA"},
+        {creator_id: users[2].id, time: t_june_first, max_runners: 6, latitude: 10.0002, longitude: 12.0002, pace: 0, notes:"Then we shall beer o'clock.", min_amt:55.00, age_pref: 1, gender_pref: 1, min_distance: 5, address: "707 Main Street, Whereton, MA, USA"},
+        {creator_id: users[5].id, time: t_july_first, max_runners: 8, latitude: -55.0002, longitude: 39.0002, pace: 1, notes:"LOL, wut?.", min_amt:12.00, age_pref: 2, gender_pref: 2, min_distance: 4, address: "631 Imaginary Road, Silicon Grove, CA, USA"}
       ]
 
     posts = []

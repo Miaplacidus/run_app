@@ -10,6 +10,7 @@ class PostsController < ApplicationController
     # puts "Look here!!! #{Time.zone.class}"
     result = RunPal::FilterPostsByGender.run({user_id: session[:user_id], radius: 10, gender_pref: 3, user_lat: test_location[0], user_long: test_location[1]})
     @posts = result.post_arr
+
   end
 
   def display
@@ -31,6 +32,10 @@ class PostsController < ApplicationController
     end
     @posts = RunPal::FilterPostsByAge.run(post_attributes)
     flash[:notice] = @posts.failure if !@posts.success?
+
+    respond_to do |format|
+      format.js
+    end
   end
 
 

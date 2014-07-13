@@ -22,20 +22,24 @@ class PostsController < ApplicationController
     case params[:filter_select]
       when "0"
         result = RunPal::FilterPostsByGender.run({user_id: session[:user_id], radius: params[:radius], gender_pref: params[:gender_pref], user_lat: test_location[0], user_long: test_location[1]})
+        @posts = result.post_arr
       when "1"
         result = RunPal::FilterPostsByPace.run({user_id: session[:user_id], pace: params[:pace], radius: params[:radius], gender_pref: params[:gender_pref], user_lat: test_location[0], user_long: test_location[1]})
+        @posts = result.post_arr
+        puts "LOOK AT POSTS #{@posts}"
       when "2"
         result = RunPal::FilterPostsByTime.run({user_id: session[:user_id], start_time: params[:start_time], end_time: params[:end_time], radius: params[:radius], gender_pref: params[:gender_pref], user_lat: test_location[0], user_long: test_location[1]})
+        @posts = result.post_arr
       when "3"
         result = RunPal::FilterPostsByAge.run({user_id: session[:user_id], age: params[:age], radius: params[:radius], gender_pref: params[:gender_pref], user_lat: test_location[0], user_long: test_location[1]})
+        @posts = result.post_arr
       else
         result = RunPal::FilterPostsByGender.run({user_id: session[:user_id], radius: params[:post], gender_pref: params[:gender_pref], user_lat: test_location[0], user_long: test_location[1]})
+        @posts = result.post_arr
     end
     # @posts = RunPal::FilterPostsByAge.run(post_attributes)
     # flash[:notice] = @posts.failure if !@posts.success?
-
     respond_to do |format|
-      format.html {render format.js}
       format.js
     end
   end

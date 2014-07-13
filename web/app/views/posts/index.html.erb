@@ -17,7 +17,7 @@
     <% gender = "Men's" %>
   <% end %>
 
-  <%= form_tag({:action => 'display'}, {:method => 'get', :remote => true}) do %>
+  <%= form_tag({:action => 'display'}, {:method => 'get', :remote => true, :id => "filter_form"}) do %>
   <%= select_tag(:radius, options_for_select([["1 mi", 1], ["5 mi", 5], ["10 mi",10], ["15 mi",15], ["20 mi",20]]), {:id => "radius_select"}) %>
   <%= select_tag(:gender_pref, options_for_select([["Mixed Gender Runs", 0], [ gender + " Runs", 1], ["Mixed and " + gender + " Runs",10]]), {:id => "gender_select"} ) %>
   <%= select_tag(:filter_select, options_for_select([["None", 0],["Pace", 1], ["Age", 2], ["Time", 3]])) %>

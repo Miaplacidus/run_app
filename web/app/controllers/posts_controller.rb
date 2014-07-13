@@ -35,6 +35,7 @@ class PostsController < ApplicationController
     # flash[:notice] = @posts.failure if !@posts.success?
 
     respond_to do |format|
+      format.html {render format.js}
       format.js
     end
   end

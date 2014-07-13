@@ -16,18 +16,19 @@
     <% gender = "Men's" %>
   <% end %>
 
-  <%= form_tag({:action => 'display'}, {:method => 'get'}) do %>
+  <%= form_tag({:action => 'display'}, {:method => 'get', :remote => true}) do %>
   <%= select_tag(:radius, options_for_select([["1 mi", 1], ["5 mi", 5], ["10 mi",10], ["15 mi",15], ["20 mi",20]]), {:id => "radius_select", :onchange => 'this.form.submit();'}) %>
   <%= select_tag(:gender_pref, options_for_select([["Mixed Gender Runs", 0], [ gender + " Runs", 1], ["Mixed and " + gender + " Runs",10]]), {:id => "gender_select", :onchange => "this.form.submit();"} ) %>
+  <%= select_tag(:filter_select, options_for_select([["None", 0],["Pace", 1], ["Age", 2], ["Time", 3]])) %>
   <%= select_tag(:pace, options_for_select([["All Levels", -1], [ "Military 6 min/mi ", 0], ["Advanced 6-7 min/mi",10], ["High Intermediate 7-8 min/mi", 2], ["Intermediate 8-9 min/mi", 3], ["Beginner 9-10 min/mi", 4], ["Jogger 10-11 min/mi", 5], ["Speedwalker 11-12 min/mi", 6 ], ["Sprints 12+ min/mi", 7] ]), {:id => "pace_select", :onchange =>'this.form.submit();'} ) %>
   <%= select_tag(:age,options_for_select([["Any age group", 0], [ "Your age group", 1]]), {:id => "age_select", :onchange => "this.form.submit();"} ) %> </br>
-  <%= select_datetime Date.today, prefix: :start_date, :onchange => 'this.form.submit();' %> </br>
-  <%= select_datetime Date.tomorrow, prefix: :end_date, :onchange => 'this.form.submit();' %>
+  <%= select_datetime Date.today, prefix: :start_time, :onchange => 'this.form.submit();' %> </br>
+  <%= select_datetime Date.tomorrow, prefix: :end_time, :onchange => 'this.form.submit();' %>
   <% end %>
 
   <!-- TODO: Apply filters accordingly -->
   <!-- TODO: Radius and gender preference must be selected before other filters -->
-  <!-- TODO: Create a drop down menu to selec pace, gender, age, or time filter -->
+  <!-- TODO: Create a drop down menu to select pace, gender, age, or time filter -->
 </div>
 
 <div class="posts_list">

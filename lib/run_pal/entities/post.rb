@@ -19,15 +19,15 @@ end
 
 =begin
 PACE LEVELS
--1 - All/Any levels
-0 - Military: 6 min and under/mile
-1 - Advanced: 6-7 min/mi
-2 - High Intermediate: 7-8 min/mi
-3 - Intermediate: 8-9 min/mi
-4 - High Beginner: 9-10 min/mi
-5 - Beginner: 10-11 min/mi
-6 - [Something]: 11-12 min/mi
-7 - [Something]: 12+ min/mi
+0 - All/Any levels
+1 - Military: 6 min and under/mile
+2 - Advanced: 6-7 min/mi
+3 - High Intermediate: 7-8 min/mi
+4 - Intermediate: 8-9 min/mi
+5 - Beginner: 9-10 min/mi
+6 - Jogger: 10-11 min/mi
+7 - Speedwalker: 11-12 min/mi
+8 - Sprints: 12+ min/mi
 
 GENDER PREFERENCES
 0 - BOTH

@@ -13,7 +13,7 @@ module RunPal
       return failure (:user_does_not_exist) if user.nil?
 
       if inputs[:gender_pref] != 0 && inputs[:gender_pref] != 3
-          return failure (:user_cannot_view_opposite_sex_posts) if user.gender != inputs[:gender]
+          return failure (:user_cannot_view_opposite_sex_posts) if user.gender != inputs[:gender_pref]
       end
 
       inputs[:user_gender] = user.gender

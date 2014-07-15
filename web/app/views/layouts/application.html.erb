@@ -1,14 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Web</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <title>RunningBuddy</title>
+  <%= stylesheet_link_tag  'application', media: 'all' %>
+  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
   <%= csrf_meta_tags %>
 </head>
 <body>
 
-<%= yield %>
+ <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav" id="main-menu">
+            <li><a href="#" class="_link">Dashboard</a></li>
+            <li><a href="#" class="_link">Find a Run</a></li>
+            <li><a href="#" class="_link">Join A Circle</a></li>
+            <li><a href="#" class="_link">Admin</a></li>
+            <li><a href="#" class="_link">Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
 
+<div class='container'>
+<%= yield %>
+</div>
+<%= javascript_include_tag 'application'%>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 </body>
 </html>

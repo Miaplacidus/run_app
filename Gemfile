@@ -13,7 +13,6 @@ gem 'omniauth-facebook', '1.4.0'
 gem 'dotenv-rails'
 gem 'dotenv-deployment'
 gem 'haversine'
-gem "twitter-bootstrap-rails"
 gem 'font-awesome-rails'
 gem 'bootstrap-glyphicons'
 gem 'masonry-rails'

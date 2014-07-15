@@ -1,3 +1,4 @@
+Gemfile.lock
 .bundle
 vendor/bundle
 .DS_Store
@@ -5,4 +6,5 @@ vendor/bundle
 .vagrant
 rails
 .env
-Gemfile.lock
+
+

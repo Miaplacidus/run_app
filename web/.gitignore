@@ -18,4 +18,4 @@
 Gemfile.lock
 vendor/bundle
 *.db
-
+Gemfile.lock

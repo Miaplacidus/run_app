@@ -33,9 +33,27 @@ class PostsController < ApplicationController
         @posts = result.post_arr
         puts "LOOK AT AGE POSTS #{@posts}"
       when "3"
-        result = RunPal::FilterPostsByTime.run({user_id: session[:user_id], start_time: params[:start_time], end_time: params[:end_time], radius: params[:radius], gender_pref: params[:gender_pref], user_lat: test_location[0], user_long: test_location[1]})
+        start_date = params[:start_time][:day] + '/' + params[:start_time][:month] + '/' + params[:start_time][:year]
+        start_hour = params[:start_time][:hour] + ":00"
+        start_time = start_date + " " + start_hour
+
+        end_date = params[:end_time][:day] + '/' + params[:end_time][:month] + '/' + params[:end_time][:year]
+        end_hour = params[:end_time][:hour] + ":00"
+        end_time = end_date + " " + end_hour
+
+        starting = Time.zone.parse(start_time).utc
+        ending = Time.zone.parse(end_time).utc
+
+        zone = Time.zone.now.utc
+        puts "IN THE ZOOOONE #{zone}"
+        puts "GET WITH THE TIMES, begin #{starting.class}"
+        puts "GET WITH THE TIMES, end #{ending.inspect}"
+        # tz = ActiveSupport::TimeZone[zone].parse(start_date + start_time)
+        # puts "ALSO LOOK AT THE TIME #{tz}!"
+
+        result = RunPal::FilterPostsByTime.run({user_id: session[:user_id], start_time: starting, end_time: ending, radius: params[:radius], gender_pref: params[:gender_pref], user_lat: test_location[0], user_long: test_location[1]})
         @posts = result.post_arr
-        puts "LOOK AT TIME POSTS #{@posts}"
+        puts "LOOK AT TIME POSTS #{result}"
       else
         result = RunPal::FilterPostsByGender.run({user_id: session[:user_id], radius: params[:post], gender_pref: params[:gender_pref], user_lat: test_location[0], user_long: test_location[1]})
         @posts = result.post_arr

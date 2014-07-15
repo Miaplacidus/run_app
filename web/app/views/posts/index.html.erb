@@ -6,6 +6,7 @@
 <p>Server Time Zone <%= Time.now.zone %> </p>
 <p>Server Time <%= Time.now %> </p>
 <p>Time to UTC <%= Time.zone.now.utc %></p>
+<p>Comparison (Browser Time + 2 min > Server Time):  <%= (Time.zone.now + 120) > Time.now %> </p>
 
 <div id='filters'>
   <% gender = "" %>
@@ -27,12 +28,11 @@
   <div id="time_select">
     <%= select_datetime Date.today, prefix: :start_time, :discard_year => true, :discard_minute => true,:ampm => true %> </br>
     <%= select_datetime Date.tomorrow, prefix: :end_time, :discard_minute => true, :start_year => Time.now.year, :end_year => Time.now.year.next, :ampm => true %>
-    <%= submit_tag("Search") %>
+    <%= submit_tag("Search", :class => 'btn btn-default')%>
   </div>
   <% end %>
 
   <!-- TODO: Apply filters accordingly -->
-  <!-- TODO: Radius and gender preference must be selected before other filters -->
 </div>
 
 <div class="posts_list">

@@ -40,7 +40,10 @@
     <% @posts.each do |post| %>
     <li>
         <ul>
-          <li><%= post.time %></li>
+          <li><% t = post.time %>
+            <%= Time.zone.parse(t.to_s).strftime("%a %B %e, %Y at %l:%M%P, %:z") %>
+            <%= Time.zone %>
+          </li>
           <li><%= post.address %></li>
           <li><%= post.pace %></li>
           <% gender_pref = "" %>
@@ -54,8 +57,7 @@
           <li><%= gender_pref %></li>
         </ul>
     </li>
-  <% end %>
+    <% end %>
+  </ul>
+
 </div>
-
-</ul>
-

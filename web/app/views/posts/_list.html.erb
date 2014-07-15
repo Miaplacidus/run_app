@@ -1,0 +1,20 @@
+<ul>
+    <% @posts.each do |post| %>
+    <li>
+        <ul>
+          <li><%= post.time %></li>
+          <li><%= post.address %></li>
+          <li>Pace: <%= post.pace %></li>
+          <% gender_pref = "" %>
+          <% if post.gender_pref == 0 %>
+          <% gender_pref = "Mixed" %>
+          <% elsif post.gender_pref == 1 %>
+          <% gender_pref = "Women Only" %>
+          <% else %>
+          <% gender_pref = "Men Only" %>
+          <% end %>
+          <li><%= gender_pref %></li>
+        </ul>
+    </li>
+    <% end %>
+  </ul>

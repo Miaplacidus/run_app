@@ -1,0 +1,6 @@
+$(document).ready(function(){
+
+  $('.posts_list').empty();
+  $('.posts_list').html("<%= escape_javascript(render 'list') %>")
+
+});

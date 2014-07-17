@@ -1,6 +1,8 @@
 module RunPal
   class User < Entity
     attr_accessor :id, :rating, :level
+    # rating is a percentage of runs committed/attended
+    # level is the average level of runs attended
     # Facebook-extracted properties
     attr_accessor :first_name, :gender, :email, :bday
     attr_accessor :fbid, :oauth_token, :oauth_expiry, :img_url
@@ -18,3 +20,4 @@ GENDER
 1 - Female
 2 - Male
 =end
+

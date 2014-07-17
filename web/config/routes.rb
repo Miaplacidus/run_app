@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   match 'users/dashboard', to: 'users#dashboard', :via => :get
 
   match 'posts/display', to: 'posts#display', :via => :get
+  match 'posts/show', to: 'posts#show', :via => :get
 
   match 'users/delete', to: 'users#delete', :via => :get
   match 'users/destroy', to: 'users#destroy', :via => :delete

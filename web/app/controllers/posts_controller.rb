@@ -69,7 +69,18 @@ class PostsController < ApplicationController
 
   def show
     # TODO: Post data including users attending the run and along with their
-    # level and rating
+    # level and rating and a map
+    retrieved_user = RunPal::GetUser.run({user_id: params[:user_id]})
+    @creator = retrieved_user.user
+    retrieved_list = RunPal::GetPostUsers.run({post_id: params[:post_id]})
+    @users_list = retrieved_list.users
+
+    puts "POSTCREATOR: #{@creator}"
+    puts "USER LISTING: #{@users_list}"
+
+    respond_to do |format|
+      format.js
+    end
   end
 
   def new

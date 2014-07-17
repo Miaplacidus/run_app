@@ -14,6 +14,10 @@
           <% gender_pref = "Men Only" %>
           <% end %>
           <li><%= gender_pref %></li>
+          <li><%= link_to("See post info", {:action => 'show', :method => 'get', :remote => true, :user_id => post.creator_id, :post_id => post.id}) %></li>
+          <ul class="users_list">
+
+          </ul>
         </ul>
     </li>
     <% end %>

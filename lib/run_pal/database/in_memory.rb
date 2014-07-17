@@ -226,6 +226,7 @@ module RunPal
       def get_committed_users(post_id)
         post_commits = @commits.values.select {|attrs| attrs[:post_id] == post_id}
         committed_user_ids = post_commits.map {|attrs| attrs[:user_id]}
+        committed_user_ids.map {|user_id| get_user(user_id) }
       end
 
       def get_attendees(post_id)

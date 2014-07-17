@@ -20,7 +20,7 @@
 
   <%= form_tag({:action => 'display'}, {:method => 'get', :remote => true, :id => "filter_form"}) do %>
   <%= select_tag(:radius, options_for_select([["1 mi", 1], ["5 mi", 5], ["10 mi",10], ["15 mi",15], ["20 mi",20]]), {:id => "radius_select"}) %>
-  <%= select_tag(:gender_pref, options_for_select([["Mixed Gender Runs", 0], [ gender + " Runs", 1], ["Mixed and " + gender + " Runs", 3]]), {:id => "gender_select"} ) %>
+  <%= select_tag(:gender_pref, options_for_select([["Mixed Gender Runs", 0], [ gender + " Runs", @user.gender], ["Mixed and " + gender + " Runs", 3]], 3), {:id => "gender_select"} ) %>
   <%= select_tag(:filter_select, options_for_select([["None", 0],["Pace", 1], ["Age", 2], ["Time", 3]])) %>
   <%= select_tag(:pace, options_for_select([["All Levels", 0], [ "Military 6 min/mi ", 1], ["Advanced 6-7 min/mi", 2], ["High Intermediate 7-8 min/mi", 3], ["Intermediate 8-9 min/mi", 4], ["Beginner 9-10 min/mi", 5], ["Jogger 10-11 min/mi", 6], ["Speedwalker 11-12 min/mi", 7], ["Sprints 12+ min/mi", 8] ]), {:id => "pace_select"} ) %>
   <%= select_tag(:age,options_for_select([[" ", 0], ["Your age group", 1]]), {:id => "age_select"} ) %>
@@ -32,37 +32,9 @@
   </div>
   <% end %>
 
-  <!-- TODO: Apply filters accordingly -->
 </div>
 
 <div class="posts_list">
-  <ul>
-    <% @posts.each do |post| %>
-    <li>
-        <ul>
-          <li>
-            <% t = post.time %>
-            <%= Time.zone.parse(t.to_s).strftime("%a %B %e, %Y at %l:%M%P, %:z") %>
-            <%= Time.zone %>
-          </li>
-          <li><%= post.address %></li>
-          <li>Pace: <%= post.pace %></li>
-          <% gender_pref = "" %>
-          <% if post.gender_pref == 0 %>
-          <% gender_pref = "Mixed" %>
-          <% elsif post.gender_pref == 1 %>
-          <% gender_pref = "Women Only" %>
-          <% else %>
-          <% gender_pref = "Men Only" %>
-          <% end %>
-          <li><%= gender_pref %></li>
-          <li><%= link_to("See post info", {:action => 'show', :method => 'get', :remote => true, :user_id => post.creator_id, :post_id => post.id}) %></li>
-          <%= content_tag :ul, class: 'users_list', id: post.id, style:'display:none' do %>
-          <% end %>
-
-        </ul>
-    </li>
-    <% end %>
-  </ul>
+  <%= render(:partial => 'list') %>
 
 </div>

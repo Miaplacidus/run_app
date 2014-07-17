@@ -43,10 +43,21 @@
           <% gender_pref = "Men Only" %>
           <% end %>
           <li><%= gender_pref %></li>
-          <li><%= link_to("See post info", {:action => 'show', :method => 'get', :remote => true, :user_id => post.creator_id, :post_id => post.id}) %></li>
+
+          <li><%= link_to("See post info", {:action => 'show', :remote => true, :user_id => post.creator_id, :post_id => post.id}) %></li>
           <%= content_tag :ul, class: 'users_list', id: post.id, style:'display:none' do %>
           <% end %>
-          <li><%= link_to("Join Run", {:action => 'join', :method => 'post', :remote => true, :post_id => post.id}) %></li>
+
+          <li>
+            <%= link_to("Join Run", "javascript:void(0)", :class => "join_form") %>
+            <%= form_tag({:action => 'join'}, {:method => 'post', :remote => true, :style =>'display:none'}) do %>
+            <%= label_tag("How much would you like to commit? $") %>
+            <%= select_tag(:amount, options_for_select((0..20).step(5))) %>
+            <%= submit_tag("Join", :class => 'btn btn-default btn-xs')%>
+            <% end %>
+          </li>
+          <!-- expand to show map -->
+          <li>View Location</li>
         </ul>
     </li>
     <% end %>

@@ -77,7 +77,6 @@ class PostsController < ApplicationController
     @post_id = params[:post_id]
 
     puts "POST ID HERE: #{@post_id}"
-
     puts "POSTCREATOR: #{@creator}"
     puts "USER LISTING: #{@users_list}"
 
@@ -88,6 +87,7 @@ class PostsController < ApplicationController
 
   def new
     # @post = RunPal::Post.new({:notes => "", :circle_id => nil})
+
   end
 
   def create
@@ -104,7 +104,19 @@ class PostsController < ApplicationController
   end
 
   def join
+    RunPal::JoinPost.run({user_id: session[:user_id], post_id: params[:post_id], amount: 180.00})
+    puts "CHECK THE JOIN #{result}"
 
+    retrieved_user = RunPal::GetUser.run({user_id: params[:creator_id]})
+    @creator = retrieved_user.user
+    retrieved_list = RunPal::GetPostUsers.run({post_id: params[:post_id]})
+    @users_list = retrieved_list.users
+
+    @post_id = params[:post_id]
+
+    respond_to do |format|
+      format.js
+    end
   end
 
   def edit

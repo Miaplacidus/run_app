@@ -149,21 +149,21 @@ module RunPal
     end
 
     commits_attrs = [
-      {user_id: users[1].id, post_id: posts[0].id, amount: 100.30},
-      {user_id: users[2].id, post_id: posts[1].id, amount: 100.30},
-      {user_id: users[3].id, post_id: posts[2].id, amount: 100.30},
-      {user_id: users[4].id, post_id: posts[3].id, amount: 100.30},
-      {user_id: users[5].id, post_id: posts[4].id, amount: 100.30},
-      {user_id: users[6].id, post_id: posts[5].id, amount: 100.30},
-      {user_id: users[7].id, post_id: posts[6].id, amount: 100.30},
-      {user_id: users[0].id, post_id: posts[7].id, amount: 100.30},
-      {user_id: users[1].id, post_id: posts[8].id, amount: 100.30},
-      {user_id: users[2].id, post_id: posts[9].id, amount: 100.30},
-      {user_id: users[3].id, post_id: posts[10].id, amount: 100.30},
-      {user_id: users[4].id, post_id: posts[11].id, amount: 100.30},
-      {user_id: users[5].id, post_id: posts[0].id, amount: 100.30},
-      {user_id: users[6].id, post_id: posts[0].id, amount: 100.30},
-      {user_id: users[7].id, post_id: posts[0].id, amount: 100.30}
+      {user_id: users[1].id, post_id: posts[0].id, amount: 10.30},
+      {user_id: users[2].id, post_id: posts[1].id, amount: 10.30},
+      {user_id: users[3].id, post_id: posts[2].id, amount: 10.30},
+      {user_id: users[4].id, post_id: posts[3].id, amount: 10.30},
+      {user_id: users[5].id, post_id: posts[4].id, amount: 10.30},
+      {user_id: users[6].id, post_id: posts[5].id, amount: 10.30},
+      {user_id: users[7].id, post_id: posts[6].id, amount: 10.30},
+      {user_id: users[0].id, post_id: posts[7].id, amount: 10.30},
+      {user_id: users[1].id, post_id: posts[8].id, amount: 10.30},
+      {user_id: users[2].id, post_id: posts[9].id, amount: 10.30},
+      {user_id: users[3].id, post_id: posts[10].id, amount: 10.30},
+      {user_id: users[4].id, post_id: posts[11].id, amount: 10.30},
+      {user_id: users[5].id, post_id: posts[0].id, amount: 10.30},
+      {user_id: users[6].id, post_id: posts[0].id, amount: 10.30},
+      {user_id: users[7].id, post_id: posts[0].id, amount: 10.30}
     ]
 
     commits = []

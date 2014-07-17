@@ -74,6 +74,9 @@ class PostsController < ApplicationController
     @creator = retrieved_user.user
     retrieved_list = RunPal::GetPostUsers.run({post_id: params[:post_id]})
     @users_list = retrieved_list.users
+    @post_id = params[:post_id]
+
+    puts "POST ID HERE: #{@post_id}"
 
     puts "POSTCREATOR: #{@creator}"
     puts "USER LISTING: #{@users_list}"

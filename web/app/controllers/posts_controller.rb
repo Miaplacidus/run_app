@@ -103,6 +103,10 @@ class PostsController < ApplicationController
     end
   end
 
+  def join
+
+  end
+
   def edit
   end
 

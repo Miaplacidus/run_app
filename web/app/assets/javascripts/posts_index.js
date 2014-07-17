@@ -2,6 +2,11 @@ $(document).ready(function(){
 
   $('#pace_select, #age_select, #time_select').toggle();
 
+  $('#radius_select, #gender_select').change(function(){
+    $('#pace_select, #age_select, #time_select').hide();
+    $('#filter_select').val('0');
+  });
+
   $('#filter_select').change(function() {
     var filter = "#" + $("#filter_select option:selected").text() + "_select";
     filter = filter.toLowerCase();

@@ -26,14 +26,8 @@ $(document).ready(function(){
   });
 });
 
-  $('a.join_form').on('click', function(){
-    $(this).closest('li').find('form').toggle();
-  });
-
-  $(document).ajaxComplete(function() {
-    $('a.join_form').on('click', function(){
+  $(document).on('click', 'a.join_form', function(){
       $(this).closest('li').find('form').toggle();
     });
-  });
 
 });

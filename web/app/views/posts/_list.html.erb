@@ -44,7 +44,7 @@
           <% end %>
           <li><%= gender_pref %></li>
 
-          <li><%= link_to("See post info", {:action => 'show', :remote => true, :user_id => post.creator_id, :post_id => post.id}) %></li>
+          <li><%= link_to("See runners", {:action => 'show', :remote => true, :creator_id => post.creator_id, :post_id => post.id}) %></li>
           <%= content_tag :ul, class: 'users_list', id: post.id, style:'display:none' do %>
           <% end %>
 

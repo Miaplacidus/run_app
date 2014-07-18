@@ -10,7 +10,6 @@ class PostsController < ApplicationController
     # puts "Look here!!! #{Time.zone.class}"
     result = RunPal::FilterPostsByGender.run({user_id: session[:user_id], radius: 10, gender_pref: 3, user_lat: test_location[0], user_long: test_location[1]})
     @posts = result.post_arr
-
   end
 
   def display
@@ -59,6 +58,8 @@ class PostsController < ApplicationController
         @posts = result.post_arr
         puts "LOOK AT LAST GENDER POSTS #{@posts}"
     end
+
+
     # @posts = RunPal::FilterPostsByAge.run(post_attributes)
     # flash[:notice] = @posts.failure if !@posts.success?
     respond_to do |format|
@@ -70,10 +71,12 @@ class PostsController < ApplicationController
   def show
     # TODO: Post data including users attending the run and along with their
     # level and rating and a map
-    retrieved_user = RunPal::GetUser.run({user_id: params[:user_id]})
+    retrieved_user = RunPal::GetUser.run({user_id: params[:creator_id]})
     @creator = retrieved_user.user
     retrieved_list = RunPal::GetPostUsers.run({post_id: params[:post_id]})
     @users_list = retrieved_list.users
+    result = RunPal::ShowPost.run({user_id: params[:creator_id], post_id: params[:post_id] })
+    @max_runners = result.post.max_runners
     @post_id = params[:post_id]
 
     puts "POST ID HERE: #{@post_id}"
@@ -105,13 +108,14 @@ class PostsController < ApplicationController
 
   def join
     # Set default amount to 0
-    RunPal::JoinPost.run({user_id: session[:user_id], post_id: params[:post_id], amount: 18.00})
+    RunPal::JoinPost.run({user_id: session[:user_id], post_id: params[:post_id], amount: 25.00})
 
     retrieved_user = RunPal::GetUser.run({user_id: params[:creator_id]})
     @creator = retrieved_user.user
     retrieved_list = RunPal::GetPostUsers.run({post_id: params[:post_id]})
     @users_list = retrieved_list.users
-
+    result = RunPal::ShowPost.run({user_id: params[:creator_id], post_id: params[:post_id] })
+    @max_runners = result.post.max_runners
     @post_id = params[:post_id]
 
     respond_to do |format|

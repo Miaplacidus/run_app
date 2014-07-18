@@ -53,6 +53,8 @@
             <%= form_tag({:action => 'join'}, {:method => 'post', :remote => true, :style =>'display:none'}) do %>
             <%= label_tag("How much would you like to commit? $") %>
             <%= select_tag(:amount, options_for_select((0..20).step(5))) %>
+            <%= hidden_field_tag('creator_id', post.creator_id) %>
+            <%= hidden_field_tag('post_id', post.id) %>
             <%= submit_tag("Join", :class => 'btn btn-default btn-xs')%>
             <% end %>
           </li>

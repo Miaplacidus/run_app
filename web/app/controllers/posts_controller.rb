@@ -104,8 +104,8 @@ class PostsController < ApplicationController
   end
 
   def join
-    RunPal::JoinPost.run({user_id: session[:user_id], post_id: params[:post_id], amount: 180.00})
-    puts "CHECK THE JOIN #{result}"
+    # Set default amount to 0
+    RunPal::JoinPost.run({user_id: session[:user_id], post_id: params[:post_id], amount: 18.00})
 
     retrieved_user = RunPal::GetUser.run({user_id: params[:creator_id]})
     @creator = retrieved_user.user

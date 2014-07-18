@@ -8,6 +8,42 @@
 <p>Time to UTC <%= Time.zone.now.utc %></p>
 <p>Comparison (Browser Time + 2 min > Server Time):  <%= (Time.zone.now + 120) > Time.now %> </p>
 
+<!-- Button trigger modal -->
+<div class="post_create">
+  <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal">
+  Create a Run
+</button>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Schedule a Run</h4>
+      </div>
+      <div class="modal-body">
+
+        <%= form_tag({:action => 'create'}, {:method => 'post', :remote => true, :id => "create_post"}) do %>
+
+        <%= select_tag(:gender_pref, options_for_select([["Mixed Gender Runs", 0], [ "Blah Runs", @user.gender]], 0), {:id => "post_gender"} ) %>
+        <%= select_tag(:pace, options_for_select([["All Levels", 0], [ "Military 6 min/mi ", 1], ["Advanced 6-7 min/mi", 2], ["High Intermediate 7-8 min/mi", 3], ["Intermediate 8-9 min/mi", 4], ["Beginner 9-10 min/mi", 5], ["Jogger 10-11 min/mi", 6], ["Speedwalker 11-12 min/mi", 7], ["Sprints 12+ min/mi", 8] ]), {:id => "post_pace"} ) %>
+        <%= select_tag(:age,options_for_select([[" ", 0], ["Your age group", 1]]), {:id => "post_age"} ) %>
+
+
+        <%= select_datetime Date.tomorrow, prefix: :end_time, :start_year => Time.now.year, :end_year => Time.now.year.next, :ampm => true %>
+        <% end %>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div id='filters'>
   <% gender = "" %>
   <% if @user.gender == 0 %>

@@ -8,6 +8,16 @@
 <p>Time to UTC <%= Time.zone.now.utc %></p>
 <p>Comparison (Browser Time + 2 min > Server Time):  <%= (Time.zone.now + 120) > Time.now %> </p>
 
+<!-- Setting gender -->
+<% gender = "" %>
+  <% if @user.gender == 0 %>
+    <% gender = "none" %>
+  <% elsif @user.gender == 1 %>
+    <% gender = "Women" %>
+  <% else %>
+    <% gender = "Men" %>
+  <% end %>
+
 <!-- Button trigger modal -->
 <div class="post_create">
   <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal">
@@ -26,37 +36,52 @@
       <div class="modal-body">
 
         <%= form_tag({:action => 'create'}, {:method => 'post', :remote => true, :id => "create_post"}) do %>
-
-        <%= select_tag(:gender_pref, options_for_select([["Mixed Gender Runs", 0], [ "Blah Runs", @user.gender]], 0), {:id => "post_gender"} ) %>
+        <%= label_tag("Please enter an address (street, state/province, country): ") %>
+        <%= text_field_tag('address') %>
+        </br>
+        <%= label_tag("When: ") %>
+        <%= select_datetime Date.tomorrow, prefix: :end_time, :start_year => Time.now.year, :end_year => Time.now.year.next, :minute_step => 15, :ampm => true %>
+        </br>
+        <%= label_tag("Pace of run: ") %>
         <%= select_tag(:pace, options_for_select([["All Levels", 0], [ "Military 6 min/mi ", 1], ["Advanced 6-7 min/mi", 2], ["High Intermediate 7-8 min/mi", 3], ["Intermediate 8-9 min/mi", 4], ["Beginner 9-10 min/mi", 5], ["Jogger 10-11 min/mi", 6], ["Speedwalker 11-12 min/mi", 7], ["Sprints 12+ min/mi", 8] ]), {:id => "post_pace"} ) %>
-        <%= select_tag(:age,options_for_select([[" ", 0], ["Your age group", 1]]), {:id => "post_age"} ) %>
+        </br>
+        <%= label_tag("Minimum distanec: ") %>
+        <%= select_tag(:distance, options_for_select([["1 mi", 0], ["3 mi", 3], ["5 mi", 5]]), {:id => "post_age"} ) %>
+        </br>
 
+        <%= label_tag("Gender preference: ") %>
+        <%= select_tag(:gender_pref, options_for_select([["Mixed Gender Run", 0], [ gender + "'s Run", @user.gender]], 0), {:id => "post_gender"} ) %>
+        </br>
+        <%= label_tag("Age group: ") %>
+        <%= select_tag(:age, options_for_select([["None", 0], ["Your age group", 1]]), {:id => "post_age"} ) %>
+        </br>
+        <%= label_tag("Minimum monetary commitment: ") %>
+        <%= select_tag(:amount, options_for_select((0..20).step(5))) %>
+        </br>
 
-        <%= select_datetime Date.tomorrow, prefix: :end_time, :start_year => Time.now.year, :end_year => Time.now.year.next, :ampm => true %>
+        <%= label_tag("Maximum No. of runners: ") %>
+        <%= select_tag(:max_runners, options_for_select((1..16).step(3))) %>
+        </br>
+
+        <%= label_tag("Notes/Special instructions: ") %>
+        <%= text_field_tag('notes') %>
         <% end %>
 
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Submit</button>
+        <button type="button" class="btn btn-primary submit">Submit</button>
       </div>
     </div>
   </div>
 </div>
 
 <div id='filters'>
-  <% gender = "" %>
-  <% if @user.gender == 0 %>
-    <% gender = "none" %>
-  <% elsif @user.gender == 1 %>
-    <% gender = "Women's" %>
-  <% else %>
-    <% gender = "Men's" %>
-  <% end %>
+
 
   <%= form_tag({:action => 'display'}, {:method => 'get', :remote => true, :id => "filter_form"}) do %>
   <%= select_tag(:radius, options_for_select([["1 mi", 1], ["5 mi", 5], ["10 mi",10], ["15 mi",15], ["20 mi",20]]), {:id => "radius_select"}) %>
-  <%= select_tag(:gender_pref, options_for_select([["Mixed Gender Runs", 0], [ gender + " Runs", @user.gender], ["Mixed and " + gender + " Runs", 3]], 3), {:id => "gender_select"} ) %>
+  <%= select_tag(:gender_pref, options_for_select([["Mixed Gender Runs", 0], [ gender + "'s Runs", @user.gender], ["Mixed and " + gender + "'s Runs", 3]], 3), {:id => "gender_select"} ) %>
   <%= select_tag(:filter_select, options_for_select([["None", 0],["Pace", 1], ["Age", 2], ["Time", 3]])) %>
   <%= select_tag(:pace, options_for_select([["All Levels", 0], [ "Military 6 min/mi ", 1], ["Advanced 6-7 min/mi", 2], ["High Intermediate 7-8 min/mi", 3], ["Intermediate 8-9 min/mi", 4], ["Beginner 9-10 min/mi", 5], ["Jogger 10-11 min/mi", 6], ["Speedwalker 11-12 min/mi", 7], ["Sprints 12+ min/mi", 8] ]), {:id => "pace_select"} ) %>
   <%= select_tag(:age,options_for_select([[" ", 0], ["Your age group", 1]]), {:id => "age_select"} ) %>

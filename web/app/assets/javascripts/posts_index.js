@@ -30,4 +30,8 @@ $(document).ready(function(){
       $(this).closest('li').find('form').toggle();
     });
 
+  $(document).on('click', '.modal-footer .submit', function(){
+    $('#create_post').submit();
+  });
+
 });

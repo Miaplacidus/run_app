@@ -94,8 +94,13 @@ class PostsController < ApplicationController
   end
 
   def create
-    position = Geocoder.coordinates(params[:post][:address])
+    position = Geocoder.coordinates(params[:address])
     address = Geocoder.address(position)
+
+    date = params[:time][:day] + '/' + params[:time][:month] + '/' + params[:time][:year]
+    hour = params[:time][:hour] + ":00"
+    time = date + " " + hour
+
     post_attributes = post_params.merge({user_id: session[:user_id], latitude: position[0], longitude: position[1], address: address})
     @post = RunPal::CreatePost.run(post_attributes)
     if @post.success?

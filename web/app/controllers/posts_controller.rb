@@ -97,13 +97,24 @@ class PostsController < ApplicationController
     position = Geocoder.coordinates(params[:address])
     address = Geocoder.address(position)
 
-    date = params[:time][:day] + '/' + params[:time][:month] + '/' + params[:time][:year]
-    hour = params[:time][:hour] + ":00"
+    date = params[:date][:day] + '/' + params[:date][:month] + '/' + params[:date][:year]
+    hour = params[:date][:hour] + ':' + params[:date][:minute]
     time = date + " " + hour
+    utc_time = Time.zone.parse(time).utc
 
-    post_attributes = post_params.merge({user_id: session[:user_id], latitude: position[0], longitude: position[1], address: address})
-    @post = RunPal::CreatePost.run(post_attributes)
-    if @post.success?
+    age_group = 0
+    if params[:age] == 1
+      result = RunPal::GetUser(user_id: session[:user_id])
+
+      if result.success?
+        age_group = result.age_group
+      end
+    end
+
+    # post_attributes = post_params.merge({user_id: session[:user_id], latitude: position[0], longitude: position[1], address: address})
+    result = RunPal::CreatePost.run({user_id: session[:user_id], time: utc_time, address: address, latitude: position[0], longitude: position[1], pace: params[:pace], min_distance: params[:distance], gender_pref: params[:gender_pref], min_amt: params[:amount], max_runners: params[:max_runners], notes: params[:notes], age_pref: age_group})
+
+    if result.success?
       flash[:notice] = "Successfully created post!"
       redirect_to(:action => 'index')
     else

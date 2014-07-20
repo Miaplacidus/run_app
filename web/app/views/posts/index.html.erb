@@ -50,15 +50,11 @@
         <%= label_tag("Please enter an address (street, state/province, country): ") %>
         <%= text_field_tag('address') %>
         </br>
-
+        <%= label_tag("When: ") %>
         <%= select_day(Date.today) %>
         <%= select_tag(:month_select, options_for_select(months)) %>
-        <%= select_year(Date.today, prefix: :year, :start_year => Time.now.year, :end_year => 6.months.from_now.year) %>
-        </br>
+        <%= select_year(Date.today, prefix: :year, :start_year => Time.now.year, :end_year => 6.months.from_now.year) %> at
         <%= select_time(Time.zone.now, :start_time => Time.zone.now, :minute_step => 15, :ampm => true ) %>
-
-        <%= label_tag("When: ") %>
-        <%= select_datetime Date.today, prefix: :time, :start_year => Time.now.year, :end_year => 6.months.from_now.year, :start_month => Time.now.month, :minute_step => 15, :ampm => true %>
         </br>
         <%= label_tag("Pace of run: ") %>
         <%= select_tag(:pace, options_for_select([["All Levels", 0], [ "Military 6 min/mi ", 1], ["Advanced 6-7 min/mi", 2], ["High Intermediate 7-8 min/mi", 3], ["Intermediate 8-9 min/mi", 4], ["Beginner 9-10 min/mi", 5], ["Jogger 10-11 min/mi", 6], ["Speedwalker 11-12 min/mi", 7], ["Sprints 12+ min/mi", 8] ]), {:id => "post_pace"} ) %>
@@ -78,11 +74,11 @@
         </br>
 
         <%= label_tag("Maximum No. of runners: ") %>
-        <%= select_tag(:max_runners, options_for_select((1..16).step(3))) %>
+        <%= select_tag(:max_runners, options_for_select((2..14).step(3))) %>
         </br>
 
-        <%= label_tag("Notes/Special instructions: ") %>
-        <%= text_field_tag('notes') %>
+        <%= label_tag("Notes/Special instructions: ") %> </br>
+        <%= text_area_tag('notes') %>
         <% end %>
 
       </div>

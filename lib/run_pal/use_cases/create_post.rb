@@ -12,6 +12,8 @@ module RunPal
       inputs[:gender_pref] = inputs[:gender_pref] ? inputs[:gender_pref].to_i : nil
       inputs[:max_runners] = inputs[:max_runners] ? inputs[:max_runners].to_i : nil
       inputs[:min_amt] = inputs[:min_amt] ? inputs[:min_amt].to_f : nil
+      inputs[:latitude] = inputs[:latitude] ? inputs[:latitude].to_f : nil
+      inputs[:longitude] = inputs[:longitude] ? inputs[:longitude].to_f : nil
 
       user = RunPal.db.get_user(inputs[:creator_id])
       return failure (:user_does_not_exist) if user.nil?

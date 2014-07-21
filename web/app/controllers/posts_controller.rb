@@ -94,6 +94,11 @@ class PostsController < ApplicationController
   end
 
   def create
+    result = RunPal::GetUser.run({user_id: session[:user_id]})
+    @user = result.user
+
+    puts "The user: #{@user}"
+
     position = Geocoder.coordinates(params[:address])
     address = Geocoder.address(position)
 

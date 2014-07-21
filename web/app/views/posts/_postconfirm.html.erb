@@ -2,6 +2,7 @@
     <li>
         <ul>
           <li>
+
             <% t = @post.time %>
             <%= Time.zone.parse(t.to_s).strftime("%a %B %e, %Y at %l:%M%P, %:z") %>
             <%= Time.zone %>

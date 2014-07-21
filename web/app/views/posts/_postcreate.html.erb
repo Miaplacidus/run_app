@@ -1,0 +1,55 @@
+<% gender = "" %>
+<% if @user.gender == 0 %>
+<% gender = "none" %>
+<% elsif @user.gender == 1 %>
+<% gender = "Women" %>
+<% else %>
+<% gender = "Men" %>
+<% end %>
+
+<% months = [] %>
+<% month_nums = [] %>
+<% (Time.now.month..Time.now.month+6).each do |num| %>
+<%  if num < 13 %>
+<%    month_nums << num %>
+<%  else %>
+<%    month_nums << num - 12 %>
+<%  end %>
+<% end %>
+
+<% month_nums.each {|m| months << [Date::MONTHNAMES[m], m]} %>
+
+<%= form_tag({:action => 'create'}, {:method => 'post', :remote => true, :id => "create_post"}) do %>
+<%= label_tag("Please enter an address (street, city, state/province, country): ") %>
+<%= text_field_tag('address') %>
+</br>
+<%= label_tag("When: ") %>
+<%= select_day(Date.today) %>
+<%= select_tag(:month_select, options_for_select(months)) %>
+<%= select_year(Date.today, prefix: :year, :start_year => Time.now.year, :end_year => 6.months.from_now.year) %> at
+<%= select_time(Time.zone.now, :start_time => Time.zone.now, :minute_step => 15, :ampm => true ) %>
+</br>
+<%= label_tag("Pace of run: ") %>
+<%= select_tag(:pace, options_for_select([["All Levels", 0], [ "Military 6 min/mi ", 1], ["Advanced 6-7 min/mi", 2], ["High Intermediate 7-8 min/mi", 3], ["Intermediate 8-9 min/mi", 4], ["Beginner 9-10 min/mi", 5], ["Jogger 10-11 min/mi", 6], ["Speedwalker 11-12 min/mi", 7], ["Sprints 12+ min/mi", 8] ]), {:id => "post_pace"} ) %>
+</br>
+<%= label_tag("Minimum distanec: ") %>
+<%= select_tag(:distance, options_for_select([["1 mi", 0], ["3 mi", 3], ["5 mi", 5]]), {:id => "post_age"} ) %>
+</br>
+
+<%= label_tag("Gender preference: ") %>
+<%= select_tag(:gender_pref, options_for_select([["Mixed Gender Run", 0], [ gender + "'s Run", @user.gender]], 0), {:id => "post_gender"} ) %>
+</br>
+<%= label_tag("Age group: ") %>
+<%= select_tag(:age, options_for_select([["None", 0], ["Your age group", 1]]), {:id => "post_age"} ) %>
+</br>
+<%= label_tag("Minimum monetary commitment: ") %>
+<%= select_tag(:amount, options_for_select((0..20).step(5))) %>
+</br>
+
+<%= label_tag("Maximum No. of runners: ") %>
+<%= select_tag(:max_runners, options_for_select((2..14).step(3))) %>
+</br>
+
+<%= label_tag("Notes/Special instructions: ") %> </br>
+<%= text_area_tag('notes') %>
+<% end %>

@@ -1,6 +1,11 @@
 $(document).ready(function(){
 
   $('.post_modal .modal-body').empty();
-  $('.post_modal .modal-body').html("<%= escape_javascript(render 'postconfirm') %>")
+  $('.post_modal .modal-body').html("<%= escape_javascript(render 'postconfirm') %>");
+  $('.post_modal .submit').hide();
+  $('.post_modal .cls_btn').on('click', function(){
+    $('.post_modal .modal-body').html("<%= escape_javascript(render 'postcreate') %>");
+    $('.post_modal .submit').show();
+  });
 
 });

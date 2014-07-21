@@ -136,7 +136,7 @@ module RunPal
         @commits[id] ? RunPal::Commitment.new(@commits[id]) : nil
       end
 
-      def get_commits_by_user(user_id)
+      def get_user_commits(user_id)
         commits = @commits.values.select {|attrs| attrs[:user_id] == user_id }
         commits.map {|attrs| RunPal::Commitment.new(attrs) }
       end
@@ -232,6 +232,19 @@ module RunPal
       def get_attendees(post_id)
         post_commits = @commits.values.select {|attrs| attrs[:post_id] == post_id && attrs[:fulfilled] == true}
         attendee_ids = post_commits.map {|attrs| attrs[:user_id]}
+      end
+
+      def get_user_posts(user_id)
+        commits = get_user_commits(user_id)
+        posts = commits.map do |commit|
+          pid = commit.post_id
+          get_post(pid)
+        end
+
+        posts.delete_if do |post|
+          post.time < Time.now
+        end
+        posts
       end
 
       def update_post(id, attrs)

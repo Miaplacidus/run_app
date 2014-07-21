@@ -24,7 +24,7 @@
 <%= text_field_tag('address') %>
 </br>
 <%= label_tag("When: ") %>
-<%= select_day(Date.today) %>
+<%= select_day(Time.zone.now.day, prefix: :day) %>
 <%= select_tag(:month_select, options_for_select(months)) %>
 <%= select_year(Date.today, prefix: :year, :start_year => Time.now.year, :end_year => 6.months.from_now.year) %> at
 <%= select_time(Time.zone.now, :start_time => Time.zone.now, :minute_step => 15, :ampm => true ) %>

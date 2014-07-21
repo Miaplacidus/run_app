@@ -1,0 +1,19 @@
+<h1>Posts#admin</h1>
+<p>Find me in app/views/posts/admin.html.erb</p>
+<p>Browser Time Zone <%= Time.zone %> </p>
+<p>Browser Time <%= Time.zone.now %> </p>
+<p>Server Time Zone <%= Time.now.zone %> </p>
+<p>Server Time <%= Time.now %> </p>
+<p>Time to UTC <%= Time.zone.now.utc %></p>
+<p>Comparison (Browser Time + 2 min > Server Time):  <%= (Time.zone.now + 120) > Time.now %> </p>
+
+<% @posts.each do |post| %>
+<li> Level: <%= post.pace %> </li>
+<li> Address: <%= post.address %> </li>
+<li> Min Commit <%= post.min_amt %> </li>
+<li> Notes: <%= post.notes %> </li> </br>
+<% end %>
+
+<div>
+  <%= render(:partial => 'adminlist') %>
+</div>

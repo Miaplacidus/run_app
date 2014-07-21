@@ -1,5 +1,5 @@
 $(document).ready(function(){
 
-  $("#<%= @post_id %>").html("<%= escape_javascript(render 'postusers') %>").show();
+  $("#<%= @post_id %> .users_list").html("<%= escape_javascript(render 'postusers') %>").show();
 
 });

@@ -88,11 +88,6 @@ class PostsController < ApplicationController
     end
   end
 
-  def new
-    # @post = RunPal::Post.new({:notes => "", :circle_id => nil})
-
-  end
-
   def create
     result = RunPal::GetUser.run({user_id: session[:user_id]})
     @user = result.user
@@ -102,7 +97,7 @@ class PostsController < ApplicationController
     position = Geocoder.coordinates(params[:address])
     address = Geocoder.address(position)
 
-    date = params[:date][:day] + '/' + params[:date][:month] + '/' + params[:date][:year]
+    date = params[:day][:day] + '/' + params[:month_select] + '/' + params[:year][:year]
     hour = params[:date][:hour] + ':' + params[:date][:minute]
     time = date + " " + hour
     utc_time = Time.zone.parse(time).utc
@@ -140,6 +135,14 @@ class PostsController < ApplicationController
     respond_to do |format|
       format.js
     end
+  end
+
+  def admin
+    result = RunPal::GetUser.run({user_id: session[:user_id]})
+    @user = result.user
+
+    result = RunPal::GetUserPosts.run({user_id: session[:user_id]})
+    @posts = result.posts
   end
 
   def edit

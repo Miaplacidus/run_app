@@ -6,6 +6,7 @@ $(document).ready(function(){
   $('.post_modal .cls_btn').on('click', function(){
     $('.post_modal .modal-body').html("<%= escape_javascript(render 'postcreate') %>");
     $('.post_modal .submit').show();
+    $('.post_modal form')[0].reset();
   });
 
 });

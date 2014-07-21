@@ -153,7 +153,14 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    @destroyed_post = RunPal::DeletePost.run()
+
+    blah = RunPal::DeletePost.run({user_id: session[:user_id], post_id: params[:id]})
+    result = RunPal::GetUserPosts.run({user_id: session[:user_id]})
+    @posts = result.posts
+
+    respond_to do |format|
+      format.js
+    end
   end
 
 

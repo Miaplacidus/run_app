@@ -2,7 +2,6 @@ module RunPal
   class DeletePost < UseCase
 
     def run(inputs)
-
       inputs[:post_id] = inputs[:post_id] ? inputs[:post_id].to_i : nil
       inputs[:user_id] = inputs[:user_id] ? inputs[:user_id].to_i : nil
 

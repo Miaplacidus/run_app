@@ -1,5 +1,5 @@
 <ul>
-    <li>
+    <%= content_tag :li, id: @post.id do %>
         <ul>
           <li>
 
@@ -45,11 +45,12 @@
           <li><%= gender_pref %></li>
 
           <li><%= link_to("See runners", {:action => 'show', :remote => true, :creator_id => @post.creator_id, :post_id => @post.id}) %></li>
-          <%= content_tag :ul, class: 'users_list', id: @post.id, style:'display:none' do %>
+          <%= content_tag :ul, class: 'users_list', style:'display:none' do %>
           <% end %>
           <!-- expand to show map -->
           <li>View Location</li>
           <div class='map'></div>
         </ul>
     </li>
+    <% end %>
   </ul>

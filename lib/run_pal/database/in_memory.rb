@@ -137,8 +137,8 @@ module RunPal
       end
 
       def get_user_commits(user_id)
-        commits = @commits.values.select {|attrs| attrs[:user_id] == user_id }
-        commits.map {|attrs| RunPal::Commitment.new(attrs) }
+        commits = @commits.values.select{|attrs| attrs[:user_id] == user_id }
+        commits.map{|attrs| RunPal::Commitment.new(attrs) }
       end
 
       def update_commit(id, attrs)
@@ -254,6 +254,9 @@ module RunPal
       end
 
       def delete_post(id)
+        @commits.delete_if do |cid, attrs|
+          attrs[:post_id] == id
+        end
         @posts.delete(id)
       end
 

@@ -34,4 +34,8 @@ $(document).ready(function(){
     $('#create_post').submit();
   });
 
+  $(document).on('click', '.delete_post_link', function (){
+    $(this).closest('li').find('form').toggle();
+  });
+
 });

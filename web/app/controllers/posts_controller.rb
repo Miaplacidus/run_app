@@ -75,7 +75,7 @@ class PostsController < ApplicationController
     @creator = retrieved_user.user
     retrieved_list = RunPal::GetPostUsers.run({post_id: params[:post_id]})
     @users_list = retrieved_list.users
-    result = RunPal::ShowPost.run({user_id: params[:creator_id], post_id: params[:post_id] })
+    result = RunPal::ShowPost.run({user_id: session[:user_id], post_id: params[:post_id] })
     @max_runners = result.post.max_runners
     @post_id = params[:post_id]
 
@@ -113,12 +113,10 @@ class PostsController < ApplicationController
 
     # post_attributes = post_params.merge({user_id: session[:user_id], latitude: position[0], longitude: position[1], address: address})
     result = RunPal::CreatePost.run({user_id: session[:user_id], time: utc_time, address: address, latitude: position[0], longitude: position[1], pace: params[:pace], min_distance: params[:distance], gender_pref: params[:gender_pref], min_amt: params[:amount], max_runners: params[:max_runners], notes: params[:notes], age_pref: age_group})
+    @post = result.post
 
-    if result.success?
-      flash[:notice] = "Successfully created post!"
-      redirect_to(:action => 'index')
-    else
-      render('new')
+    respond_to do |format|
+      format.js
     end
   end
 

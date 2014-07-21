@@ -26,7 +26,7 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade post_modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -47,7 +47,7 @@
         <% month_nums.each {|m| months << [Date::MONTHNAMES[m], m]} %>
 
         <%= form_tag({:action => 'create'}, {:method => 'post', :remote => true, :id => "create_post"}) do %>
-        <%= label_tag("Please enter an address (street, state/province, country): ") %>
+        <%= label_tag("Please enter an address (street, city, state/province, country): ") %>
         <%= text_field_tag('address') %>
         </br>
         <%= label_tag("When: ") %>

@@ -1,0 +1,6 @@
+$(document).ready(function(){
+
+  $('.post_modal .modal-body').empty();
+  $('.post_modal .modal-body').html("<%= escape_javascript(render 'postconfirm') %>")
+
+});

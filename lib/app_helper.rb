@@ -33,13 +33,13 @@ module RunPal
 
     users_attrs = [
         {first_name: "RondaRousey", gender: 1, email:"jogger@run.com", bday:"06/06/1966", rating: 50 , level: 1 },
-        {first_name: "LizCarmouche", gender: 1, email:"marine@military.com", bday: "05/15/1998", rating: 93, level: 2.8},
+        {first_name: "LizCarmouche", gender: 1, email:"marine@military.com", bday: "05/15/1990", rating: 93, level: 2.8},
         {first_name: "JuliannaPena", gender: 1, email:"punch@fast.com", bday: "02/22/1944", rating: 98, level: 3.3},
-        {first_name: "LailaAli", gender: 2, email:"sofast@runner.com", bday: "05/25/1994", rating: 42, level: 4.1},
+        {first_name: "LailaAli", gender: 2, email:"sofast@runner.com", bday: "05/25/1984", rating: 42, level: 4.1},
         {first_name: "DanielCormier", gender: 2, email:"wrestle@elite.com", bday: "09/03/1979", rating: 33, level: 5.5},
         {first_name: "JonJones", gender: 2, email:"marathons@speed.com", bday:"02/08/1987", rating: 75, level: 6.7 },
         {first_name: "CubSwanson", gender: 2, email:"runlikemad@sprinter.com", bday:"03/14/1988", rating: 59, level: 7.1},
-        {first_name: "CainVelasquez", gender: 2, email:"sprint@runna.com", bday: "05/25/1994", rating: 90, level: 8.4}
+        {first_name: "CainVelasquez", gender: 2, email:"sprint@runna.com", bday: "05/25/1991", rating: 90, level: 8.4}
       ]
 
     users = []

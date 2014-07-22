@@ -127,10 +127,11 @@ module RunPal
     t_june_first = DateTime.parse("June 1 2014 12pm")
     t_july_sxt = DateTime.parse("July 16 2014 5:45pm")
     t_july_svt = DateTime.parse("July 17 2014 3:00pm")
+    t_aug_twn = DateTime.parse("August 20 2014 5:30pm")
 
     posts_attrs = [
         {creator_id: users[0].id, time: t_apr_first, max_runners: 4, latitude: 40, longitude: 51, pace: -1, notes:"Sunny day run!", min_amt:10.50, age_pref: 0, gender_pref: 0, min_distance: 4, address: "123 Main Street, Everytown, IL, USA"},
-        {creator_id: users[1].id, time: t_may_first, max_runners: 6, latitude: 41.8833, longitude: -87.8001, pace: 0, notes:"Let's go.", min_amt:5.50, age_pref: 2, gender_pref: 1, min_distance: 5, address: "333 Washington Avenue, San Diego, CA, USA"},
+        {creator_id: users[1].id, time: t_aug_twn, max_runners: 6, latitude: 41.8833, longitude: -87.8001, pace: 0, notes:"Let's go.", min_amt:5.50, age_pref: 2, gender_pref: 1, min_distance: 5, address: "333 Washington Avenue, San Diego, CA, USA"},
         {creator_id: users[2].id, time: t_june_first, max_runners: 8, latitude: 44.0002, longitude: -55.0002, pace: 1, notes:"Will be a fairly relaxed jog.", min_amt:12.00, age_pref: 2, gender_pref: 1, min_distance: 1, address: "123 San Utopos, Everytown, WA, USA"},
         {creator_id: users[3].id, time: t_july_sxt, max_runners: 10, latitude: 41.8833, longitude: -87.80, pace: 2, min_amt:20.00, age_pref: 3, gender_pref: 0, min_distance: 7, address: "444 Main Street, Everytown, CO, USA"},
         {creator_id: users[4].id, time: t_apr_first, max_runners: 12, latitude: 64.0002, longitude: 90.0002, pace: 3, notes:"So much freakin' fun.", min_amt:12.00, age_pref: 4, gender_pref: 0, min_distance: 1, address: "13 Klay Street, Everytown, OH, USA"},

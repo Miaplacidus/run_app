@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   match 'posts/display', to: 'posts#display', :via => :get
   match 'posts/show', to: 'posts#show', :via => :get
   match 'posts/admin', to: 'posts#admin', :via => :get
-  match 'posts/destroy', to: 'posts#destroy', :via => :post
+  match 'posts/adminview', to: 'posts#adminview', :via => :get
 
   match 'posts/join', to: 'posts#join', :via => :post
 

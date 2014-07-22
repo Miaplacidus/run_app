@@ -247,6 +247,16 @@ module RunPal
         posts
       end
 
+      def get_admin_posts(user_id)
+        posts = @posts.values.select do |attrs|
+          attrs[:creator_id] == user_id
+        end
+
+        posts.map do |attrs|
+          RunPal::Post.new(attrs)
+        end
+      end
+
       def update_post(id, attrs)
         post_attrs = @posts[id]
         post_attrs.merge!(attrs)

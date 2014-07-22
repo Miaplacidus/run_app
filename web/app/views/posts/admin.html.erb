@@ -7,12 +7,8 @@
 <p>Time to UTC <%= Time.zone.now.utc %></p>
 <p>Comparison (Browser Time + 2 min > Server Time):  <%= (Time.zone.now + 120) > Time.now %> </p>
 
-<% @posts.each do |post| %>
-<li> Level: <%= post.pace %> </li>
-<li> Address: <%= post.address %> </li>
-<li> Min Commit <%= post.min_amt %> </li>
-<li> Notes: <%= post.notes %> </li> </br>
-<% end %>
+<%= link_to("Runs Joined", {:action => 'admin', :remote => true}) %>
+<%= link_to("Runs Created", {:action => 'adminview', :remote => true}) %>
 
 <div class= "admin_all">
   <%= render(:partial => 'adminlist') %>

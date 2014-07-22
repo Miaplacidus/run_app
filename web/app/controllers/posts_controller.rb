@@ -143,18 +143,23 @@ class PostsController < ApplicationController
 
     result = RunPal::GetUserPosts.run({user_id: session[:user_id]})
     @posts = result.posts
+
+    respond_to do |format|
+      format.html {render 'posts/admin.html.erb'}
+      format.js {render 'posts/admin.js.erb'}
+    end
   end
 
-  def edit
-  end
-
-  def delete
-    # TODO: Show form for deleting post
+  def adminview
+    result = RunPal::GetAdminPosts.run({user_id: session[:user_id]})
+    @posts = result.posts
+    respond_to do |format|
+      format.js
+    end
   end
 
   def destroy
-
-    blah = RunPal::DeletePost.run({user_id: session[:user_id], post_id: params[:id]})
+    RunPal::DeletePost.run({user_id: session[:user_id], post_id: params[:id]})
     result = RunPal::GetUserPosts.run({user_id: session[:user_id]})
     @posts = result.posts
 

@@ -52,7 +52,7 @@
 
           <li>
             <%= link_to("Delete Post", "javascript:void(0)", :class => "delete_post_link") %>
-            <%= form_tag({:action => 'destroy', :id => post.id}, {:id => post.id, :method => 'delete', :remote => true, :style =>'display:none'}) do %>
+            <%= form_tag({:action => 'destroy', :id => post.id}, {:method => 'delete', :remote => true, :style =>'display:none'}) do %>
               <%= label_tag("Are you sure you want to delete this post? ") %>
               <%= submit_tag("Yes", :class => 'btn btn-default btn-xs')%>
               <%= content_tag :a, class: 'btn btn-default btn-xs' do %>
@@ -63,8 +63,8 @@
           <!-- expand to show map -->
           <li>View Location</li>
           <div class='map'></div>
+         <li> <%= link_to("Check In", "javascript:void(0)", :class => "check_in_link") %> </li>
         </ul>
-    </li>
     <% end %>
     <% end %>
   </ul>

@@ -137,6 +137,14 @@ class PostsController < ApplicationController
     end
   end
 
+  def checkin
+    # result = RunPal::CheckIn.run({user_id:, user_lat:, user_long: , post_id: })
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
   def admin
     result = RunPal::GetUser.run({user_id: session[:user_id]})
     @user = result.user

@@ -136,6 +136,10 @@ module RunPal
         @commits[id] ? RunPal::Commitment.new(@commits[id]) : nil
       end
 
+      def get_user_commit(user_id, post_id)
+        @commits.values.detect{|attrs| attrs[:user_id] == user_id && attrs[:post_id] == post_id}
+      end
+
       def get_user_commits(user_id)
         commits = @commits.values.select{|attrs| attrs[:user_id] == user_id }
         commits.map{|attrs| RunPal::Commitment.new(attrs) }

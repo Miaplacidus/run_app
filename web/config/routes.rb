@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   match 'posts/show', to: 'posts#show', :via => :get
   match 'posts/admin', to: 'posts#admin', :via => :get
   match 'posts/adminview', to: 'posts#adminview', :via => :get
+  match 'posts/checkin', to: 'posts#checkin', :via => :put
 
   match 'posts/join', to: 'posts#join', :via => :post
 

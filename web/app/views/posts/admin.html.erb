@@ -7,6 +7,7 @@
 <p>Time to UTC <%= Time.zone.now.utc %></p>
 <p>Comparison (Browser Time + 2 min > Server Time):  <%= (Time.zone.now + 120) > Time.now %> </p>
 
+
 <%= link_to("Runs Joined", {:action => 'admin', :remote => true}) %>
 <%= link_to("Runs Created", {:action => 'adminview', :remote => true}) %>
 

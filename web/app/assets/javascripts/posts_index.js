@@ -38,4 +38,34 @@ $(document).ready(function(){
     $(this).closest('li').find('form').toggle();
   });
 
+  $(document).on('click', '.check_in_link', function(){
+    var id = $(this).parent('li').attr('id')
+
+    navigator.geolocation.getCurrentPosition(GetLocation);
+    function GetLocation(location) {
+      var user_lat = location.coords.latitude;
+      var user_lon = location.coords.longitude;
+
+      console.log(user_lat);
+      console.log(user_lon);
+
+      $.ajax({ type: "PUT",
+           url: "/posts/checkin.js",
+           dataType: 'json',
+           data: {
+            jsonData: JSON.stringify(
+              {
+                user_lat: user_lat,
+                user_lon: user_lon,
+                id: id
+              })
+           },
+           success : function(text) {
+              // alert('success');
+           }
+      });
+    }
+
+  });
+
 });

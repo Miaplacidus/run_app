@@ -10,6 +10,8 @@ Rails.application.routes.draw do
 
   match 'users/dashboard', to: 'users#dashboard', :via => :get
 
+  match 'circles/display', to: 'circles#display', :via => :get
+
   match 'posts/display', to: 'posts#display', :via => :get
   match 'posts/show', to: 'posts#show', :via => :get
   match 'posts/admin', to: 'posts#admin', :via => :get

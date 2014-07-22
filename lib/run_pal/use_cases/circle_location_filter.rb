@@ -12,7 +12,7 @@ module RunPal
     end
 
     def get_nearby_circles(attrs)
-      RunPal.db.circles_filter_location(attrs)
+      RunPal.db.circles_filter_location(attrs[:user_lat], attrs[:user_long], attrs[:radius])
     end
 
   end

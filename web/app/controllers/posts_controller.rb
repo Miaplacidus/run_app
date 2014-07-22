@@ -8,7 +8,7 @@ class PostsController < ApplicationController
     test_location = Geocoder.coordinates("24.14.95.244")
     puts "Check location here! #{test_location}"
     # puts "Look here!!! #{Time.zone.class}"
-    result = RunPal::FilterPostsByGender.run({user_id: session[:user_id], radius: 10, gender_pref: 3, user_lat: test_location[0], user_long: test_location[1]})
+    result = RunPal::FilterPostsByGender.run({user_id: session[:user_id], radius: 1, gender_pref: 3, user_lat: test_location[0], user_long: test_location[1]})
     @posts = result.post_arr
   end
 
@@ -138,7 +138,16 @@ class PostsController < ApplicationController
   end
 
   def checkin
-    result = RunPal::CheckIn.run({user_id: session[:user_id], user_lat: params[:user_lat], user_long:params[:user_lon] })
+    result = RunPal::CheckIn.run({user_id: session[:user_id], user_lat: params[:user_lat], user_long:params[:user_lon], post_id: params[:id] })
+
+    if result.success?
+      @post = result.post
+    else
+      @error = result.error
+      puts "#{error}"
+    end
+
+    puts "Checkin result #{result}"
 
     respond_to do |format|
       format.js

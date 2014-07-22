@@ -1,3 +1,56 @@
 <h1>Circles#index</h1>
 <p>Find me in app/views/circles/index.html.erb</p>
-<%= @subjects %>
+
+<p>Browser Time Zone <%= Time.zone %> </p>
+<p>Browser Time <%= Time.zone.now %> </p>
+<p>Server Time Zone <%= Time.now.zone %> </p>
+<p>Server Time <%= Time.now %> </p>
+<p>Time to UTC <%= Time.zone.now.utc %></p>
+<p>Comparison (Browser Time + 2 min > Server Time):  <%= (Time.zone.now + 120) > Time.now %> </p>
+
+<!-- Button trigger modal -->
+<div class="post_create">
+  <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal">
+  Create a Run
+</button>
+</div>
+
+<!-- Modal -->
+<div class="modal fade post_modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Schedule a Run</h4>
+      </div>
+      <div class="modal-body">
+
+         <%= render(:partial => 'circlecreate') %>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default cls_btn" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary submit">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END OF MODAL FORM -->
+
+
+<div id='filters'>
+
+  <%= form_tag({:action => 'display'}, {:method => 'get', :remote => true, :id => "circle_filter_form"}) do %>
+  <%= select_tag(:radius, options_for_select([["1 mi", 1], ["5 mi", 5], ["10 mi",10], ["15 mi",15], ["20 mi",20]]), {:id => "circle_radius_select"}) %>
+  <%= select_tag(:capacity, options_for_select([["All Circles", 0],["Open Circles Only", 1]])) %>
+  <% end %>
+
+</div>
+
+
+
+<div class="circles_list">
+  <%= render(:partial => 'list') %>
+</div>
+
+

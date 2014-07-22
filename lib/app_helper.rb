@@ -64,16 +64,16 @@ module RunPal
 
 
     circles_attrs = [
-      {name: "Silvercar", admin_id: users[0].id, max_members: 14, latitude: 32, longitude: 44},
-      {name: "MakerSquare", admin_id: users[1].id, max_members: 19, latitude: 22, longitude: 67},
-      {name: "ThoughtWorks", admin_id: users[2].id, max_members: 30, latitude: 98.882, longitude: -89.7},
-      {name: "ThoughtBot", admin_id: users[3].id, max_members: 5, latitude: 12.1092, longitude: 34.7},
-      {name: "DevMynd", admin_id: users[4].id, max_members: 10, latitude: 2.09, longitude: 99.81233},
-      {name: "Kabam", admin_id: users[5].id, max_members: 12, latitude: 12.52, longitude: 67.002},
-      {name: "Big Astronaut", admin_id: users[6].id, max_members: 60, latitude: 22, longitude: 67},
-      {name: "8th Light", admin_id: users[7].id, max_members: 40, latitude: 22.009, longitude: 67},
-      {name: "NerdWallet", admin_id: users[0].id, max_members: 30, latitude: 45.44, longitude: -55},
-      {name: "Crowdtilt", admin_id: users[1].id, max_members: 6, latitude: 12.2, longitude: -7.88}
+      {name: "Silvercar", admin_id: users[0].id, max_members: 14, latitude: 32, longitude: 44, city: "Austin, TX, USA"},
+      {name: "MakerSquare", admin_id: users[1].id, max_members: 19, latitude: 22, longitude: 67, city: "Austin, TX, USA"},
+      {name: "ThoughtWorks", admin_id: users[2].id, max_members: 30, latitude: 98.882, longitude: -89.7, city: "Oak Park, IL, USA"},
+      {name: "ThoughtBot", admin_id: users[3].id, max_members: 5, latitude: 12.1092, longitude: 34.7, city: "Oak Park, IL, USA"},
+      {name: "DevMynd", admin_id: users[4].id, max_members: 10, latitude: 2.09, longitude: 99.81233, city: "Chicago, IL, USA"},
+      {name: "Kabam", admin_id: users[5].id, max_members: 12, latitude: 12.52, longitude: 67.002, city:"Tianjin"},
+      {name: "Big Astronaut", admin_id: users[6].id, max_members: 60, latitude: 22, longitude: 67, city:"Zhuhai"},
+      {name: "8th Light", admin_id: users[7].id, max_members: 40, latitude: 22.009, longitude: 67, city: "Xianggang"},
+      {name: "NerdWallet", admin_id: users[0].id, max_members: 30, latitude: 45.44, longitude: -55, city:"Shanghai"},
+      {name: "Crowdtilt", admin_id: users[1].id, max_members: 6, latitude: 12.2, longitude: -7.88, city:"Rio de Janeiro"}
     ]
 
     circles = []
@@ -122,12 +122,12 @@ module RunPal
         join_reqs << self.db.create_join_req(attrs)
     end
 
-    t_apr_first = DateTime.parse("Apr 1 2014 6:30am")
-    t_may_first = DateTime.parse("May 1 2014 7:40pm")
-    t_june_first = DateTime.parse("June 1 2014 12pm")
-    t_july_sxt = DateTime.parse("July 16 2014 5:45pm")
-    t_july_svt = DateTime.parse("July 17 2014 3:00pm")
-    t_aug_twn = DateTime.parse("August 20 2014 5:30pm")
+    t_apr_first = Time.parse("Apr 1 2014 6:30am")
+    t_may_first = Time.parse("May 1 2014 7:40pm")
+    t_june_first = Time.parse("June 1 2014 12pm")
+    t_july_sxt = Time.parse("July 16 2014 5:45pm")
+    t_july_svt = Time.parse("July 17 2014 3:00pm")
+    t_aug_twn = Time.parse("August 20 2014 5:30pm")
 
     posts_attrs = [
         {creator_id: users[0].id, time: t_apr_first, max_runners: 4, latitude: 40, longitude: 51, pace: -1, notes:"Sunny day run!", min_amt:10.50, age_pref: 0, gender_pref: 0, min_distance: 4, address: "123 Main Street, Everytown, IL, USA"},

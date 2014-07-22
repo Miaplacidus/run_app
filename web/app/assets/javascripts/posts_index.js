@@ -39,7 +39,7 @@ $(document).ready(function(){
   });
 
   $(document).on('click', '.check_in_link', function(){
-    var id = $(this).parent('li').attr('id')
+    var id = $(this).closest('li').parents('li').attr('id');
 
     navigator.geolocation.getCurrentPosition(GetLocation);
     function GetLocation(location) {
@@ -51,14 +51,10 @@ $(document).ready(function(){
 
       $.ajax({ type: "PUT",
            url: "/posts/checkin.js",
-           dataType: 'json',
            data: {
-            jsonData: JSON.stringify(
-              {
                 user_lat: user_lat,
                 user_lon: user_lon,
                 id: id
-              })
            },
            success : function(text) {
               // alert('success');

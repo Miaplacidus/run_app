@@ -138,7 +138,7 @@ class PostsController < ApplicationController
   end
 
   def checkin
-    # result = RunPal::CheckIn.run({user_id:, user_lat:, user_long: , post_id: })
+    result = RunPal::CheckIn.run({user_id: session[:user_id], user_lat: params[:user_lat], user_long:params[:user_lon] })
 
     respond_to do |format|
       format.js

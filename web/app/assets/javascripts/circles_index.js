@@ -32,13 +32,8 @@ $(document).ready(function(){
     });
     });
 
-
-
-
-
-
-  $(document).on('click', '.modal-footer .submit', function(){
-    $('#create_post').submit();
+  $(document).on('click', '.modal-footer .circle_submit', function(){
+    $('#create_circle').submit();
   });
 
   $(document).on('click', '.delete_post_link', function (){

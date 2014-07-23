@@ -1,0 +1,23 @@
+<%= form_tag({:action => 'create'}, {:method => 'post', :remote => true, :id => "create_circle"}) do %>
+
+<%= label_tag("What is the name of your circle? ") %>
+<%= text_field_tag('name') %>
+</br>
+
+<%= label_tag("Short description ") %>
+<%= text_area_tag('description') %>
+</br>
+
+<%= label_tag("In what city is your circle? (city, state/province, country) ") %>
+<%= text_field_tag('city') %>
+</br>
+
+<%= label_tag("Maximum No. of members: ") %>
+<%= select_tag(:max_members, options_for_select((10..50).step(10))) %>
+</br>
+
+<%= label_tag("Level (usual pace of runs): ") %>
+<%= select_tag(:level, options_for_select([["All Levels", 0], [ "Military 6 min/mi ", 1], ["Advanced 6-7 min/mi", 2], ["High Intermediate 7-8 min/mi", 3], ["Intermediate 8-9 min/mi", 4], ["Beginner 9-10 min/mi", 5], ["Jogger 10-11 min/mi", 6], ["Speedwalker 11-12 min/mi", 7], ["Sprints 12+ min/mi", 8] ]), {:id => "level"} ) %>
+</br>
+
+<% end %>

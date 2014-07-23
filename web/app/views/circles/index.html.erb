@@ -9,14 +9,14 @@
 <p>Comparison (Browser Time + 2 min > Server Time):  <%= (Time.zone.now + 120) > Time.now %> </p>
 
 <!-- Button trigger modal -->
-<div class="post_create">
+<div class="circle_create">
   <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal">
   Create a Circle
 </button>
 </div>
 
 <!-- Modal -->
-<div class="modal fade post_modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade circle_modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -30,7 +30,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default cls_btn" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary submit">Submit</button>
+        <button type="button" class="btn btn-primary circle_submit">Submit</button>
       </div>
     </div>
   </div>

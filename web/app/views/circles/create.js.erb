@@ -1,0 +1,11 @@
+$(document).ready(function(){
+
+  $('.circle_modal .modal-body').html("<%= escape_javascript(render 'circleconfirm') %>");
+  $('.circle_modal .submit').hide();
+  $('.circle_modal .cls_btn').on('click', function(){
+    $('.circle_modal .modal-body').html("<%= escape_javascript(render 'circlecreate') %>");
+    $('.circle_modal .submit').show();
+
+  });
+
+});

@@ -1,0 +1,39 @@
+<ul>
+    <%= content_tag :li, id: @circle.id do %>
+        <ul>
+          <li><%= @circle.name %></li>
+          <li><%= @circle.city %></li>
+          <% level_title = "" %>
+          <% case @circle.level %>
+          <% when 0%>
+          <% level_title = "All Levels" %>
+          <% when 1 %>
+          <% level_title = "Military: 6 min and under/mi" %>
+          <% when 2 %>
+          <% level_title = "Advanced: 6-7 min/mi" %>
+          <% when 3 %>
+          <% level_title = "High Intermediate: 7-8 min/mi" %>
+          <% when 4 %>
+          <% level_title = "Intermediate: 8-9 min/mi" %>
+          <% when 5 %>
+          <% level_title = "Beginner: 9-10 min/mi"%>
+          <% when 6 %>
+          <% level_title = "Jogger: 10-11 min/mi" %>
+          <% when 7%>
+          <% level_title = "Speedwalker: 11-12 min/mi"%>
+          <% when 8 %>
+          <% level_title = "Brisk Walk: 12+ min/mi"%>
+          <% else %>
+          <% level_title = "Error retrieving level" %>
+          <% end %>
+
+          <li>Level: <%= level_title %></li>
+          <li>Description <%= @circle.description %> mi</li>
+
+          <!-- expand to show map -->
+          <li>View Location</li>
+          <div class='map'></div>
+        </ul>
+    </li>
+    <% end %>
+  </ul>

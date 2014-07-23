@@ -36,7 +36,17 @@ class CirclesController < ApplicationController
   end
 
   def join
+    result = RunPal::CreateJoinReq.run({user_id: session[:user_id], circle_id: params[:circle_id]})
 
+    if result.success?
+      @join_req = result.join_req
+      puts "JOIN REQ #{@join_req}"
+    else
+    end
+
+    respond_to do |format|
+      format.js
+    end
   end
 
   def show
@@ -46,6 +56,15 @@ class CirclesController < ApplicationController
   end
 
   def create
+    position = Geocoder.coordinates(params[:city])
+    address = Geocoder.address(position)
+
+    result = RunPal::CreateCircle.run({user_id: session[:user_id], name: params[:name], max_members: params[:max_members], description: params[:description], city: params[:city], level: params[:level], latitude: position[0], longitude: position[1]})
+    @circle = result.circle
+
+    respond_to do |format|
+      format.js
+    end
   end
 
   def edit

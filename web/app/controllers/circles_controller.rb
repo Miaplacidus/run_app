@@ -13,12 +13,30 @@ class CirclesController < ApplicationController
   end
 
   def display
-    case params[:filter_select]
+
+    # location = Geocoder.coordinates(request.remote_ip)
+    test_location = Geocoder.coordinates("24.14.95.244")
+
+    case params[:capacity]
       when "0"
-
+        result = RunPal::FilterCirclesByLocation.run({user_lat: test_location[0], user_long: test_location[1], radius: params[:radius] })
+        @circles = result.circle_arr
+        puts "LOOK AT CIRCLES BY LOCATION #{@circles}"
       when "1"
-
+        result = RunPal::ShowOpenCircles.run({user_lat: test_location[0], user_long: test_location[1], radius: params[:radius] })
+        @circles = result.circle_arr
+      else
+        result = RunPal::FilterCirclesByLocation.run({user_lat: test_location[0], user_long: test_location[1], radius: params[:radius] })
+        @circles = result.circle_arr
     end
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def join
+
   end
 
   def show

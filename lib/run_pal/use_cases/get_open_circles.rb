@@ -2,8 +2,8 @@ module RunPal
   class ShowOpenCircles < UseCase
 
     def run(inputs)
-      inputs[:user_lat] = inputs[:user_lat] ? inputs[:user_lat].to_i : nil
-      inputs[:user_long] = inputs[:user_long] ? inputs[:user_long].to_i : nil
+      inputs[:user_lat] = inputs[:user_lat] ? inputs[:user_lat].to_f : nil
+      inputs[:user_long] = inputs[:user_long] ? inputs[:user_long].to_f : nil
       inputs[:radius] = inputs[:radius] ? inputs[:radius].to_i : nil
 
       circle_arr = get_open_circles(inputs)

@@ -17,9 +17,25 @@ $(document).ready(function(){
   });
 });
 
-  $(document).on('click', 'a.join_circle_form', function(){
-      $(this).closest('li').find('form').toggle();
+  $(document).on('click', 'a.send_join_req', function(){
+    var id = $(this).closest('li').parents('li').attr('id');
+
+    $.ajax({ type: "POST",
+         url: "/circles/join.js",
+         data: {
+            circle_id: id
+         },
+         success : function(text) {
+            // alert('success');
+            // console.log(text);
+         }
     });
+    });
+
+
+
+
+
 
   $(document).on('click', '.modal-footer .submit', function(){
     $('#create_post').submit();

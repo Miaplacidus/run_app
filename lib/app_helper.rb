@@ -64,16 +64,16 @@ module RunPal
 
 
     circles_attrs = [
-      {name: "Silvercar", admin_id: users[0].id, max_members: 14, latitude: 32, longitude: 44, city: "Austin, TX, USA"},
-      {name: "MakerSquare", admin_id: users[1].id, max_members: 19, latitude: 22, longitude: 67, city: "Austin, TX, USA"},
-      {name: "ThoughtWorks", admin_id: users[2].id, max_members: 30, latitude: 98.882, longitude: -89.7, city: "Oak Park, IL, USA"},
-      {name: "ThoughtBot", admin_id: users[3].id, max_members: 5, latitude: 12.1092, longitude: 34.7, city: "Oak Park, IL, USA"},
-      {name: "DevMynd", admin_id: users[4].id, max_members: 10, latitude: 2.09, longitude: 99.81233, city: "Chicago, IL, USA"},
-      {name: "Kabam", admin_id: users[5].id, max_members: 12, latitude: 12.52, longitude: 67.002, city:"Tianjin"},
-      {name: "Big Astronaut", admin_id: users[6].id, max_members: 60, latitude: 22, longitude: 67, city:"Zhuhai"},
-      {name: "8th Light", admin_id: users[7].id, max_members: 40, latitude: 22.009, longitude: 67, city: "Xianggang"},
-      {name: "NerdWallet", admin_id: users[0].id, max_members: 30, latitude: 45.44, longitude: -55, city:"Shanghai"},
-      {name: "Crowdtilt", admin_id: users[1].id, max_members: 6, latitude: 12.2, longitude: -7.88, city:"Rio de Janeiro"}
+      {name: "Silvercar", admin_id: users[0].id, level: 0, max_members: 14, latitude: 32, longitude: 44, city: "Austin, TX, USA"},
+      {name: "MakerSquare", admin_id: users[1].id, level: 1, max_members: 19, latitude: 22, longitude: 67, city: "Austin, TX, USA"},
+      {name: "ThoughtWorks", admin_id: users[2].id, level: 2, max_members: 30, latitude: 41.883, longitude: -87.8, city: "Oak Park, IL, USA"},
+      {name: "ThoughtBot", admin_id: users[3].id, level: 3, max_members: 5, latitude: 41.883, longitude: -87.8, city: "Oak Park, IL, USA"},
+      {name: "DevMynd", admin_id: users[4].id, level: 4, max_members: 10, latitude: 41.8819, longitude: -87.6278, city: "Chicago, IL, USA"},
+      {name: "Kabam", admin_id: users[5].id, level: 5, max_members: 12, latitude: 12.52, longitude: 67.002, city:"Tianjin"},
+      {name: "Big Astronaut", admin_id: users[6].id, level: 6, max_members: 60, latitude: 22, longitude: 67, city:"Zhuhai"},
+      {name: "8th Light", admin_id: users[7].id, level: 7, max_members: 40, latitude: 22.009, longitude: 67, city: "Xianggang"},
+      {name: "NerdWallet", admin_id: users[0].id, level: 8, max_members: 30, latitude: 45.44, longitude: -55, city:"Shanghai"},
+      {name: "Crowdtilt", admin_id: users[1].id, level: 0, max_members: 6, latitude: 12.2, longitude: -7.88, city:"Rio de Janeiro"}
     ]
 
     circles = []

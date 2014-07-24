@@ -81,6 +81,15 @@ module RunPal
         circles << self.db.create_circle(attrs)
     end
 
+    # Adding members to circles:
+    self.db.add_user_to_circle(3,9)
+    self.db.add_user_to_circle(4,9)
+    self.db.add_user_to_circle(5,9)
+
+    # Creating a circle
+    self.db.create_circle({name: "Oak Park Sprint", admin_id: 9, level: 0, max_members: 12, latitude: 41.883, longitude: -87.8, city:"Oak Park, IL, USA"})
+
+
     challenges_attrs = [
       {name: "Monday Funday", sender_id: circles[0].id, recipient_id: circles[1].id},
       {name: "Destroy", sender_id: circles[1].id, recipient_id: circles[2].id},

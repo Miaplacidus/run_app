@@ -83,7 +83,12 @@ module RunPal
 
       def get_user_circles(user_id)
         circle_attrs = @circles.values.select{|attrs| attrs[:member_ids].include?(user_id)}
-        circle_attrs.map{|attrs| RunPal::Circle.new(attrs)}
+        circles = circle_attrs.map{|attrs| RunPal::Circle.new(attrs)}
+      end
+
+      def get_circle_members(id)
+        member_ids = @circles[id][:member_ids]
+        member_ids.map{|id| get_user(id)}
       end
 
       def all_circles
@@ -119,6 +124,12 @@ module RunPal
       def add_users_to_circle(id, user_arr)
         circle_attrs = @circles[id]
         circle_attrs[:member_ids] += user_arr
+        RunPal::Circle.new(circle_attrs)
+      end
+
+      def add_user_to_circle(id, user_id)
+        circle_attrs = @circles[id]
+        circle_attrs[:member_ids] += [user_id]
         RunPal::Circle.new(circle_attrs)
       end
 

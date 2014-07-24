@@ -48,6 +48,18 @@ class CirclesController < ApplicationController
     end
   end
 
+  def show
+    # retrieved_user = RunPal::GetUser.run({user_id: params[:admin_id]})
+    # @admin = retrieved_user.user
+
+    # retrieved_list = RunPal::GetCircleMembers.run({circle_id: params[:circle_id]})
+    # @members_list = retrieved_list.members
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
   def create
     position = Geocoder.coordinates(params[:city])
     city = Geocoder.address(position)
@@ -61,6 +73,8 @@ class CirclesController < ApplicationController
   end
 
   def challenge
+    result = RunPal::CreateChallenge.run({user_id: session[:user_id], sender_id: params[:sender], recipient_id: params[:recipient]})
+    @challenge = result.challenge
 
     respond_to do |format|
       format.js
@@ -68,7 +82,16 @@ class CirclesController < ApplicationController
   end
 
   def admin
+    result = RunPal::GetUserCircles.run({user_id: session[:user_id]})
+    @circles = result.circles
 
+    puts "#{session[:user_id]}"
+    puts "#{result}"
+
+    respond_to do |format|
+      format.html {render 'circles/admin.html.erb'}
+      format.js {render 'circles/admin.js.erb'}
+    end
   end
 
   def adminview

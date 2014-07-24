@@ -1,0 +1,16 @@
+<h1>Circles#admin</h1>
+<p>Find me in app/views/circles/admin.html.erb</p>
+<p>Browser Time Zone <%= Time.zone %> </p>
+<p>Browser Time <%= Time.zone.now %> </p>
+<p>Server Time Zone <%= Time.now.zone %> </p>
+<p>Server Time <%= Time.now %> </p>
+<p>Time to UTC <%= Time.zone.now.utc %></p>
+<p>Comparison (Browser Time + 2 min > Server Time):  <%= (Time.zone.now + 120) > Time.now %> </p>
+
+
+<%= link_to("Circles Joined", {:action => 'admin', :remote => true}) %>
+<%= link_to("Circles Created", {:action => 'adminview', :remote => true}) %>
+
+<div class= "admin_all">
+  <%= render(:partial => 'adminlist') %>
+</div>

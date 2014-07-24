@@ -6,9 +6,9 @@ module RunPal
       user = RunPal.db.get_user(inputs[:user_id])
       return failure(:user_does_not_exist) if user.nil?
 
-      posts = RunPal.db.get_user_circles(inputs[:user_id])
+      circles = RunPal.db.get_user_circles(inputs[:user_id])
 
-      success :posts => posts
+      success :circles => circles
     end
   end
 end

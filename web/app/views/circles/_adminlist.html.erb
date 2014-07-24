@@ -29,17 +29,10 @@
           <% end %>
 
           <li>Level: <%= level_title %></li>
-          <li>Description <%= circle.description %> mi</li>
-
-          <li><%= link_to("Send Request to Join Circle", "javascript:void(0)", :class => 'btn btn-default btn-xs send_join_req') %></li>
-          <li><%= link_to("Send Circle a Challenge", "javascript:void(0)", :class => 'btn btn-default btn-xs send_challenge') %>
-            <%= form_tag({:action => 'challenge'}, {:method => 'post', :remote => true, :style =>'display:none'}) do %>
-            <%= label_tag("Circles You've Created") %>
-            <%= select_tag(:amount, options_for_select((0..20).step(5))) %>
-            <%= submit_tag("Join", :class => 'btn btn-default btn-xs')%>
-            <% end %>
-
-          </li>
+          <li>Description <%= circle.description %></li>
+          <li><%= link_to("See members", {:action => 'show', :remote => true, :circle_id => circle.id}, :admin_id => circle.admin_id) %></li>
+          <%= content_tag :ul, class: 'members_list', style:'display:none' do %>
+          <% end %>
           <!-- expand to show map -->
           <li>View Location</li>
           <div class='map'></div>

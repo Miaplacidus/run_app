@@ -12,6 +12,10 @@ Rails.application.routes.draw do
 
   match 'circles/display', to: 'circles#display', :via => :get
   match 'circles/join', to: 'circles#join', :via => :post
+  match 'circles/challenge', to: 'circles#challenge', :via => :post
+  match 'circles/admin', to: 'circles#admin', :via => :get
+  match 'circles/adminview', to: 'circles#adminview', :via => :get
+  match 'circles/show', to: 'circles#show', :via => :get
 
   match 'posts/display', to: 'posts#display', :via => :get
   match 'posts/show', to: 'posts#show', :via => :get

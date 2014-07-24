@@ -76,9 +76,14 @@ module RunPal
         name_hash
       end
 
-      def get_admin_user_circles(user_id)
+      def get_admin_circles(user_id)
         admin_circles = @circles.values.select{|attrs| attrs[:admin_id] == user_id}
         admin_circle_objs = admin_circles.map{|attrs| RunPal::Circle.new(attrs)}
+      end
+
+      def get_user_circles(user_id)
+        circle_attrs = @circles.values.select{|attrs| attrs[:member_ids].include?(user_id)}
+        circle_attrs.map{|attrs| RunPal::Circle.new(attrs)}
       end
 
       def all_circles

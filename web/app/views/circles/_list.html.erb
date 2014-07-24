@@ -32,7 +32,16 @@
           <li>Description <%= circle.description %> mi</li>
 
           <li><%= link_to("Send Request to Join Circle", "javascript:void(0)", :class => 'btn btn-default btn-xs send_join_req') %></li>
+          <li><%= link_to("Send Circle a Challenge", "javascript:void(0)", :class => 'btn btn-default btn-xs send_challenge') %>
+            <%= form_tag({:action => 'challenge'}, {:method => 'post', :remote => true, :style =>'display:none'}) do %>
+            <%= label_tag("Circles You've Created") %>
+            <%= select_tag(:amount, options_for_select((0..20).step(5))) %>
+            <%= hidden_field_tag('creator_id', post.creator_id) %>
+            <%= hidden_field_tag('post_id', post.id) %>
+            <%= submit_tag("Join", :class => 'btn btn-default btn-xs')%>
+            <% end %>
 
+          </li>
           <!-- expand to show map -->
           <li>View Location</li>
           <div class='map'></div>

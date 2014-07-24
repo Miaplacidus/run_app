@@ -13,7 +13,6 @@ class CirclesController < ApplicationController
   end
 
   def display
-
     # location = Geocoder.coordinates(request.remote_ip)
     test_location = Geocoder.coordinates("24.14.95.244")
 
@@ -49,17 +48,11 @@ class CirclesController < ApplicationController
     end
   end
 
-  def show
-  end
-
-  def new
-  end
-
   def create
     position = Geocoder.coordinates(params[:city])
-    address = Geocoder.address(position)
+    city = Geocoder.address(position)
 
-    result = RunPal::CreateCircle.run({user_id: session[:user_id], name: params[:name], max_members: params[:max_members], description: params[:description], city: params[:city], level: params[:level], latitude: position[0], longitude: position[1]})
+    result = RunPal::CreateCircle.run({user_id: session[:user_id], name: params[:name], max_members: params[:max_members], description: params[:description], city: city, level: params[:level], latitude: position[0], longitude: position[1]})
     @circle = result.circle
 
     respond_to do |format|
@@ -67,10 +60,22 @@ class CirclesController < ApplicationController
     end
   end
 
-  def edit
+  def challenge
+
+    respond_to do |format|
+      format.js
+    end
   end
 
-  def delete
+  def admin
+
+  end
+
+  def adminview
+
+  end
+
+  def edit
   end
 
   def destroy

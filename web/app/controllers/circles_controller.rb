@@ -49,11 +49,14 @@ class CirclesController < ApplicationController
   end
 
   def show
-    # retrieved_user = RunPal::GetUser.run({user_id: params[:admin_id]})
-    # @admin = retrieved_user.user
+    retrieved_user = RunPal::GetUser.run({user_id: params[:admin_id]})
+    @admin = retrieved_user.user
 
-    # retrieved_list = RunPal::GetCircleMembers.run({circle_id: params[:circle_id]})
-    # @members_list = retrieved_list.members
+    retrieved_list = RunPal::GetCircleMembers.run({circle_id: params[:circle_id]})
+    @members_list = retrieved_list.members
+
+    @circle_id = params[:circle_id]
+    @max_members = params[:max]
 
     respond_to do |format|
       format.js

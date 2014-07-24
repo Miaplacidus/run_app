@@ -1,0 +1,13 @@
+<ul>
+    <li>Organizer: <%= @admin.first_name %></li>
+    <% @members_list.each do |user| %>
+    <li>
+        <ul>
+          <li><%= user.first_name %></li>
+          <li>Level: <%= user.level %></li>
+          <li>Rating: <%= user.rating %></li>
+        </ul>
+    </li>
+    <% end %>
+    <li><%= @members_list.length%> out of <%= @max_members %> max members</li>
+</ul>

@@ -30,7 +30,7 @@
 
           <li>Level: <%= level_title %></li>
           <li>Description <%= circle.description %></li>
-          <li><%= link_to("See members", {:action => 'show', :remote => true, :circle_id => circle.id}, :admin_id => circle.admin_id) %></li>
+          <li><%= link_to("See members", {:action => 'show', :remote => true, :circle_id => circle.id, :admin_id => circle.admin_id, :max => circle.max_members}) %></li>
           <%= content_tag :ul, class: 'members_list', style:'display:none' do %>
           <% end %>
           <!-- expand to show map -->

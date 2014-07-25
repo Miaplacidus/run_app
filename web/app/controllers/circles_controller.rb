@@ -117,6 +117,21 @@ class CirclesController < ApplicationController
     end
   end
 
+  def getpostform
+    @circle_id = params[:circle_id].to_i
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def createcirclepost
+
+
+    respond_to do |format|
+      format.js
+    end
+  end
 
   def edit
   end

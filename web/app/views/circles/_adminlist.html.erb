@@ -38,6 +38,12 @@
            <%= content_tag :ul, class: 'posts_list', style:'display:none' do %>
           <% end %>
 
+          <li><%= link_to("Schedule a Run", {:action => 'getpostform', :remote => true, :circle_id => circle.id}, {"data-toggle" => 'modal', "data-target" =>"#circlepostmodal"})%></li>
+
+          <button class="btn btn-primary btn-xs circlepostmodal" data-toggle="modal" data-target="#circlepostmodal">
+            Schedule a Run
+          </button>
+
           <li><%="View Sent Challenges" %></li>
            <%= content_tag :ul, class: 'users_list', style:'display:none' do %>
           <% end %>

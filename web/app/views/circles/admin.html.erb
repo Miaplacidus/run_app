@@ -7,6 +7,29 @@
 <p>Time to UTC <%= Time.zone.now.utc %></p>
 <p>Comparison (Browser Time + 2 min > Server Time):  <%= (Time.zone.now + 120) > Time.now %> </p>
 
+<!-- circle_id variable to be used in modal -->
+<% circle_id = 0 %>
+
+<!-- Modal -->
+<div class="modal fade" id="circlepostmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close cls_btn" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Schedule a Run</h4>
+      </div>
+      <div class="modal-body cp_modalbody">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default cls_btn" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary submit">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END OF MODAL FORM -->
+
 
 <%= link_to("Circles Joined", {:action => 'admin', :remote => true}) %>
 <%= link_to("Circles Created", {:action => 'adminview', :remote => true}) %>

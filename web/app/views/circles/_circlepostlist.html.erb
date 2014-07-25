@@ -1,70 +1,76 @@
 <ul>
-    <% @posts.each do |post| %>
-    <%= content_tag :li, id: post.id do %>
-        <ul>
-          <li>
-            <% t = post.time %>
-            <%= Time.zone.parse(t.to_s).strftime("%a %B %e, %Y at %l:%M%P, %:z") %>
-            <%= Time.zone %>
-          </li>
-          <li><%= post.address %></li>
-          <% pace_title = "" %>
-          <% case post.pace %>
-          <% when 0%>
-          <% pace_title = "All Levels" %>
-          <% when 1 %>
-          <% pace_title = "Military: 6 min and under/mi" %>
-          <% when 2 %>
-          <% pace_title = "Advanced: 6-7 min/mi" %>
-          <% when 3 %>
-          <% pace_title = "High Intermediate: 7-8 min/mi" %>
-          <% when 4 %>
-          <% pace_title = "Intermediate: 8-9 min/mi" %>
-          <% when 5 %>
-          <% pace_title = "Beginner: 9-10 min/mi"%>
-          <% when 6 %>
-          <% pace_title = "Jogger: 10-11 min/mi" %>
-          <% when 7%>
-          <% pace_title = "Speedwalker: 11-12 min/mi"%>
-          <% when 8 %>
-          <% pace_title = "Brisk Walk: 12+ min/mi"%>
-          <% else %>
-          <% pace_title = "Error retrieving pace" %>
-          <% end %>
-
-          <li>Pace: <%= pace_title %></li>
-          <li>Minimum Distance: <%= post.min_distance %> mi</li>
-          <li>Minimum Commitment: <%= number_to_currency(post.min_amt, :unit => "$") %></li>
-          <% gender_pref = "" %>
-          <% if post.gender_pref == 0 %>
-          <% gender_pref = "Mixed Gender" %>
-          <% elsif post.gender_pref == 1 %>
-          <% gender_pref = "Women Only" %>
-          <% else %>
-          <% gender_pref = "Men Only" %>
-          <% end %>
-          <li><%= gender_pref %></li>
-          <li>Notes: <%= post.notes %> </li>
-
-          <li><%= link_to("See runners", {:controller => 'posts', :action => 'show', :remote => true, :creator_id => post.creator_id, :post_id => post.id}) %></li>
-          <%= content_tag :ul, class: 'users_list', style:'display:none' do %>
-          <% end %>
-
-          <li>
-            <%= link_to("Join Run", "javascript:void(0)", :class => "join_form") %>
-            <%= form_tag({:action => 'join'}, {:method => 'post', :remote => true, :style =>'display:none'}) do %>
-            <%= label_tag("How much would you like to commit? $") %>
-            <%= select_tag(:amount, options_for_select((0..20).step(5))) %>
-            <%= hidden_field_tag('creator_id', post.creator_id) %>
-            <%= hidden_field_tag('post_id', post.id) %>
-            <%= submit_tag("Join", :class => 'btn btn-default btn-xs')%>
+    <% if @posts.empty? %>
+    <ul>
+      <li>No posts scheduled</li>
+    </ul>
+    <% else %>
+      <% @posts.each do |post| %>
+      <%= content_tag :li, id: post.id do %>
+          <ul>
+            <li>
+              <% t = post.time %>
+              <%= Time.zone.parse(t.to_s).strftime("%a %B %e, %Y at %l:%M%P, %:z") %>
+              <%= Time.zone %>
+            </li>
+            <li><%= post.address %></li>
+            <% pace_title = "" %>
+            <% case post.pace %>
+            <% when 0%>
+            <% pace_title = "All Levels" %>
+            <% when 1 %>
+            <% pace_title = "Military: 6 min and under/mi" %>
+            <% when 2 %>
+            <% pace_title = "Advanced: 6-7 min/mi" %>
+            <% when 3 %>
+            <% pace_title = "High Intermediate: 7-8 min/mi" %>
+            <% when 4 %>
+            <% pace_title = "Intermediate: 8-9 min/mi" %>
+            <% when 5 %>
+            <% pace_title = "Beginner: 9-10 min/mi"%>
+            <% when 6 %>
+            <% pace_title = "Jogger: 10-11 min/mi" %>
+            <% when 7%>
+            <% pace_title = "Speedwalker: 11-12 min/mi"%>
+            <% when 8 %>
+            <% pace_title = "Brisk Walk: 12+ min/mi"%>
+            <% else %>
+            <% pace_title = "Error retrieving pace" %>
             <% end %>
-          </li>
-          <!-- expand to show map -->
-          <li>View Location</li>
-          <div class='map'></div>
-        </ul>
-    </li>
-    <% end %>
+
+            <li>Pace: <%= pace_title %></li>
+            <li>Minimum Distance: <%= post.min_distance %> mi</li>
+            <li>Minimum Commitment: <%= number_to_currency(post.min_amt, :unit => "$") %></li>
+            <% gender_pref = "" %>
+            <% if post.gender_pref == 0 %>
+            <% gender_pref = "Mixed Gender" %>
+            <% elsif post.gender_pref == 1 %>
+            <% gender_pref = "Women Only" %>
+            <% else %>
+            <% gender_pref = "Men Only" %>
+            <% end %>
+            <li><%= gender_pref %></li>
+            <li>Notes: <%= post.notes %> </li>
+
+            <li><%= link_to("See runners", {:controller => 'posts', :action => 'show', :remote => true, :creator_id => post.creator_id, :post_id => post.id}) %></li>
+            <%= content_tag :ul, class: 'users_list', style:'display:none' do %>
+            <% end %>
+
+            <li>
+              <%= link_to("Join Run", "javascript:void(0)", :class => "join_form") %>
+              <%= form_tag({:controller => 'posts', :action => 'join'}, {:method => 'post', :remote => true, :style =>'display:none'}) do %>
+              <%= label_tag("How much would you like to commit? $") %>
+              <%= select_tag(:amount, options_for_select((0..20).step(5))) %>
+              <%= hidden_field_tag('creator_id', post.creator_id) %>
+              <%= hidden_field_tag('post_id', post.id) %>
+              <%= submit_tag("Join", :class => 'btn btn-default btn-xs')%>
+              <% end %>
+            </li>
+            <!-- expand to show map -->
+            <li>View Location</li>
+            <div class='map'></div>
+          </ul>
+      </li>
+      <% end %>
+      <% end %>
     <% end %>
   </ul>

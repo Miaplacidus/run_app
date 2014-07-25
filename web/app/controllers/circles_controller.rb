@@ -88,9 +88,6 @@ class CirclesController < ApplicationController
     result = RunPal::GetUserCircles.run({user_id: session[:user_id]})
     @circles = result.circles
 
-    puts "#{session[:user_id]}"
-    puts "#{result}"
-
     respond_to do |format|
       format.html {render 'circles/admin.html.erb'}
       format.js {render 'circles/admin.js.erb'}
@@ -105,6 +102,21 @@ class CirclesController < ApplicationController
       format.js
     end
   end
+
+  def circleposts
+    result = RunPal::FilterPostsByCircle.run({circle_id: params[:circle_id]})
+    @posts = result.post_arr
+
+    @circle_id = params[:circle_id]
+
+    puts "#{result}"
+    puts "#{result.post_arr}"
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
 
   def edit
   end

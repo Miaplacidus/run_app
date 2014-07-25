@@ -89,7 +89,6 @@ module RunPal
     # Creating a circle
     self.db.create_circle({name: "Oak Park Sprint", admin_id: 9, level: 0, max_members: 12, latitude: 41.883, longitude: -87.8, city:"Oak Park, IL, USA"})
 
-
     challenges_attrs = [
       {name: "Monday Funday", sender_id: circles[0].id, recipient_id: circles[1].id},
       {name: "Destroy", sender_id: circles[1].id, recipient_id: circles[2].id},
@@ -141,7 +140,7 @@ module RunPal
     posts_attrs = [
         {creator_id: users[0].id, time: t_apr_first, max_runners: 4, latitude: 40, longitude: 51, pace: -1, notes:"Sunny day run!", min_amt:10.50, age_pref: 0, gender_pref: 0, min_distance: 4, address: "123 Main Street, Everytown, IL, USA"},
         {creator_id: users[1].id, time: t_aug_twn, max_runners: 6, latitude: 41.8833, longitude: -87.8001, pace: 0, notes:"Let's go.", min_amt:5.50, age_pref: 2, gender_pref: 1, min_distance: 5, address: "333 Washington Avenue, San Diego, CA, USA"},
-        {creator_id: users[2].id, time: t_june_first, max_runners: 8, latitude: 44.0002, longitude: -55.0002, pace: 1, notes:"Will be a fairly relaxed jog.", min_amt:12.00, age_pref: 2, gender_pref: 1, min_distance: 1, address: "123 San Utopos, Everytown, WA, USA"},
+        {creator_id: users[2].id, time: t_june_first, max_runners: 8, latitude: 44.0002, longitude: -55.0002, pace: 1, notes:"Will be a fairly relaxed jog.", min_amt:12.00, age_pref: 2, gender_pref: 1, min_distance: 1, address: "123 San Utopos, Everytown, WA, USA", circle_id: 3},
         {creator_id: users[3].id, time: t_july_sxt, max_runners: 10, latitude: 41.8833, longitude: -87.80, pace: 2, min_amt:20.00, age_pref: 3, gender_pref: 0, min_distance: 7, address: "444 Main Street, Everytown, CO, USA"},
         {creator_id: users[4].id, time: t_apr_first, max_runners: 12, latitude: 64.0002, longitude: 90.0002, pace: 3, notes:"So much freakin' fun.", min_amt:12.00, age_pref: 4, gender_pref: 0, min_distance: 1, address: "13 Klay Street, Everytown, OH, USA"},
         {creator_id: users[5].id, time: t_may_first, max_runners: 5, latitude: 41.8833, longitude: -87.7802, pace: 4, notes:"We shall run until our eyes bleed.", min_amt:12.00, age_pref: 5, gender_pref: 2, min_distance: 1, address: "113 Main Street, Everytown, IA, USA"},
@@ -157,6 +156,12 @@ module RunPal
     posts_attrs.each do |attrs|
         posts << self.db.create_post(attrs)
     end
+
+    # Circle-Associated Posts
+    self.db.create_post({creator_id: 9, time: t_aug_twn, max_runners: 5, latitude: 41.8833, longitude: -87.80, pace: 1, min_amt:10.00, age_pref: 0, gender_pref: 0, min_distance: 3, address: "555 Blueberry Street, Hometown, IL, USA", circle_id: 11})
+
+    self.db.create_post({creator_id: 9, time: t_aug_twn, max_runners: 10, latitude: 41.8833, longitude: -87.80, pace: 2, min_amt:5.00, age_pref: 3, gender_pref: 0, min_distance: 7, address: "321 Mulberry Street, Gotown, IL, USA", circle_id: 11})
+    self.db.create_post({creator_id: 9, time: t_aug_twn, max_runners: 5, latitude: 41.8833, longitude: -87.80, pace: 1, min_amt:10.00, age_pref: 0, gender_pref: 0, min_distance: 3, address: "555 Blueberry Street, Hometown, IL, USA", circle_id: 11})
 
     commits_attrs = [
       {user_id: users[1].id, post_id: posts[0].id, amount: 10.30},

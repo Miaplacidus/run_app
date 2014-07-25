@@ -34,8 +34,8 @@
           <%= content_tag :ul, class: 'members_list', style:'display:none' do %>
           <% end %>
 
-          <li><%="View Scheduled Runs" %></li>
-           <%= content_tag :ul, class: 'users_list', style:'display:none' do %>
+          <li><%= link_to("View Scheduled Runs", {:action => 'circleposts', :remote => true, :circle_id => circle.id})%></li>
+           <%= content_tag :ul, class: 'posts_list', style:'display:none' do %>
           <% end %>
 
           <li><%="View Sent Challenges" %></li>

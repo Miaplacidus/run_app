@@ -98,7 +98,12 @@ class CirclesController < ApplicationController
   end
 
   def adminview
+    result = RunPal::GetAdminCircles.run({user_id: session[:user_id]})
+    @circles = result.circles
 
+    respond_to do |format|
+      format.js
+    end
   end
 
   def edit

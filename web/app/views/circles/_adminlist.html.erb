@@ -33,9 +33,23 @@
           <li><%= link_to("See members", {:action => 'show', :remote => true, :circle_id => circle.id, :admin_id => circle.admin_id, :max => circle.max_members}) %></li>
           <%= content_tag :ul, class: 'members_list', style:'display:none' do %>
           <% end %>
-          <!-- expand to show map -->
-          <li>View Location</li>
-          <div class='map'></div>
+
+          <li><%="View Scheduled Runs" %></li>
+           <%= content_tag :ul, class: 'users_list', style:'display:none' do %>
+          <% end %>
+
+          <li><%="View Sent Challenges" %></li>
+           <%= content_tag :ul, class: 'users_list', style:'display:none' do %>
+          <% end %>
+
+          <li><%="View Received Challenges" %></li>
+           <%= content_tag :ul, class: 'users_list', style:'display:none' do %>
+          <% end %>
+
+          <li><%="View Accepted Challenges" %></li>
+           <%= content_tag :ul, class: 'users_list', style:'display:none' do %>
+          <% end %>
+
         </ul>
     </li>
     <% end %>

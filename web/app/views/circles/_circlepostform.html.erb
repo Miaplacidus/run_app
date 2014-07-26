@@ -10,7 +10,7 @@
 
 <% month_nums.each {|m| months << [Date::MONTHNAMES[m], m]} %>
 
-<%= form_tag({:action => 'create'}, {:method => 'post', :remote => true, :id => "create_post"}) do %>
+<%= form_tag({:action => 'createcirclepost'}, {:method => 'post', :remote => true, :id => "create_cp"}) do %>
 <%= label_tag("Please enter an address (street, city, state/province, country): ") %>
 <%= text_field_tag('address') %>
 </br>

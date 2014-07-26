@@ -126,7 +126,30 @@ class CirclesController < ApplicationController
   end
 
   def createcirclepost
+    result = RunPal::GetUser.run({user_id: session[:user_id]})
+    @user = result.user
 
+    position = Geocoder.coordinates(params[:address])
+    address = Geocoder.address(position)
+
+    date = params[:day][:day] + '/' + params[:month_select] + '/' + params[:year][:year]
+    hour = params[:date][:hour] + ':' + params[:date][:minute]
+    time = date + " " + hour
+    utc_time = Time.zone.parse(time).utc
+
+    age_group = 0
+    if params[:age] == 1
+      result = RunPal::GetUser(user_id: session[:user_id])
+
+      if result.success?
+        age_group = result.age_group
+      end
+    end
+
+    result = RunPal::CreatePost.run({user_id: session[:user_id], time: utc_time, address: address, latitude: position[0], longitude: position[1], pace: params[:pace], min_distance: params[:distance], gender_pref: params[:gender_pref], min_amt: params[:amount], max_runners: params[:max_runners], notes: params[:notes], age_pref: age_group, circle_id: params[:circle_id]})
+    @post = result.post
+
+    puts "New post here: @post"
 
     respond_to do |format|
       format.js

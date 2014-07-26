@@ -1,0 +1,12 @@
+$(document).ready(function(){
+
+  $('.cp_modalbody').empty();
+  $('.cp_modalbody').html("<%= escape_javascript(render 'circlepostconfirm') %>");
+  $('.circlepostmodal .submit').hide();
+  $('.circlepostmodal .cls_btn').on('click', function(){
+    $('.cp_modalbody').html("<%= escape_javascript(render 'circlepostform') %>");
+    $('.circlepostmodal .submit').show();
+
+  });
+
+});

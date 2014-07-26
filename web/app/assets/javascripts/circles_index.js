@@ -36,6 +36,12 @@ $(document).ready(function(){
     $('#create_circle').submit();
   });
 
+  $(document).on('click', '.modal-footer .cp_submit', function(){
+    $('#create_cp').submit();
+  });
+
+
+
   $(document).on('click', '.delete_post_link', function (){
     $(this).closest('li').find('form').toggle();
   });

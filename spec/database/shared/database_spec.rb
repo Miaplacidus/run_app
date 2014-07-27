@@ -385,7 +385,7 @@ shared_examples 'a database' do
 
     it "gets commitments by user_id" do
       commit = db.create_commit({user_id: @user_objs[0].id, post_id: @post_objs[1].id, amount: 3})
-      commits_arr = db.get_commits_by_user(@user_objs[0].id)
+      commits_arr = db.get_user_commits(@user_objs[0].id)
       expect(commits_arr.count).to eq(2)
       expect(commits_arr.map &:amount).to include(0, 3)
     end

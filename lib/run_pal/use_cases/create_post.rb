@@ -20,7 +20,7 @@ module RunPal
       return failure (:gender_pref_disallowed) if user.gender != inputs[:gender_pref] && inputs[:gender_pref] != 0
 
       post = create_new_post(inputs)
-      return failure(:invalid_input) if !post.valid?
+      return failure(:invalid_inputs) if !post.valid?
 
       success :post => post
     end

@@ -158,8 +158,6 @@ module RunPal
     end
 
     # Circle-Associated Posts
-    self.db.create_post({creator_id: 9, time: t_aug_twn, max_runners: 5, latitude: 41.8833, longitude: -87.80, pace: 1, min_amt:10.00, age_pref: 0, gender_pref: 0, min_distance: 3, address: "555 Blueberry Street, Hometown, IL, USA", circle_id: 11})
-
     self.db.create_post({creator_id: 9, time: t_aug_twn, max_runners: 10, latitude: 41.8833, longitude: -87.80, pace: 2, min_amt:5.00, age_pref: 3, gender_pref: 0, min_distance: 7, address: "321 Mulberry Street, Gotown, IL, USA", circle_id: 11})
     self.db.create_post({creator_id: 9, time: t_aug_twn, max_runners: 5, latitude: 41.8833, longitude: -87.80, pace: 1, min_amt:10.00, age_pref: 0, gender_pref: 0, min_distance: 3, address: "555 Blueberry Street, Hometown, IL, USA", circle_id: 11})
 

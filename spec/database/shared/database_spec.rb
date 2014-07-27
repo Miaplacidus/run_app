@@ -239,13 +239,13 @@ shared_examples 'a database' do
       @t_apr_first = Time.parse("Apr 1 2014")
       @t_may_first = Time.parse("May 1 2014")
       @t_june_first = Time.parse("June 1 2014")
-      @t_july_first = Time.parse("July 1 2014")
+      @t_aug_first = Time.parse("Aug 1 2014")
 
       posts = [
         {creator_id: @user_objs[0].id, time: @t_apr_first, latitude: 40, longitude: 51, pace: 2, notes:"Sunny day run!", complete:false, min_amt:10.50, age_pref: 0, gender_pref: 0},
         {creator_id: @user_objs[1].id, time: @t_may_first, latitude: 44, longitude: 55, pace: 1, notes:"Let's go.", complete:false, min_amt:5.50, age_pref: 3, gender_pref: 1},
         {creator_id: @user_objs[2].id, time: @t_june_first, latitude: 66, longitude: 77, pace: 7, notes:"Will be a fairly relaxed jog.", complete:true, min_amt:12.00, age_pref: 3, gender_pref: 1},
-        {creator_id: @user_objs[3].id, time: @t_july_first, latitude: 88, longitude: 99, pace: 0, complete:false, min_amt:20.00, age_pref: 4, gender_pref: 0, circle_id: @circle.id},
+        {creator_id: @user_objs[3].id, time: @t_aug_first, latitude: 88, longitude: 99, pace: 0, complete:false, min_amt:20.00, age_pref: 4, gender_pref: 0, circle_id: @circle.id},
       ]
 
       @post_objs = []
@@ -263,7 +263,7 @@ shared_examples 'a database' do
     end
 
     it "gets all posts associated with a circle" do
-      post_arr = db.get_circle_posts(@circle.id, 1)
+      post_arr = db.get_circle_posts(@circle.id)
       expect(post_arr.count).to eq(1)
       expect(post_arr[0].age_pref).to eq(4)
     end

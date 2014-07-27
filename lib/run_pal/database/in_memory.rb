@@ -234,7 +234,8 @@ module RunPal
       end
 
       def get_circle_posts(circle_id)
-        post_attributes = @posts.values.select {|post_attrs| post_attrs[:circle_id] == circle_id}
+        two_hours = 7200
+        post_attributes = @posts.values.select {|post_attrs| post_attrs[:circle_id] == circle_id && Time.now < post_attrs[:time] + two_hours}
         posts = post_attributes.map {|attrs| RunPal::Post.new(attrs)}
       end
 

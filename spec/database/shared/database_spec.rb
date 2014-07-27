@@ -499,6 +499,12 @@ shared_examples 'a database' do
       result = db.is_member?(@user_objs[1].id, @circle1.id)
       expect(result).to eq(true)
     end
+
+    it "gets all of the circles for which a user is the admin" do
+      result = db.get_admin_circles(@user_objs[1].id)
+      expect(result.count).to eq(1)
+      expect(result[0].name).to eq("Silvercar")
+    end
   end
 
 # WALLET TESTS

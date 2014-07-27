@@ -78,7 +78,7 @@ module RunPal
 
       def get_admin_circles(user_id)
         admin_circles = @circles.values.select{|attrs| attrs[:admin_id] == user_id}
-        admin_circle_objs = admin_circles.map{|attrs| RunPal::Circle.new(attrs)}
+        admin_circles.map{|attrs| RunPal::Circle.new(attrs)}
       end
 
       def get_user_circles(user_id)

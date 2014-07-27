@@ -230,7 +230,7 @@ module RunPal
       end
 
       def get_post(id)
-        post = @posts[id] ? RunPal::Post.new(@posts[id]) : nil
+        @posts[id] ? RunPal::Post.new(@posts[id]) : nil
       end
 
       def get_circle_posts(circle_id)
@@ -418,6 +418,8 @@ module RunPal
       def get_user_age(id)
         user = @users[id]
         bday = user[:bday]
+        return nil if bday.nil?
+
         bday = bday.split('/')
         bday = DateTime.new(bday[2].to_i, bday[0].to_i, bday[1].to_i)
         age = (DateTime.now - bday) / 365.25

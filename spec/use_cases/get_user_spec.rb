@@ -7,7 +7,7 @@ describe RunPal::GetUser do
   end
 
   it 'gets a user' do
-    user = RunPal.db.create_user({first_name:"Isaac", gender: 2, email: "gravity@apple.com"})
+    user = RunPal.db.create_user({first_name:"Isaac", gender: 2, email: "gravity@apple.com", bday: "03/14/1945"})
     result = subject.run({user_id: user.id})
 
     expect(result.success?).to eq(true)

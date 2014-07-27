@@ -261,8 +261,10 @@ module RunPal
           get_post(pid)
         end
 
+        one_hour = 3600
+
         posts.delete_if do |post|
-          post.time < Time.now
+          post.time < Time.now + one_hour
         end
         posts
       end

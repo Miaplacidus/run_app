@@ -13,6 +13,7 @@ describe RunPal::GetUser do
     expect(result.success?).to eq(true)
     expect(result.user.first_name).to eq("Isaac")
     expect(result.user.email).to eq('gravity@apple.com')
+    expect(result.age_group).to eq(6)
   end
 
 end

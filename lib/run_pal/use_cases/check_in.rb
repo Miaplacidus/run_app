@@ -8,7 +8,6 @@ module RunPal
       inputs[:user_id] = inputs[:user_id] ? inputs[:user_id].to_i : nil
       inputs[:user_lat] = inputs[:user_lat] ? inputs[:user_lat].to_f : nil
       inputs[:user_long] = inputs[:user_long] ? inputs[:user_long].to_f : nil
-      # inputs[:commit_id] = inputs[:commit_id] ? inputs[:commit_id].to_i : nil
       inputs[:post_id] = inputs[:post_id] ? inputs[:post_id].to_i : nil
 
       user = RunPal.db.get_user(inputs[:user_id])

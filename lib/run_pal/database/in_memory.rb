@@ -264,7 +264,7 @@ module RunPal
         one_hour = 3600
 
         posts.delete_if do |post|
-          post.time < Time.now + one_hour
+          post.time < Time.now - one_hour
         end
         posts
       end

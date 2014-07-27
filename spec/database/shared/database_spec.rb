@@ -475,7 +475,7 @@ shared_examples 'a database' do
     end
 
     it "adds a user to a circle" do
-      result = db.add_users_to_circle(@circle1.id, [@user_objs[0].id])
+      result = db.add_user_to_circle(@circle1.id, @user_objs[0].id)
       expect(result.member_ids.count).to eq(2)
       members = result.member_ids
       member_arr = [db.get_user(members[0]), db.get_user(members[1])]
@@ -500,10 +500,16 @@ shared_examples 'a database' do
       expect(result).to eq(true)
     end
 
-    it "gets all of the circles for which a user is the admin" do
+    it "gets all circles for which a user is the admin" do
       result = db.get_admin_circles(@user_objs[1].id)
       expect(result.count).to eq(1)
       expect(result[0].name).to eq("Silvercar")
+    end
+
+    it "gets all circles for which a user is a member" do
+      result = db.get_user_circles(@user_objs[2].id)
+      expect(result.count).to eq(1)
+      expect(result[0].name).to eq("Crazy Apps")
     end
   end
 

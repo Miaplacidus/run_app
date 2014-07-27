@@ -396,6 +396,13 @@ shared_examples 'a database' do
       expect(updated.amount).to eq(10)
       expect(updated.fulfilled).to eq(true)
     end
+
+    it "deletes a commitment" do
+      commit = db.create_commit({user_id: @user_objs[0].id, post_id: @post_objs[1].id, amount: 3})
+      db.delete_commit(commit.id)
+      result = db.get_commit(commit.id)
+      expect(result).to be_nil
+    end
   end
 
 # CIRCLE TESTS

@@ -274,6 +274,12 @@ module RunPal
           attrs[:creator_id] == user_id
         end
 
+        one_hour = 3600
+
+        posts.delete_if do |post_attrs|
+          post_attrs[:time] < Time.now - one_hour
+        end
+
         posts.map do |attrs|
           RunPal::Post.new(attrs)
         end

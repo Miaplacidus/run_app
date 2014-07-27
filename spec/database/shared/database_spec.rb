@@ -610,6 +610,12 @@ shared_examples 'a database' do
       expect(join_reqs[0].circle_id).to eq(@circle1.id)
     end
 
+    it "gets a circle's join requests" do
+      join_reqs = db.get_circle_join_req(@circle1.id)
+      expect(join_reqs.count).to eq(1)
+      expect(join_reqs[0].user_id).to eq(@user_objs[1].id)
+    end
+
     it "can approve a join request" do
       result = db.approve_req(@join_req.id)
       expect(result.accepted).to eq(true)

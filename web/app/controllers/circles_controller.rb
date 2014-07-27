@@ -149,8 +149,6 @@ class CirclesController < ApplicationController
     result = RunPal::CreatePost.run({user_id: session[:user_id], time: utc_time, address: address, latitude: position[0], longitude: position[1], pace: params[:pace], min_distance: params[:distance], gender_pref: params[:gender_pref], min_amt: params[:amount], max_runners: params[:max_runners], notes: params[:notes], age_pref: age_group, circle_id: params[:circle_id]})
     @post = result.post
 
-    puts "New post here: @post"
-
     respond_to do |format|
       format.js
     end

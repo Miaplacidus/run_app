@@ -310,7 +310,7 @@ shared_examples 'a database' do
       post = @post_objs[0]
       committers = db.get_committed_users(post.id)
       expect(committers.count).to eq(3)
-      committer_arr = [db.get_user(committers[0]), db.get_user(committers[1]), db.get_user(committers[2])]
+      committer_arr = [db.get_user(committers[0].id), db.get_user(committers[1].id), db.get_user(committers[2].id)]
       expect(committer_arr.map &:first_name).to include("RunnaLot", "FastFeet", "JonJones")
     end
 

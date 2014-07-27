@@ -604,6 +604,12 @@ shared_examples 'a database' do
       expect(circle.name).to eq("MakerSquare")
     end
 
+    it "gets a user's join requests" do
+      join_reqs = db.get_user_join_req(@user_objs[1].id)
+      expect(join_reqs.count).to eq(1)
+      expect(join_reqs[0].circle_id).to eq(@circle1.id)
+    end
+
     it "can approve a join request" do
       result = db.approve_req(@join_req.id)
       expect(result.accepted).to eq(true)

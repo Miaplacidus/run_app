@@ -20,12 +20,14 @@ module RunPal
 
       class Circle < ActiveRecord::Base
         # Differentiate between reg users and administrator
-        belongs_to :admin, class_name:"User", foreign_key:"admin_id"
+        belongs_to :admin, class_name:"User"
 
         has_many :circle_users
         has_many :users, :through => :circle_users
 
         has_many :posts
+
+        has_many :join_requests
 
         has_many :sent_challenges, class_name: "Challenge", foreign_key:"sender_id"
         has_many :received_challenges, class_name: "Challenge", foreign_key:"recipient_id"
@@ -46,6 +48,7 @@ module RunPal
 
       class JoinRequest < ActiveRecord::Base
         belongs_to :user
+        belongs_to :circle
       end
 
       class User < ActiveRecord::Base
@@ -57,6 +60,8 @@ module RunPal
         has_many :commitments
 
         has_many :created_posts, class_name:"Posts", foreign_key:"creator_id"
+
+        has_many :join_requests
 
         has_many :post_users
         has_many :posts, :through => :post_users

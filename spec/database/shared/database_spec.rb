@@ -1,12 +1,7 @@
 
 shared_examples 'a database' do
 
-  if described_class == RunPal::Database::InMemory
-    let(:db) { described_class.new}
-  else
-    config = YAML.load_file "db/config.yml"
-    let(:db) { described_class.new(config[ENV['DB_ENV']])}
-  end
+    let(:db) { described_class.new('test')}
 
   before :each do
     db.clear_everything

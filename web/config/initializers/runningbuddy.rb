@@ -1,3 +1,6 @@
+require 'dotenv'
+Dotenv.load
+
 require '../lib/app_helper.rb'
 
 RunPal.db_seed

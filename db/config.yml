@@ -1,6 +1,6 @@
 test:
   adapter: sqlite3
-  database: RunningBuddy_test
+  database: osoanyi_test.db
   pool: 5
   timeout: 5000
   host: localhost
@@ -8,12 +8,12 @@ test:
 
 development:
   adapter: postgresql
-  database: RunningBuddy_dev
+  database: osoanyi_dev
   host: localhost
   encoding: unicode
 
 production:
   adapter: postgresql
-  database: RunningBuddy_prod
+  database: osoanyi_prod
   encoding: unicode
   host: localhost

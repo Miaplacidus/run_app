@@ -17,6 +17,7 @@ gem 'font-awesome-rails'
 gem 'bootstrap-glyphicons'
 gem 'masonry-rails'
 gem 'browser-timezone-rails'
+gem 'sqlite3'
 
 
 # Testing

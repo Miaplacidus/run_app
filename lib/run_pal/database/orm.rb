@@ -438,6 +438,40 @@ module RunPal
         RunPal::User.new(ar_user.attributes)
       end
 
+      def get_user_age(id)
+        ar_user = User.where(id: id).first
+        return nil if !ar_user
+
+        bday = ar_user.bday
+        return nil if bday.nil?
+
+        birthday = bday.split('/')
+        birthday = DateTime.new(birthday[2].to_i, birthday[0].to_i, birthday[1].to_i)
+        age = (DateTime.now - birthday) / 365.25
+
+        case age
+          when 18..23
+            return 1
+          when 23..30
+            return 2
+          when 30..40
+            return 3
+          when 40..50
+            return 4
+          when 50..60
+            return 5
+          when 60..70
+            return 6
+          when 70..80
+            return 7
+          when 80..110
+            return 8
+          else
+            return nil
+        end
+
+      end
+
       def get_user_by_fbid(fbid)
         ar_user = User.where(fbid: fbid).first
         return nil if !ar_user
@@ -490,23 +524,6 @@ module RunPal
 
       def delete_wallet(user_id)
         ar_wallet = Wallet.where(user_id: user_id).first.delete
-      end
-
-      def create_session(attrs)
-        sid = SecureRandom.uuid
-        ar_session = Session.create({session_key: sid, user_id: attrs[:user_id]})
-        session = RunPal::Session.new(id: ar_session.id, session_key: ar_session.session_key, user_id: ar_session.user_id)
-      end
-
-      def get_session(key)
-        ar_session = Session.where(session_key: key).first
-        return nil if ar_session == nil
-        session = RunPal::Session.new(ar_session.attributes)
-      end
-
-      def delete_session(key)
-        ar_session = Session.where(session_key: key)
-        Session.destroy(ar_session.id) if get_session(key)
       end
 
     end

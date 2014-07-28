@@ -11,19 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140728211851) do
+ActiveRecord::Schema.define(version: 20140728214605) do
 
   create_table "challenges", force: true do |t|
     t.string   "name"
     t.integer  "sender_id"
     t.integer  "recipient_id"
     t.integer  "post_id"
-    t.string   "state"
-    t.text     "notes"
+    t.string   "state",        default: "pending"
+    t.text     "notes",        default: ""
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  add_index "challenges", ["post_id"], name: "index_challenges_on_post_id"
   add_index "challenges", ["recipient_id"], name: "index_challenges_on_recipient_id"
   add_index "challenges", ["sender_id"], name: "index_challenges_on_sender_id"
 
@@ -51,7 +52,7 @@ ActiveRecord::Schema.define(version: 20140728211851) do
 
   create_table "commitments", force: true do |t|
     t.float   "amount"
-    t.boolean "fulfilled"
+    t.boolean "fulfilled", default: false
     t.integer "post_id"
     t.integer "user_id"
   end
@@ -62,7 +63,7 @@ ActiveRecord::Schema.define(version: 20140728211851) do
   create_table "join_requests", force: true do |t|
     t.integer  "circle_id"
     t.integer  "user_id"
-    t.boolean  "accepted"
+    t.boolean  "accepted",   default: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -82,12 +83,12 @@ ActiveRecord::Schema.define(version: 20140728211851) do
 
   create_table "posts", force: true do |t|
     t.integer  "circle_id"
-    t.integer  "user_id"
+    t.integer  "creator_id"
     t.datetime "time"
     t.float    "latitude"
     t.float    "longitude"
     t.integer  "pace"
-    t.text     "notes"
+    t.text     "notes",       default: ""
     t.boolean  "complete"
     t.float    "min_amt"
     t.integer  "age_pref"
@@ -98,7 +99,7 @@ ActiveRecord::Schema.define(version: 20140728211851) do
   end
 
   add_index "posts", ["circle_id"], name: "index_posts_on_circle_id"
-  add_index "posts", ["user_id"], name: "index_posts_on_user_id"
+  add_index "posts", ["creator_id"], name: "index_posts_on_creator_id"
 
   create_table "users", force: true do |t|
     t.string   "first_name"
@@ -117,7 +118,7 @@ ActiveRecord::Schema.define(version: 20140728211851) do
 
   create_table "wallets", force: true do |t|
     t.integer  "user_id"
-    t.float    "balance"
+    t.float    "balance",    default: 0.0
     t.datetime "created_at"
     t.datetime "updated_at"
   end

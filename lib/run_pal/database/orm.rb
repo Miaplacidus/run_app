@@ -323,9 +323,18 @@ module RunPal
         JoinRequest.where(id: id).first
       end
 
+      def get_user_join_req(user_id)
+        ar_join_reqs = JoinRequest.where(user_id: user_id)
+        ar_join_reqs.map{|ar_join_req| RunPal::JoinRequest.new(ar_join_req.attributes)}
+      end
+
       def get_circle_join_req(circle_id)
         ar_join_reqs = JoinRequest.where(circle_id: circle_id)
         ar_join_reqs.map{|ar_join_req| RunPal::JoinRequest.new(ar_join_req.attributes)}
+      end
+
+      def delete_join_req(id)
+        JoinRequest.where(id: id).first.destroy
       end
 
       def create_post(attrs)

@@ -560,6 +560,16 @@ module RunPal
 
       end
 
+      def calculate_user_level(user_id)
+        attended = Commitment.where("user_id = ? AND fulfilled = ?", user_id, true)
+        return nil if attended.empty?
+        att_posts = attended.map{|ar_commit| get_post(ar_commit.post_id)}
+        paces = att_posts.map{|post| post.pace}
+        sum = paces.inject{|memo, n| memo + n}
+        average = sum/attended.length
+        average.round
+      end
+
       def get_user_by_fbid(fbid)
         ar_user = User.where(fbid: fbid).first
         return nil if !ar_user

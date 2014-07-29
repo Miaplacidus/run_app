@@ -297,6 +297,11 @@ module RunPal
         Commitment.where(id: id).first.destroy
       end
 
+      def create_join_req(attrs)
+        ar_join_req = JoinRequest.create(attrs)
+        RunPal::JoinRequest.new(ar_join_req.attributes)
+      end
+
       def create_post(attrs)
         commit_attrs = attrs.clone
 
@@ -524,7 +529,7 @@ module RunPal
       end
 
       def delete_user(id)
-        User.where(id: id).first.delete
+        User.where(id: id).first.destroy
       end
 
       def create_wallet(attrs)

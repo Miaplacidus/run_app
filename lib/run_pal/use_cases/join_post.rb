@@ -22,7 +22,7 @@ module RunPal
         return failure (:circle_membership_required) if !membership
       end
 
-      if !is_committed?(inputs[:user_id], inputs[:post_id])
+      if !RunPal.db.is_committed?(inputs[:user_id], inputs[:post_id])
         commit = create_new_commit(inputs)
       else
         commit = RunPal.db.get_user_commit(inputs[:user_id], inputs[:post_id])

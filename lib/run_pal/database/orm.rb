@@ -453,6 +453,16 @@ module RunPal
         filtered_posts
       end
 
+      def user_nearby?(filters)
+        #filters = {user_lat, user_long, :post_lat, post_long}
+        distance = Haversine.distance(filters[:user_lat], filters[:user_long], filters[:post_lat], filters[:post_long])
+        if distance.to_mi <= 1
+          return true
+        else
+          return false
+        end
+      end
+
 
       def create_user(attrs)
         ar_user = User.create(attrs)

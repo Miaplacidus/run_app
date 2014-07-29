@@ -404,16 +404,11 @@ module RunPal
         filtered_posts.map{|ar_post| RunPal::Post.new(ar_post.attributes)}
       end
 
-      def posts_filter_time(start_time, end_time)
-        post_arr = []
-        ar_posts = Post.all
-
-        ar_posts.each do |ar_post|
-          if ar_post.time > start_time && ar_post.time < end_time
-            post_arr << RunPal::Post.new(ar_post.attributes)
-          end
-        end
-        post_arr
+      def posts_filter_time(start_time, end_time, filters)
+        # filters = {user_lat, user_long, radius, gender_pref, user_gender}
+        loc_gender_filtered_posts = posts_limit_loc_gender(filters)
+        filtered_posts = loc_gender_filtered_posts.select{|ar_post| ar_post.time > start_time && ar_post.time < end_time}
+        filtered_posts.map{|ar_post| RunPal::Post.new(ar_post.attributes)}
       end
 
       def posts_limit_loc_gender(filters)

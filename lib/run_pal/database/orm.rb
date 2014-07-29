@@ -383,14 +383,12 @@ module RunPal
         post_arr
       end
 
-      def posts_filter_gender(gender)
-        ar_posts = Post.where(gender_pref: gender)
-        post_arr = []
-
-        ar_posts.each do |ar_post|
-          post_arr << RunPal::Post.new(ar_post.attributes)
+      def posts_filter_gender(filters)
+        # filters = {user_lat, user_long, radius, gender_pref, user_gender}
+        loc_gender_filtered_posts = posts_limit_loc_gender(filters)
+        loc_gender_filtered_posts.map do |ar_post|
+          RunPal::Post.new(ar_post.attributes)
         end
-        post_arr
       end
 
       def posts_filter_location(user_lat, user_long, radius)
@@ -432,6 +430,29 @@ module RunPal
         end
         post_arr
       end
+
+      def posts_limit_loc_gender(filters)
+        # filters = {user_lat, user_long, radius, gender_pref, user_gender}
+        filtered_posts = []
+
+        loc_filtered_posts = Post.all.select do |ar_post|
+          distance = Haversine.distance(filters[:user_lat], filters[:user_long], ar_post.latitude, ar_post.longitude)
+          distance.to_mi <= filters[:radius]
+        end
+
+        if filters[:gender_pref] == 3
+          filtered_posts = loc_filtered_posts.select do |ar_post|
+            ar_post.gender_pref == 0 || ar_post.gender_pref == filters[:user_gender]
+          end
+        else
+          filtered_posts = loc_filtered_posts.select do |ar_post|
+            ar_post.gender_pref == filters[:gender_pref]
+          end
+        end
+
+        filtered_posts
+      end
+
 
       def create_user(attrs)
         ar_user = User.create(attrs)

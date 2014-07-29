@@ -183,7 +183,7 @@ shared_examples 'a database' do
       expect(result.map &:notes).to include("Let's go.", "Will be a fairly relaxed jog.")
     end
 
-    it "filters posts by gender preference" do
+    it "filters posts by gender preference and location" do
       result = db.posts_filter_gender({user_lat: 40.0001, user_long: 51.0001, radius: 20, gender_pref: 0 , user_gender: 1})
       result.count.should eql(2)
       result[1].gender_pref.should eql(0)

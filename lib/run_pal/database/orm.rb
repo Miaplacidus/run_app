@@ -358,6 +358,17 @@ module RunPal
         return false
       end
 
+      def get_admin_posts(user_id)
+        ar_posts = Post.where(creator_id: user_id)
+        one_hour = 3600
+
+        filtered_posts = ar_posts.select do |ar_post|
+          !(ar_post.time < Time.now - one_hour)
+        end
+
+        filtered_posts.map{|ar_post| RunPal::Post.new(ar_post.attributes)}
+      end
+
       def update_post(id, attrs)
         Post.where(id: id).first.update_attributes(attrs)
         updated_post = Post.where(id: id).first

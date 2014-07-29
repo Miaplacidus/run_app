@@ -375,6 +375,20 @@ module RunPal
         return false
       end
 
+      def get_user_posts(user_id)
+        commits = get_user_commits(user_id)
+        posts = commits.map do |commit|
+          pid = commit.post_id
+          get_post(pid)
+        end
+
+        one_hour = 3600
+        filtered_posts = posts.select do |post|
+          !(post.time < Time.now - one_hour)
+        end
+        filtered_posts
+      end
+
       def get_admin_posts(user_id)
         ar_posts = Post.where(creator_id: user_id)
         one_hour = 3600

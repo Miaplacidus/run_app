@@ -271,9 +271,10 @@ module RunPal
 
         one_hour = 3600
 
-        posts.delete_if do |post|
-          post.time < Time.now - one_hour
+        posts = posts.select do |post|
+          !(post.time < Time.now - one_hour)
         end
+
         posts
       end
 
@@ -283,7 +284,7 @@ module RunPal
         end
 
         one_hour = 3600
-        posts.select do |post_attrs|
+        posts = posts.select do |post_attrs|
           !(post_attrs[:time] < Time.now - one_hour)
         end
 

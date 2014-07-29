@@ -409,14 +409,11 @@ module RunPal
         post_arr
       end
 
-      def posts_filter_pace(pace)
-        ar_posts = Post.where(pace: pace)
-        post_arr = []
-
-        ar_posts.each do |ar_post|
-          post_arr << RunPal::Post.new(ar_post.attributes)
-        end
-        post_arr
+      def posts_filter_pace(pace, filters)
+        # filters = {user_lat, user_long, radius, gender_pref, user_gender}
+        loc_gender_filtered_posts = posts_limit_loc_gender(filters)
+        filtered_posts = loc_gender_filtered_posts.select{|ar_post| ar_post.pace == pace}
+        filtered_posts.map{|ar_post| RunPal::Post.new(ar_post.attributes)}
       end
 
       def posts_filter_time(start_time, end_time)

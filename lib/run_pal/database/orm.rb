@@ -438,14 +438,16 @@ module RunPal
         RunPal::User.new(ar_user.attributes)
       end
 
-      def create_from_omniauth(auth)
+      def from_omniauth(auth)
         User.where(fbid: auth.uid).first_or_initialize.tap do |user|
           # user.provider = auth.provider
           user.fbid = auth.uid
-          user.username = auth.info.first_name
+          user.first_name = auth.info.first_name
           user.oauth_token = auth.credentials.token
-          user.oauth_expires_at = Time.at(auth.credentials.expires_at)
-          user.img = auth.info.image
+          user.oauth_expiry = Time.at(auth.credentials.expires_at)
+          user.img_url = auth.info.image
+          user.email = auth.info.email
+          user.bday = auth.extra.raw_info.birthday
 
           fb_gender = auth.extra.raw_info.gender
 
@@ -460,7 +462,7 @@ module RunPal
           user.save!
         end
 
-        ar_user = User.where(fbid: auth.slice(:uid)).first
+        ar_user = User.where(fbid: auth.uid).first
         RunPal::User.new(ar_user.attributes)
       end
 

@@ -215,47 +215,27 @@ module RunPal
       end
 
       def circles_filter_location(user_lat, user_long, radius)
-        mi_to_km = 1.60934
-        earth_radius = 6371
-        ar_circles = Circle.all
-        circle_arr = []
-
-        ar_circles.each do |ar_circle|
-          circle_lat = ar_circle.latitude
-          circle_long = ar_circle.longitude
-          distance = Math.acos(Math.sin(user_lat) * Math.sin(circle_lat) + Math.cos(user_lat) * Math.cos(circle_lat) * Math.cos(circle_long - user_long)) * earth_radius
-
-          if distance <= radius
-            circle_arr << RunPal::Circle.new(ar_circle.attributes)
-          end
+        filtered_circles = Circle.all.select do |ar_circle|
+          distance = Haversine.distance(user_lat, user_long, ar_circle.latitude, ar_circle.longitude)
+          distance.to_mi <= radius
         end
-        circle_arr
+
+        filtered_circles.map{|ar_circle| RunPal::Circle.new(ar_circle.attributes)}
       end
 
-      def circles_filter_full
-        ar_circles = Circle.all
-        circle_arr = []
+      def circles_filter_full(filters)
+        # {user_lat, user_long, radius}
+        loc_filtered_circles = Circle.all.select do |ar_circle|
+          distance = Haversine.distance(user_lat, user_long, ar_circle.latitude, ar_circle.longitude)
+          distance.to_mi <= radius
+        end
 
-        ar_circles.each do |ar_circle|
+        filtered_circles = loc_filtered_circles.select do |ar_circle|
           num_members = CircleUsers.where(circle_id: ar_circle.id).length
-
-          if num_members < ar_circle.max_members
-            circle_arr << RunPal::Circle.new(ar_circle.attributes)
-          end
+          num_members < ar_circle.max_members
         end
 
-        circle_arr
-      end
-
-      def circles_filter_full_by_location (user_lat, user_long, radius)
-       nearby_circles = circles_filter_location(user_lat, user_long, radius)
-
-       nearby_circles.each do |circle|
-        num_members = circle.max_member
-
-
-       end
-
+        filtered_circles.map {|ar_circle| RunPal::Circle.new(ar_circle.attributes)}
       end
 
       def update_circle(id, attrs)
@@ -266,11 +246,27 @@ module RunPal
 
       def add_user_to_circle(id, user_id)
         ar_circle_user = CircleUsers.create({circle_id: id, user_id: user_id})
-        circle_user = CircleUsers.where("circle_id = ? AND user_id = ?", id, user_id).first
+        membership = CircleUsers.where(circle_id: id)
 
-        ar_user = User.where(id: circle_user.user_id).first
+        member_ids = membership.map &:user_id
+        ar_circle = Circle.where(id: id).first
+        circle_attrs = ar_circle.attributes.clone
 
-        RunPal::User.new(ar_user.attributes)
+        circle_attrs.merge!(member_ids: member_ids)
+        RunPal::Circle.new(circle_attrs)
+      end
+
+      def add_users_to_circle(id, user_ids)
+        user_ids.each do |user_id|
+          ar_circle_user = CircleUsers.create({circle_id: id, user_id: user_id})
+        end
+
+        membership = CircleUsers.where(circle_id: id)
+
+        membership.map do |member|
+
+        end
+
       end
 
       def is_member?(user_id, circle_id)

@@ -333,6 +333,13 @@ module RunPal
         ar_join_reqs.map{|ar_join_req| RunPal::JoinRequest.new(ar_join_req.attributes)}
       end
 
+      def approve_req(id)
+        ar_join_req = JoinRequest.where(id: id).first
+        ar_join_req.accepted = true
+        ar_join_req.save!
+        RunPal::JoinRequest.new(ar_join_req.attributes)
+      end
+
       def delete_join_req(id)
         JoinRequest.where(id: id).first.destroy
       end
@@ -388,8 +395,8 @@ module RunPal
       end
 
       def is_committed?(user_id, post_id)
-        ar_commits = Commitment.where(user_id: user_id)
-        return true if ar_commits.where(post_id: post_id)
+        ar_commit = Commitment.where("user_id = ? AND post_id = ?", user_id, post_id).first
+        return true if ar_commit
         return false
       end
 

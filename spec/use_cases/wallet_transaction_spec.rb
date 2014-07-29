@@ -7,7 +7,7 @@ describe RunPal::WalletTransaction do
   end
 
   it 'updates wallet balance' do
-    user = RunPal.db.create_user({username:"Isaac Asimov", gender: 2, email: "write@smarty.com"})
+    user = RunPal.db.create_user({first_name:"Isaac Asimov", gender: 2, email: "write@smarty.com"})
     wallet = RunPal.db.create_wallet({user_id: user.id, balance: 30.50})
 
     result = subject.run({user_id: user.id, transaction: -20.50})

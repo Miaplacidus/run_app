@@ -29,7 +29,7 @@ module RunPal
           !RunPal::Circle.method_defined?(setter)
       end
 
-      RunPal.db.create_circle(attrs)
+      RunPal.db.create_circle(format_attrs)
     end
 
   end

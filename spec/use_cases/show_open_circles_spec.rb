@@ -7,7 +7,7 @@ describe RunPal::ShowOpenCircles do
     end
 
   it 'shows open circles' do
-    user = RunPal.db.create_user({username:"Isaac Asimov", gender: 2, email: "write@smarty.com"})
+    user = RunPal.db.create_user({first_name:"Isaac Asimov", gender: 2, email: "write@smarty.com"})
     circle1 = RunPal.db.create_circle({name: "Silvercar", admin_id: user.id, max_members: 1, latitude: 32, longitude:44})
     circle2 = RunPal.db.create_circle({name: "Crazy Apps", admin_id: user.id, max_members: 19, latitude: 22, longitude: 67})
     RunPal.db.add_users_to_circle(circle1.id, [user.id])

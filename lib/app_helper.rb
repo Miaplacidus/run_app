@@ -13,7 +13,8 @@ Dotenv.load
 
 module RunPal
   def self.db
-    @db_class ||= Database::InMemory
+    # @db_class ||= Database::InMemory
+    @db_class ||= Database::ORM
     @__db_instance ||= @db_class.new(@env || 'test')
   end
 

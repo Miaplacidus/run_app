@@ -286,7 +286,19 @@ module RunPal
       end
 
       def create_post(attrs)
+        commit_attrs = attrs.clone
+
+        commit_attrs.delete_if do |name, value|
+          setter = "#{name}"
+          !RunPal::Commitment.method_defined?(setter)
+        end
+
         ar_post = Post.create(attrs)
+        pid = ar_post.id
+
+        commit_attrs.merge!({post_id: pid, amount: 0, user_id: attrs[:creator_id]})
+        create_commit(commit_attrs)
+
         RunPal::Post.new(ar_post.attributes)
       end
 
@@ -312,17 +324,14 @@ module RunPal
       def get_committed_users(post_id)
         ar_post = Post.where(id: post_id).first
         ar_commits = ar_post.commitments
-
-        commit_arr = ar_commits.map do |ar_commit|
-          RunPal::Commitment.new(ar_commit.attributes)
-        end
-
-        commit_arr.map &:user_id
+        committed_user_ids = ar_commits.map &:user_id
+        committed_user_ids.map {|user_id| get_user(user_id)}
       end
 
       def get_attendees(post_id)
         ar_post = Post.where(id: post_id).first
         ar_commits = ar_post.commitments.where(fulfilled: true)
+
 
         commit_arr = ar_commits.map do |ar_commit|
           RunPal::Commitment.new(ar_commit.attributes)

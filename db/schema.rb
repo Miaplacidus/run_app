@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140728214605) do
+ActiveRecord::Schema.define(version: 20140728234346) do
 
   create_table "challenges", force: true do |t|
     t.string   "name"
@@ -88,7 +88,7 @@ ActiveRecord::Schema.define(version: 20140728214605) do
     t.float    "latitude"
     t.float    "longitude"
     t.integer  "pace"
-    t.text     "notes",       default: ""
+    t.text     "notes",        default: ""
     t.boolean  "complete"
     t.float    "min_amt"
     t.integer  "age_pref"
@@ -96,6 +96,8 @@ ActiveRecord::Schema.define(version: 20140728214605) do
     t.integer  "max_runners"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "min_distance"
+    t.string   "address"
   end
 
   add_index "posts", ["circle_id"], name: "index_posts_on_circle_id"

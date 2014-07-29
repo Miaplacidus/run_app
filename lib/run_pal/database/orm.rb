@@ -407,7 +407,9 @@ module RunPal
       end
 
       def delete_post(id)
-        Commitment.where(post_id: id).destroy
+        Commitment.where(post_id: id).each do |ar_commit|
+          ar_commit.destroy
+        end
         Post.where(id: id).first.destroy
       end
 
@@ -557,7 +559,6 @@ module RunPal
           else
             return nil
         end
-
       end
 
       def calculate_user_level(user_id)
@@ -568,6 +569,23 @@ module RunPal
         sum = paces.inject{|memo, n| memo + n}
         average = sum/attended.length
         average.round
+      end
+
+      def calculate_user_rating(user_id)
+        attended = Commitment.where("user_id = ? AND fulfilled = ?", user_id, true).length
+        return nil if attended.empty?
+
+        num_past_posts = 0
+        Commitment.all.each do |ar_commit|
+          post = get_post(ar_commit.post_id)
+          if ar_commit.user_id == user_id && post.time < Time.now
+            num_past_posts += 1
+          end
+        end
+
+        return 0 if num_past_posts == 0
+        rating = attended/num_past_posts*100
+        rating.round
       end
 
       def get_user_by_fbid(fbid)

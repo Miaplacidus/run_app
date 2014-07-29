@@ -473,7 +473,7 @@ module RunPal
       end
 
       def calculate_user_rating(user_id)
-        attended = @commits.values.select{|attrs| attrs[:user_id] == user_id && attrs[:fulfilled] == true}
+        attended = @commits.values.select{|attrs| attrs[:user_id] == user_id && attrs[:fulfilled] == true}.length
         return nil if attended.empty?
         num_past_posts = 0
         @commits.values.each do |attrs|
@@ -483,6 +483,7 @@ module RunPal
           end
         end
 
+        return 0 if num_past_posts == 0
         rating = attended/num_past_posts*100
         rating = rating.round
       end

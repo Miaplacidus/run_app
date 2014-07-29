@@ -275,14 +275,26 @@ module RunPal
         RunPal::Commitment.new(ar_commit.attributes)
       end
 
-      def get_commits_by_user(user_id)
+      def get_user_commit(user_id, post_id)
+        ar_commit = Commitment.where("user_id = ? AND post_id = ?", user_id, post_id).first
+        return nil if ar_commit.nil?
+        RunPal::Commitment.new(ar_commit.attributes)
+      end
+
+      def get_user_commits(user_id)
         ar_commits = Commitment.where(user_id: user_id)
+        return nil if ar_commits.empty?
+        ar_commits.map{|ar_commit| RunPal::Commitment.new(ar_commit.attributes)}
       end
 
       def update_commit(id, attrs)
         Commitment.where(id: id).first.update_attributes(attrs)
         updated_commit = Commitment.where(id: id).first
         RunPal::Commitment.new(updated_commit.attributes)
+      end
+
+      def delete_commit(id)
+        Commitment.where(id: id).first.destroy
       end
 
       def create_post(attrs)
@@ -340,6 +352,12 @@ module RunPal
         commit_arr.map &:user_id
       end
 
+      def is_committed?(user_id, post_id)
+        ar_commits = Commitment.where(user_id: user_id)
+        return true if ar_commits.where(post_id: post_id)
+        return false
+      end
+
       def update_post(id, attrs)
         Post.where(id: id).first.update_attributes(attrs)
         updated_post = Post.where(id: id).first
@@ -347,7 +365,7 @@ module RunPal
       end
 
       def delete_post(id)
-        Post.where(id: id).first.delete
+        Post.where(id: id).first.destroy
       end
 
       def posts_filter_age(age)

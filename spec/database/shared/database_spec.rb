@@ -394,6 +394,13 @@ shared_examples 'a database' do
       expect(commits_arr.map &:amount).to include(0, 3)
     end
 
+    it "gets commitments by user_id and post_id" do
+      post = db.create_post({creator_id: @user_objs[1].id, time: Time.now, latitude: 12, longitude: 34, pace: 4, notes:"Running is fun.", complete:false, min_amt:7.50, age_pref: 3, gender_pref: 1})
+      commit1 = db.create_commit({user_id: @user_objs[0].id, post_id: post.id, amount: 10.00})
+      result = db.get_user_commit(@user_objs[0].id, @post_objs[0].id)
+      expect(result.amount).to eq(0)
+    end
+
     it "updates a commitment" do
       commit = db.create_commit({user_id: @user_objs[0].id, post_id: @post_objs[1].id, amount: 3})
       updated = db.update_commit(commit.id, {amount: 10, fulfilled: true})

@@ -373,14 +373,11 @@ module RunPal
         Post.where(id: id).first.destroy
       end
 
-      def posts_filter_age(age)
-        ar_posts = Post.where(age_pref: age)
-        post_arr = []
-
-        ar_posts.each do |ar_post|
-          post_arr << RunPal::Post.new(ar_post.attributes)
-        end
-        post_arr
+      def posts_filter_age(age, filters)
+        # filters = {user_lat, user_long, radius, gender_pref, user_gender}
+        loc_gender_filtered_posts = posts_limit_loc_gender(filters)
+        filtered_posts = loc_gender_filtered_posts.select{|ar_post| ar_post.age_pref == age}
+        filtered_posts.map{|ar_post| RunPal::Post.new(ar_post.attributes)}
       end
 
       def posts_filter_gender(filters)

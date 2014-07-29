@@ -199,6 +199,15 @@ module RunPal
         name_hash
       end
 
+      def get_user_circles(user_id)
+        ar_circle_user = CircleUsers.where(user_id: user_id)
+        circles = ar_circle_user.map do |membership|
+          Circle.where(id: membership.circle_id).first
+        end
+
+        circles.map{|ar_circle| RunPal::Circle.new(ar_circle.attributes)}
+      end
+
       def all_circles
         Circle.all.map do |ar_circle|
           RunPal::Circle.new(ar_circle.attributes)
@@ -376,6 +385,7 @@ module RunPal
       end
 
       def delete_post(id)
+        Commitment.where(post_id: id).destroy
         Post.where(id: id).first.destroy
       end
 

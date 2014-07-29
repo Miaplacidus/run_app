@@ -283,7 +283,6 @@ module RunPal
         end
 
         one_hour = 3600
-
         posts.select do |post_attrs|
           !(post_attrs[:time] < Time.now - one_hour)
         end

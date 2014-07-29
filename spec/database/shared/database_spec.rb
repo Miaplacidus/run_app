@@ -504,6 +504,7 @@ shared_examples 'a database' do
       db.add_users_to_circle(full_circle.id, [@user_objs[0].id, @user_objs[2].id])
       result = db.circles_filter_full({user_lat: 32 , user_long: 44, radius: 1})
       expect(result.count).to eq(1)
+      expect(result[0].name).to eq("Silvercar")
     end
 
     it "determines if a user is a member of a circle" do

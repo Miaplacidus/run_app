@@ -226,8 +226,8 @@ module RunPal
       def circles_filter_full(filters)
         # {user_lat, user_long, radius}
         loc_filtered_circles = Circle.all.select do |ar_circle|
-          distance = Haversine.distance(user_lat, user_long, ar_circle.latitude, ar_circle.longitude)
-          distance.to_mi <= radius
+          distance = Haversine.distance(filters[:user_lat], filters[:user_long], ar_circle.latitude, ar_circle.longitude)
+          distance.to_mi <= filters[:radius]
         end
 
         filtered_circles = loc_filtered_circles.select do |ar_circle|
@@ -246,8 +246,8 @@ module RunPal
 
       def add_user_to_circle(id, user_id)
         ar_circle_user = CircleUsers.create({circle_id: id, user_id: user_id})
-        membership = CircleUsers.where(circle_id: id)
 
+        membership = CircleUsers.where(circle_id: id)
         member_ids = membership.map &:user_id
         ar_circle = Circle.where(id: id).first
         circle_attrs = ar_circle.attributes.clone
@@ -262,11 +262,12 @@ module RunPal
         end
 
         membership = CircleUsers.where(circle_id: id)
+        member_ids = membership.map &:user_id
+        ar_circle = Circle.where(id: id).first
+        circle_attrs = ar_circle.attributes.clone
 
-        membership.map do |member|
-
-        end
-
+        circle_attrs.merge!(member_ids: member_ids)
+        RunPal::Circle.new(circle_attrs)
       end
 
       def is_member?(user_id, circle_id)

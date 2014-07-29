@@ -389,21 +389,12 @@ module RunPal
       end
 
       def posts_filter_location(user_lat, user_long, radius)
-        mi_to_km = 1.60934
-        earth_radius = 6371
-        ar_posts = Post.all
-        post_arr = []
-
-        ar_posts.each do |ar_post|
-          post_lat = ar_post.latitude
-          post_long = ar_post.longitude
-          distance = Math.acos(Math.sin(user_lat) * Math.sin(post_lat) + Math.cos(user_lat) * Math.cos(post_lat) * Math.cos(post_long - user_long)) * earth_radius
-
-          if distance <= radius
-            post_arr << RunPal::Post.new(ar_post.attributes)
-          end
+        filtered_posts = Post.all.select do |ar_post|
+          distance = Haversine.distance(user_lat, user_long, ar_post.latitude, ar_post.longitude)
+          distance.to_mi <= radius
         end
-        post_arr
+
+        filtered_posts.map{|ar_post| RunPal::Post.new(ar_post.attributes)}
       end
 
       def posts_filter_pace(pace, filters)

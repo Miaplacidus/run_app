@@ -348,13 +348,8 @@ module RunPal
       def get_attendees(post_id)
         ar_post = Post.where(id: post_id).first
         ar_commits = ar_post.commitments.where(fulfilled: true)
-
-
-        commit_arr = ar_commits.map do |ar_commit|
-          RunPal::Commitment.new(ar_commit.attributes)
-        end
-
-        commit_arr.map &:user_id
+        attendees = ar_commits.map &:user_id
+        attendees.map{|user_id| get_user(user_id)}
       end
 
       def is_committed?(user_id, post_id)

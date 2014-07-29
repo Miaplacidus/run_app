@@ -313,7 +313,7 @@ shared_examples 'a database' do
       db.update_commit(@commit2.id, {fulfilled: true})
       attendees = db.get_attendees(post.id)
       expect(attendees.count).to eq(1)
-      expect(db.get_user(attendees[0]).first_name).to eq("JonJones")
+      expect(attendees[0].first_name).to eq("JonJones")
     end
 
     it "checks if a user has committed to a specific post" do

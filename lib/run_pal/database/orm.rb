@@ -323,6 +323,11 @@ module RunPal
         JoinRequest.where(id: id).first
       end
 
+      def get_circle_join_req(circle_id)
+        ar_join_reqs = JoinRequest.where(circle_id: circle_id)
+        ar_join_reqs.map{|ar_join_req| RunPal::JoinRequest.new(ar_join_req.attributes)}
+      end
+
       def create_post(attrs)
         commit_attrs = attrs.clone
 

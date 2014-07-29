@@ -273,6 +273,12 @@ module RunPal
         RunPal::User.new(ar_user.attributes)
       end
 
+      def is_member?(user_id, circle_id)
+        return nil if Circle.where(id: circle_id).first.nil?
+        membership = CircleUsers.where("circle_id = ? AND user_id = ?", circle_id, user_id).first
+        membership != nil
+      end
+
       def create_commit(attrs)
         ar_commit = Commitment.create(attrs)
         RunPal::Commitment.new(ar_commit.attributes)

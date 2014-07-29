@@ -208,6 +208,11 @@ module RunPal
         circles.map{|ar_circle| RunPal::Circle.new(ar_circle.attributes)}
       end
 
+      def get_admin_circles(user_id)
+        ar_admin_circles = Circle.all.select{|ar_circle| ar_circle.admin_id == user_id}
+        ar_admin_circles.map{|ar_circle| RunPal::Circle.new(ar_circle.attributes)}
+      end
+
       def all_circles
         Circle.all.map do |ar_circle|
           RunPal::Circle.new(ar_circle.attributes)

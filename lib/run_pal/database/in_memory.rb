@@ -365,8 +365,8 @@ module RunPal
       end
 
       def has_committed(post_id, user_id)
-        commit_attrs = @commits.detect{|key, attrs| attrs[:user_id] == user_id && attrs[:post_id] == post_id}
-        commit_attrs ? RunPal::Commitment.new(commit_attrs[1]) : nil
+        commit_attrs = @commits.values.detect{|attrs| attrs[:user_id] == user_id && attrs[:post_id] == post_id}
+        commit_attrs ? RunPal::Commitment.new(commit_attrs) : nil
       end
 
       def user_nearby?(attrs)

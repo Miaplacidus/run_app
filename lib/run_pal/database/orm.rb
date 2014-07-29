@@ -457,6 +457,11 @@ module RunPal
         filtered_posts
       end
 
+      def has_committed(post_id, user_id)
+        ar_commit = Commitment.where("user_id = ? AND post_id = ?", user_id, post_id).first
+        ar_commit ? RunPal::Commitment.new(ar_commit.attributes) : nil
+      end
+
       def user_nearby?(filters)
         #filters = {user_lat, user_long, :post_lat, post_long}
         distance = Haversine.distance(filters[:user_lat], filters[:user_long], filters[:post_lat], filters[:post_long])

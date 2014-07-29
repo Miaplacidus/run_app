@@ -319,6 +319,10 @@ module RunPal
         RunPal::JoinRequest.new(ar_join_req.attributes)
       end
 
+      def get_join_req(id)
+        JoinRequest.where(id: id).first
+      end
+
       def create_post(attrs)
         commit_attrs = attrs.clone
 

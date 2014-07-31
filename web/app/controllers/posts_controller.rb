@@ -46,7 +46,6 @@ class PostsController < ApplicationController
         @posts = result.post_arr
     end
 
-
     # @posts = RunPal::FilterPostsByAge.run(post_attributes)
     # flash[:notice] = @posts.failure if !@posts.success?
     respond_to do |format|

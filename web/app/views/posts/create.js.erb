@@ -1,12 +1,16 @@
 $(document).ready(function(){
 
-  $('.post_modal .modal-body').empty();
-  $('.post_modal .modal-body').html("<%= escape_javascript(render 'postconfirm') %>");
-  $('.post_modal .submit').hide();
-  $('.post_modal .cls_btn').on('click', function(){
-    $('.post_modal .modal-body').html("<%= escape_javascript(render 'postcreate') %>");
-    $('.post_modal .submit').show();
+  $('.postcreate_modal .modal-body').html("<%= escape_javascript(render 'postconfirm') %>");
+  $('.postcreate_modal .submit').hide();
 
+  $('.postcreate_modal .cls_btn').on('click', function() {
+    $('.postcreate_modal .modal-body').html("<%= escape_javascript(render 'postcreate') %>");
+    $('.poscreate_modal .submit').show();
   });
+
+  $('#postcreatemodal').on('hidden.bs.modal', function () {
+    $('.postcreate_modal .modal-body').html("<%= escape_javascript(render 'postcreate') %>");
+    $('#postcreatemodal .submit').show();
+  })
 
 });

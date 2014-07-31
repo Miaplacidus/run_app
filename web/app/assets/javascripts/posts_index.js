@@ -26,17 +26,17 @@ $(document).ready(function(){
   });
 });
 
-  $(document).on('click', 'a.join_form', function(){
-      $(this).closest('li').find('form').toggle();
-    });
+$(document).on('click', 'a.join_form', function(){
+  $(this).closest('li').find('form').toggle();
+});
 
-  $(document).on('click', '.modal-footer .submit', function(){
-    $('#create_post').submit();
-  });
+$(document).on('click', '#postcreatemodal .modal-footer .submit', function(){
+  $('#createpostform').submit();
+});
 
-  $(document).on('click', '.delete_post_link', function (){
-    $(this).closest('li').find('form').toggle();
-  });
+$(document).on('click', '.delete_post_link', function (){
+  $(this).closest('li').find('form').toggle();
+});
 
   $(document).on('click', '.check_in_link', function(){
     var id = $(this).closest('li').parents('li').attr('id');

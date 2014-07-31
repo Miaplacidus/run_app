@@ -20,13 +20,13 @@
 
 <!-- Button trigger modal -->
 <div class="post_create">
-  <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal">
+  <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#postcreatemodal">
   Create a Run
 </button>
 </div>
 
 <!-- Modal -->
-<div class="modal fade post_modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade postcreate_modal" id="postcreatemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -35,7 +35,7 @@
       </div>
       <div class="modal-body">
 
-         <%= render(:partial => 'postcreate', :locals => {:gender => gender}) %>
+         <%= render :partial => 'postcreate' %>
 
       </div>
       <div class="modal-footer">

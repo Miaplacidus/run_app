@@ -9,11 +9,11 @@ test:
 development:
   adapter: postgresql
   database: osoanyi_dev
-  host: localhost
   encoding: unicode
+  host: localhost
 
 production:
   adapter: postgresql
   database: osoanyi_prod
-  encoding: unicode
   host: localhost
+  encoding: unicode

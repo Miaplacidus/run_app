@@ -201,6 +201,11 @@ module RunPal
         users_attrs.map{|attrs| RunPal::User.new(attrs)}
       end
 
+      def prev_join_req?(user_id, circle_id)
+        join_req = @join_reqs.values.detect{|attrs| attrs[:user_id] == user_id && attrs[:circle_id] == circle_id}
+        join_req.nil? ? false : true
+      end
+
       def all_join_reqs
         @join_reqs.values.map {|attrs| RunPal::JoinRequest.new(attrs)}
       end

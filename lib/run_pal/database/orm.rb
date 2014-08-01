@@ -344,6 +344,11 @@ module RunPal
         ar_users.map{|ar_user| RunPal::User.new(ar_user.attributes)}
       end
 
+      def prev_join_req?(user_id, circle_id)
+        ar_join_reqs = JoinRequest.where("user_id = ? AND circle_id = ?", user_id, circle_id).first
+        ar_join_reqs.nil? ? false : true
+      end
+
       def approve_req(id)
         ar_join_req = JoinRequest.where(id: id).first
         ar_join_req.accepted = true

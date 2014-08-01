@@ -1,0 +1,5 @@
+$(document).ready(function(){
+
+  $('#<%= @circle_id %> .join_reqs_list').html("<%= escape_javascript(render 'list') %>").toggle();
+
+});

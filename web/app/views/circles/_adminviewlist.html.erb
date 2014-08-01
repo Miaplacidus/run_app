@@ -40,17 +40,21 @@
 
           <li><%= link_to("Schedule a Run", {:action => 'getpostform', :remote => true, :circle_id => circle.id}, {"data-toggle" => 'modal', "data-target" =>"#circlepostmodal"})%></li>
 
+          <li><%= link_to("View join requests", {:controller => 'join_requests', :action => 'adminlist', :remote => true, :circle_id => circle.id}) %></li>
+
+          <%= content_tag :li, class: 'join_reqs_list', style: 'display:none' do %>
+          <% end %>
 
           <li><%="View Sent Challenges" %></li>
-           <%= content_tag :ul, class: 'users_list', style:'display:none' do %>
+           <%= content_tag :li, class: 'sent_challenges_list', style:'display:none' do %>
           <% end %>
 
           <li><%="View Received Challenges" %></li>
-           <%= content_tag :ul, class: 'users_list', style:'display:none' do %>
+           <%= content_tag :li, class: 'received_challenges_list', style:'display:none' do %>
           <% end %>
 
           <li><%="View Accepted Challenges" %></li>
-           <%= content_tag :ul, class: 'users_list', style:'display:none' do %>
+           <%= content_tag :li, class: 'accepted_challenges_list', style:'display:none' do %>
           <% end %>
 
         </ul>

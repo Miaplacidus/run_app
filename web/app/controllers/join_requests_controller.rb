@@ -25,6 +25,17 @@ class JoinRequestsController < ApplicationController
     end
   end
 
+  def adminlist
+    result = RunPal::ShowJoinRequestsAdmin.run({user_id: session[:user_id], circle_id: params[:circle_id]})
+    @users = result.users
+
+    @circle_id = params[:circle_id]
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
   def edit
   end
 

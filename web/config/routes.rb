@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   match 'circles/createcirclepost', to: 'circles#createcirclepost', :via => :post
 
   match 'join_requests/create', to: 'join_requests#create', :via => :post
+  match 'join_requests/adminlist', to: 'join_requests#adminlist', :via => :get
 
   match 'posts/display', to: 'posts#display', :via => :get
   match 'posts/show', to: 'posts#show', :via => :get

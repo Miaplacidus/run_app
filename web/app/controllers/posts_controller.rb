@@ -89,7 +89,8 @@ class PostsController < ApplicationController
       end
     end
 
-    result = RunPal::CreatePost.run({user_id: session[:user_id], time: utc_time, address: address, latitude: position[0], longitude: position[1], pace: params[:pace], min_distance: params[:distance], gender_pref: params[:gender_pref], min_amt: params[:amount], max_runners: params[:max_runners], notes: params[:notes], age_pref: age_group})
+    # Set minimum amount to params[:amount] later
+    result = RunPal::CreatePost.run({user_id: session[:user_id], time: utc_time, address: address, latitude: position[0], longitude: position[1], pace: params[:pace], min_distance: params[:distance], gender_pref: params[:gender_pref], min_amt: 0.00, max_runners: params[:max_runners], notes: params[:notes], age_pref: age_group})
     @post = result.post
 
     respond_to do |format|
@@ -99,7 +100,7 @@ class PostsController < ApplicationController
 
   def join
     # Set default amount to 0
-    RunPal::JoinPost.run({user_id: session[:user_id], post_id: params[:post_id], amount: 25.00})
+    RunPal::JoinPost.run({user_id: session[:user_id], post_id: params[:post_id], amount: 0.00})
 
     retrieved_user = RunPal::GetUser.run({user_id: params[:creator_id]})
     @creator = retrieved_user.user

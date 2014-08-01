@@ -14,29 +14,41 @@ $(document).ready(function(){
     $(filter).toggle();
   });
 
-  $('#radius_select, #gender_select, #pace_select, #age_select').change(function() {
+  $('#radius_select, #gender_select, #pace_select, #age_select').change(function(){
 
-  $.ajax({ type: "GET",
-           url: "/posts/display.js",
-           data: $("#filter_form").serialize(),
-           success : function(text) {
-              // alert('success');
-              // console.log(text);
-           }
+    $.ajax({ type: "GET",
+             url: "/posts/display.js",
+             data: $("#filter_form").serialize(),
+             success : function(text) {
+                // alert('success');
+                // console.log(text);
+             }
+    });
   });
-});
 
-$(document).on('click', 'a.join_form', function(){
-  $(this).closest('li').find('form').toggle();
-});
+  $(document).on('click', 'a.join_form', function(){
+    $(this).closest('li').find('form').toggle();
+  });
 
-$(document).on('click', '#postcreatemodal .modal-footer .submit', function(){
-  $('#createpostform').submit();
-});
+  $(document).on('click', '#postcreatemodal .modal-footer .submit', function(){
+    $('#createpostform').submit();
+  });
 
-$(document).on('click', '.delete_post_link', function (){
-  $(this).closest('li').find('form').toggle();
-});
+  $(document).on('click', 'div.admin_all #delete_post_link', function(){
+    var delete_form = $(this).closest('li').find('form');
+
+    if (delete_form.css('display') != 'none'){
+      delete_form.show();
+    }
+    else {
+      delete_form.hide();
+    }
+  });
+
+  $(document).on('click', 'div.admin_all .delete_cancel', function(){
+    $(this).closest('li').find('form').hide();
+  });
+
 
   $(document).on('click', '.check_in_link', function(){
     var id = $(this).closest('li').parents('li').attr('id');

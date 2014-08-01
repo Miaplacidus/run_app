@@ -77,11 +77,11 @@
           <% end %>
 
           <li>
-            <%= link_to("Delete Post", "javascript:void(0)", :class => "delete_post_link") %>
-            <%= form_tag({:action => 'destroy', :id => post.id}, {:method => 'delete', :remote => true, :style =>'display:none'}) do %>
+            <%= link_to("Delete Post", "javascript:void(0)", :class => "delete_post_link", :id => "delete_post_link") %>
+            <%= form_tag({:action => 'destroy', :id => post.id}, {:method => 'delete', :remote => true, :style => "display:none"}) do %>
               <%= label_tag("Are you sure you want to delete this post? ") %>
               <%= submit_tag("Yes", :class => 'btn btn-default btn-xs')%>
-              <%= content_tag :a, class: 'btn btn-default btn-xs' do %>
+              <%= content_tag :a, class: 'btn btn-default btn-xs delete_cancel' do %>
                 Cancel
               <%end%>
             <% end %>

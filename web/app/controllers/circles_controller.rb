@@ -8,6 +8,9 @@ class CirclesController < ApplicationController
     test_location = Geocoder.coordinates("24.14.95.244")
     puts "Check location here! #{test_location}"
 
+    result = RunPal::GetAdminCircles.run({user_id: session[:user_id]})
+    @admin_circles = result.circles
+
     result = RunPal::FilterCirclesByLocation.run({user_lat: test_location[0], user_long: test_location[1], radius: 1 })
     @circles = result.circle_arr
   end
@@ -69,15 +72,6 @@ class CirclesController < ApplicationController
 
     result = RunPal::CreateCircle.run({user_id: session[:user_id], name: params[:name], max_members: params[:max_members], description: params[:description], city: city, level: params[:level], latitude: position[0], longitude: position[1]})
     @circle = result.circle
-
-    respond_to do |format|
-      format.js
-    end
-  end
-
-  def challenge
-    result = RunPal::CreateChallenge.run({user_id: session[:user_id], sender_id: params[:sender], recipient_id: params[:recipient]})
-    @challenge = result.challenge
 
     respond_to do |format|
       format.js

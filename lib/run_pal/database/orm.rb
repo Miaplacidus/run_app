@@ -5,8 +5,10 @@ module RunPal
 
        def initialize(env)
         ActiveRecord::Base.establish_connection(
-          YAML.load_file("../db/config.yml")[env]
+          # YAML.load_file("../db/config.yml")[env]
           # YAML.load_file File.join(File.dirname(__FILE__), "../../db/config.yml")[env]
+          # For testing
+          YAML.load_file("db/config.yml")[env]
         )
       end
 
@@ -333,6 +335,13 @@ module RunPal
       def get_circle_join_req(circle_id)
         ar_join_reqs = JoinRequest.where(circle_id: circle_id)
         ar_join_reqs.map{|ar_join_req| RunPal::JoinRequest.new(ar_join_req.attributes)}
+      end
+
+      def get_circle_join_req_users(circle_id)
+        ar_join_reqs = JoinRequest.where(circle_id: circle_id)
+
+        ar_users = ar_join_reqs.map{ |ar_join_req| User.where(id: ar_join_req.user_id) }
+        ar_users.map{|ar_user| RunPal::User.new(ar_user.attributes)}
       end
 
       def approve_req(id)

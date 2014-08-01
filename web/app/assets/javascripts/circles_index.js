@@ -40,6 +40,9 @@ $(document).ready(function(){
     $('#create_cp').submit();
   });
 
+  $(document).on('click', '.send_challenge', function(){
+    $(this).closest('li').find('form').toggle();
+  });
 
 
   $(document).on('click', '.delete_post_link', function (){

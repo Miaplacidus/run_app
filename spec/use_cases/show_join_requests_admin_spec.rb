@@ -17,6 +17,9 @@ describe RunPal::ShowJoinRequestsAdmin do
     expect(result.join_reqs.length).to eq(1)
     expect(result.join_reqs[0].circle_id).to eq(circle.id)
     expect(result.join_reqs[0].accepted).to eq(false)
+
+    expect(result.users.length).to eq(1)
+    expect(result.users[0].first_name).to eq("Asimov")
   end
 
 end

@@ -11,6 +11,13 @@ class ChallengesController < ApplicationController
   end
 
   def create
+    result = RunPal::CreateChallenge.run({user_id: session[:user_id], sender_id: params[:circle_admin_select], recipient_id: params[:circle_id]})
+    @challenge = result.challenge
+    @circle_id = params[:circle_id]
+
+    respond_to do |format|
+      format.js
+    end
   end
 
   def edit

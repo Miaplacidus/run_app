@@ -1,4 +1,10 @@
 <ul>
+  <% admin_circles = [] %>
+  <% @admin_circles.each do |circle| %>
+  <% admin_circles << [circle.name, circle.id] %>
+  <% end %>
+  <% admin_circles.inspect %>
+
     <% @circles.each do |circle| %>
     <%= content_tag :li, id: circle.id do %>
         <ul>
@@ -33,10 +39,14 @@
 
           <li><%= link_to("Send Request to Join Circle", "javascript:void(0)", :class => 'btn btn-default btn-xs send_join_req') %></li>
           <li><%= link_to("Send Circle a Challenge", "javascript:void(0)", :class => 'btn btn-default btn-xs send_challenge') %>
-            <%= form_tag({:action => 'challenge'}, {:method => 'post', :remote => true, :style =>'display:none'}) do %>
+            <%= form_tag({:controller => 'challenges', :action => 'create'}, {:method => 'post', :remote => true, :style =>'display:none'}) do %>
+            <%=label_tag("Challenges feature not yet fully implemented!") %> </br>
             <%= label_tag("Circles You've Created") %>
-            <%= select_tag(:amount, options_for_select((0..20).step(5))) %>
-            <%= submit_tag("Join", :class => 'btn btn-default btn-xs')%>
+            <%= select_tag(:circle_admin_select, options_for_select(admin_circles)) %>
+            <%= hidden_field_tag(:circle_id, circle.id) %>
+            <%= submit_tag("Send Challenge", :class => 'btn btn-default btn-xs')%>
+            <% end %>
+            <%= content_tag :li, class: 'challenge_send_confirm', style: 'display:none' do %>
             <% end %>
 
           </li>

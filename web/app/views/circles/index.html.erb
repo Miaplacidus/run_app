@@ -37,13 +37,6 @@
 </div>
 <!-- END OF MODAL FORM -->
 
-<% if !flash[:notice].blank? %>
-  <div class="notice">
-    <%= flash[:notice] %>
-  </div>
-<% end %>
-
-
 <div id='filters'>
 
   <%= form_tag({:action => 'display'}, {:method => 'get', :remote => true, :id => "circle_filter_form"}) do %>

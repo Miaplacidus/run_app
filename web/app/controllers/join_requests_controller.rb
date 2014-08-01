@@ -11,6 +11,18 @@ class JoinRequestsController < ApplicationController
   end
 
   def create
+     result = RunPal::CreateJoinReq.run({user_id: session[:user_id], circle_id: params[:circle_id]})
+     @circle_id = params[:circle_id]
+
+    if result.success?
+      @join_req = result.join_req
+      puts "JOIN REQ #{@join_req}"
+    else
+    end
+
+    respond_to do |format|
+      format.js
+    end
   end
 
   def edit

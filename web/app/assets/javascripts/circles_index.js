@@ -21,7 +21,7 @@ $(document).ready(function(){
     var id = $(this).closest('li').parents('li').attr('id');
 
     $.ajax({ type: "POST",
-         url: "/circles/join.js",
+         url: "/join_requests/create.js",
          data: {
             circle_id: id
          },

@@ -11,7 +11,6 @@ Rails.application.routes.draw do
   match 'users/dashboard', to: 'users#dashboard', :via => :get
 
   match 'circles/display', to: 'circles#display', :via => :get
-  match 'circles/join', to: 'circles#join', :via => :post
   match 'circles/challenge', to: 'circles#challenge', :via => :post
   match 'circles/admin', to: 'circles#admin', :via => :get
   match 'circles/adminview', to: 'circles#adminview', :via => :get
@@ -20,12 +19,13 @@ Rails.application.routes.draw do
   match 'circles/getpostform', to: 'circles#getpostform', :via => :get
   match 'circles/createcirclepost', to: 'circles#createcirclepost', :via => :post
 
+  match 'join_requests/create', to: 'join_requests#create', :via => :post
+
   match 'posts/display', to: 'posts#display', :via => :get
   match 'posts/show', to: 'posts#show', :via => :get
   match 'posts/admin', to: 'posts#admin', :via => :get
   match 'posts/adminview', to: 'posts#adminview', :via => :get
   match 'posts/checkin', to: 'posts#checkin', :via => :put
-
   match 'posts/join', to: 'posts#join', :via => :post
 
   match 'users/delete', to: 'users#delete', :via => :get

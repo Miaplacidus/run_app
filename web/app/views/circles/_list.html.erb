@@ -3,7 +3,6 @@
   <% @admin_circles.each do |circle| %>
   <% admin_circles << [circle.name, circle.id] %>
   <% end %>
-  <% admin_circles.inspect %>
 
     <% @circles.each do |circle| %>
     <%= content_tag :li, id: circle.id do %>
@@ -37,7 +36,7 @@
           <li>Level: <%= level_title %></li>
           <li>Description <%= circle.description %> mi</li>
 
-          <li><%= link_to("Send Request to Join Circle", "javascript:void(0)", :class => 'btn btn-default btn-xs send_join_req') %></li>
+          <li class="join_req_confirm"><%= link_to("Send Request to Join Circle", "javascript:void(0)", :class => 'btn btn-default btn-xs send_join_req') %></li>
           <li><%= link_to("Send Circle a Challenge", "javascript:void(0)", :class => 'btn btn-default btn-xs send_challenge') %>
             <%= form_tag({:controller => 'challenges', :action => 'create'}, {:method => 'post', :remote => true, :style =>'display:none'}) do %>
             <%=label_tag("Challenges feature not yet fully implemented!") %> </br>

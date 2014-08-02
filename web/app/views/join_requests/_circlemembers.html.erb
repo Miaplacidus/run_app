@@ -1,4 +1,3 @@
-<% if !@circle.nil? %>
   <ul>
       <li>Organizer: <%= @admin.first_name %></li>
       <% @members_list.each do |user| %>
@@ -12,8 +11,4 @@
       <% end %>
       <li><%= @members_list.length%> out of <%= @max_members %> max members</li>
   </ul>
-<% elsif !@join_req.nil? %>
-<li>Request successfully deleted.</li>
-<% else %>
-<li> Error. </li>
-<% end %>
+

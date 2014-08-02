@@ -2,7 +2,7 @@
   <li>Requests To Join This Circle</li>
     <% if !@users.empty? %>
       <% @users.each do |user| %>
-        <%= content_tag :li, id: user.id do %>
+        <%= content_tag :li, id: "user_" + user.id.to_s do %>
           <ul>
             <li><%= user.first_name %></li>
             <li>Level: <%= user.level %></li>
@@ -18,7 +18,7 @@
             <% end %>
             <li>Gender <%= gender %></li>
 
-            <li><%= link_to("Accept/Reject Join Request", "javascript:void(0)", :class => 'btn btn-default btn-xs accept_join_req') %>
+            <li class="join_req_msg"><%= link_to("Accept/Reject Join Request", "javascript:void(0)", :class => 'btn btn-default btn-xs accept_join_req') %>
             <%= form_tag({:action => 'decide'}, {:method => 'post', :remote => true, :style =>'display:none'}) do %>
             <%= label_tag("Allow user to join circle?") %>
             <%= hidden_field_tag(:user_id, user.id) %>

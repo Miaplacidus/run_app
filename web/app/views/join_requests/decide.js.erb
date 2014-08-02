@@ -1,5 +1,13 @@
 $(document).ready(function(){
 
+<% if !@circle.nil? %>
   $("#<%= @circle.id %> .members_list").html("<%= escape_javascript(render 'circlemembers') %>").toggle();
+  $('#<%= @circle_id %> .join_reqs_list').html("<%= escape_javascript(render 'list') %>").toggle();
+<% elsif !@join_req.nil? %>
+  $("#user_<%= @user.id %> .join_req_msg").html("Request successfully deleted.").toggle();
+<% else %>
+  $("#user_<%= @user.id %> .join_req_msg").html("Error!").toggle();
+<% end %>
 
 });
+

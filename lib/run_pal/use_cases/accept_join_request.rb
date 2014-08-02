@@ -22,6 +22,8 @@ module RunPal
       join_req = accept_join_req(join_req.id)
       updated_circle = new_circle_member(inputs)
 
+      RunPal.db.delete_join_req(join_req.id)
+
       success :circle => updated_circle, :user => user
     end
 

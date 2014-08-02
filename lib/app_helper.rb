@@ -121,7 +121,8 @@ module RunPal
       {user_id: users[3].id, circle_id: circles[6].id},
       {user_id: users[4].id, circle_id: circles[7].id},
       {user_id: users[5].id, circle_id: circles[8].id},
-      {user_id: users[6].id, circle_id: circles[9].id}
+      {user_id: users[6].id, circle_id: circles[9].id},
+      {user_id: users[6].id, circle_id: 11 }
     ]
 
     join_reqs = []

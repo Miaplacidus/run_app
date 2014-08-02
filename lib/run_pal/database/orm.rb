@@ -345,8 +345,13 @@ module RunPal
       end
 
       def prev_join_req?(user_id, circle_id)
-        ar_join_reqs = JoinRequest.where("user_id = ? AND circle_id = ?", user_id, circle_id).first
-        ar_join_reqs.nil? ? false : true
+        ar_join_req = JoinRequest.where("user_id = ? AND circle_id = ?", user_id, circle_id).first
+        ar_join_req.nil? ? false : true
+      end
+
+      def get_user_circle_join_req(user_id, circle_id)
+        ar_join_req = JoinRequest.where("user_id = ? AND circle_id = ?", user_id, circle_id).first
+        ar_join_req.nil? ? nil : RunPal::JoinRequest.new(ar_join_req.attributes)
       end
 
       def approve_req(id)

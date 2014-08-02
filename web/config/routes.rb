@@ -21,6 +21,7 @@ Rails.application.routes.draw do
 
   match 'join_requests/create', to: 'join_requests#create', :via => :post
   match 'join_requests/adminlist', to: 'join_requests#adminlist', :via => :get
+  match 'join_requests/decide', to: 'join_requests#decide', :via => :post
 
   match 'posts/display', to: 'posts#display', :via => :get
   match 'posts/show', to: 'posts#show', :via => :get

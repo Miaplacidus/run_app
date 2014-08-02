@@ -40,10 +40,19 @@ $(document).ready(function(){
     $('#create_cp').submit();
   });
 
-  $(document).on('click', '.send_challenge', function(){
+  $(document).on('click', '.accept_join_req', function(){
     $(this).closest('li').find('form').toggle();
   });
 
+  $(document).on('click', '.cancel_join_req', function(){
+    $(this).closest('li').find('form').hide();
+  });
+
+
+// Challenges
+  $(document).on('click', '.send_challenge', function(){
+    $(this).closest('li').find('form').toggle();
+  });
 
   $(document).on('click', '.delete_post_link', function (){
     $(this).closest('li').find('form').toggle();

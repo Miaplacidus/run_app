@@ -1,0 +1,5 @@
+$(document).ready(function(){
+
+  $("#<%= @circle.id %> .members_list").html("<%= escape_javascript(render 'circlemembers') %>").toggle();
+
+});

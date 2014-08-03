@@ -1,3 +1,4 @@
+# http://stackoverflow.com/questions/5821238/rake-dbcreate-encoding-error-with-postgresql
 test:
   adapter: sqlite3
   database: osoanyi_test.db
@@ -5,11 +6,13 @@ test:
   timeout: 5000
   host: localhost
   encoding: unicode
+  template: template0
 
 development:
   adapter: postgresql
   database: osoanyi_dev
   encoding: unicode
+  template: template0
   host: localhost
 
 production:
@@ -17,3 +20,4 @@ production:
   database: osoanyi_prod
   host: localhost
   encoding: unicode
+  template: template0

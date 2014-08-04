@@ -10,7 +10,7 @@ module RunPal
       user = RunPal.db.get_user(inputs[:user_id])
       return failure(:user_does_not_exist) if user.nil?
 
-      circle = RunPal.db.get_circle(join_req.circle_id)
+      circle = RunPal.db.get_circle(inputs[:circle_id])
       return failure(:circle_does_not_exist) if circle.nil?
       return failure (:user_not_authorized) if inputs[:admin_id] != circle.admin_id
 
@@ -19,7 +19,7 @@ module RunPal
 
       reject_join_req(join_req.id)
 
-      deleted_req = RunPal.db.get_join_req(inputs[:join_req_id])
+      deleted_req = RunPal.db.get_join_req(join_req.id)
       return failure(:failed_to_delete) if !deleted_req.nil?
 
       success :deleted_req => join_req

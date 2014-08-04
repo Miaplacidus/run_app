@@ -337,10 +337,10 @@ module RunPal
         ar_join_reqs.map{|ar_join_req| RunPal::JoinRequest.new(ar_join_req.attributes)}
       end
 
-      def get_circle_join_req_users(circle_id)
+      def get_circle_join_reqs_users(circle_id)
         ar_join_reqs = JoinRequest.where(circle_id: circle_id)
 
-        ar_users = ar_join_reqs.map{ |ar_join_req| User.where(id: ar_join_req.user_id) }
+        ar_users = ar_join_reqs.map{ |ar_join_req| User.where(id: ar_join_req.user_id).first }
         ar_users.map{|ar_user| RunPal::User.new(ar_user.attributes)}
       end
 

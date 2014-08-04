@@ -6,9 +6,9 @@ module RunPal
        def initialize(env)
         ActiveRecord::Base.establish_connection(
           # YAML.load_file("../db/config.yml")[env]
-          YAML.load_file File.join(File.dirname(__FILE__), "../../../db/config.yml")[env]
+          # YAML.load_file File.join(File.dirname(__FILE__), "../../../db/config.yml")[env]
           # For testing
-          # YAML.load_file("db/config.yml")[env]
+          YAML.load_file("db/config.yml")[env]
         )
       end
 
